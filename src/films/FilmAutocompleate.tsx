@@ -83,7 +83,7 @@ const FilmAutocompleate = () => {
                         }}
                         onFocus={() => setShowSuggestions(true)}
                         placeholder="Поиск фильмов..."
-                        className="w-full bg-gray-800 text-white px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        className="w-full bg-gray-800 text-white px-4 py-2 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-orange-500"
                     />
                     <button
                         type="submit"
@@ -102,11 +102,11 @@ const FilmAutocompleate = () => {
                             {filteredSuggestions.map((item, index) => (
                                 <li
                                     key={index}
-                                    className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white flex flex-row justify-between w-full"
+                                    className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white flex flex-row items-center justify-between w-full"
                                     onClick={() => handleSuggestionClick(item)}
                                 >
                                     <span>{item}</span>
-                                    <button onClick={(e) => deleteSearch(e, item)} className='text-orange-300 hover:text-red-500 text-base'>
+                                    <button onClick={(e) => deleteSearch(e, item)} className='text-orange-300 hover:text-red-500 text-base flex items-center'>
                                         <DeleteIcon
                                             color='inherit'
                                             fontSize='inherit'

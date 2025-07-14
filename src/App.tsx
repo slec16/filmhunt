@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router"
 import Films from './films/Films'
-import FilmPage from './FilmPage/FilmPage'
+import FilmPage from './filmPage/FilmPage'
 import './App.css'
 
 function App() {
