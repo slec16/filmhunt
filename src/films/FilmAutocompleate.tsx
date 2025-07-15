@@ -65,10 +65,31 @@ const FilmAutocompleate = () => {
         setShowSuggestions(false)
     }
 
-    // Фильтрация подсказок по текущему запросу
-    const filteredSuggestions = searchHistory.filter(item =>
-        item.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    //Фильтрацияй
+    const filteredSuggestions = searchQuery 
+        ? searchHistory
+            .filter(item => 
+                item.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map(item => ({
+                original: item,
+                highlighted: highlightMatch(item, searchQuery)
+            }))
+        : searchHistory.map(item => ({
+            original: item,
+            highlighted: item
+        }))
+
+    function highlightMatch(text: string, query: string) {
+        if (!query) return text
+        
+        const regex = new RegExp(`(${query})`, 'gi')
+        return text.split(regex).map((part, i) => 
+            part.toLowerCase() === query.toLowerCase() 
+                ? <span key={i} className="text-orange-400 font-semibold">{part}</span>
+                : part
+        )
+    }
 
     return (
         <div className="w-1/2 relative" ref={searchRef}>
@@ -99,18 +120,19 @@ const FilmAutocompleate = () => {
                 <div className="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg border-1 border-gray-700 max-h-60 overflow-y-auto">
                     {filteredSuggestions.length > 0 ? (
                         <ul>
-                            {filteredSuggestions.map((item, index) => (
+                            {filteredSuggestions.map(({original, highlighted}, index) => (
                                 <li
                                     key={index}
-                                    className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white flex flex-row items-center justify-between w-full"
-                                    onClick={() => handleSuggestionClick(item)}
+                                    className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white flex justify-between items-center"
+                                    onClick={() => handleSuggestionClick(original)}
                                 >
-                                    <span>{item}</span>
-                                    <button onClick={(e) => deleteSearch(e, item)} className='text-orange-300 hover:text-red-500 text-base flex items-center'>
-                                        <DeleteIcon
-                                            color='inherit'
-                                            fontSize='inherit'
-                                        />
+                                    <span>{highlighted}</span>
+                                    <button 
+                                        onClick={(e) => deleteSearch(e, original)}
+                                        className="text-gray-400 hover:text-red-500 p-1 ml-2"
+                                        aria-label="Удалить из истории"
+                                    >
+                                        <DeleteIcon fontSize="small" />
                                     </button>
                                 </li>
                             ))}
