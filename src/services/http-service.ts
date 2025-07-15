@@ -7,30 +7,20 @@ export class HttpService {
         this.baseApi = baseApiPath
     }
 
+    // https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&selectFields=&sortField=id&sortType=-1
+
     get baseHeaders() {
         return {
             'Content-Type': 'application/json',
-            // 'Authorization': `Bearer ${this.token}`,
-            // 'credentials': 'include'
             'X-Api-Key': `${this.token}`
         };
-    }
-
-    // https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&selectFields=&sortField=id&sortType=-1
-    async testGet() {
-        console.log(this.baseHeaders)
-        const response = await fetch('https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&selectFields=&sortField=id&sortType=-1', { headers: this.baseHeaders });
-        console.log(response)
-        return this._handleResponse(response);
     }
 
     protected async get(path: string, signal?: AbortSignal){
 
         try{
             const response = await fetch(`${this.baseApi}/${path}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: this.baseHeaders,
                 signal  
             })
 

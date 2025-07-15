@@ -1,15 +1,21 @@
+import { API_PATH } from "./constant"
 import { HttpService } from "./http-service"
 
 
 class ApiService extends HttpService {
 
     constructor() {
-        super('')
+        super(API_PATH)
     }
 
-    getFilms() {
-        return this.testGet()
+    getFilmsByFilter(path: string, signal?: AbortSignal) {
+        return this.get(path, signal)
     }
+
+    getFilmsBySearch(path: string, signal?: AbortSignal) {
+        return this.get(path, signal)
+    }
+
 
     
 }

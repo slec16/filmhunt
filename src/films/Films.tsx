@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import Header from "../components/Header"
 import FilmFilter from "./FilmFilter"
 import FilmListHeader from './FilmsListHeader'
@@ -8,25 +9,26 @@ import ApiService from "../services/api-service"
 
 const Film = () => {
 
-    const getFilms = async() => {
-        console.log('btn clicked')
-        const res = await ApiService.getFilms()
-        console.log(res)
-    }
+    const [filterPath, setFilterPath] = useState('')
+    
+    // const getFilms = async() => {
+    //     console.log('btn clicked')
+    //     const res = await ApiService.getFilms()
+    //     console.log(res)
+    // }
 
     return(
-        <div className="h-full">
+        <div className="h-full flex flex-col">
             <Header />
             <div className="flex flex-row w-full ">
                 <FilmFilter />
                 <div className="flex flex-row h-fit w-full">
-                    {/* <FilmSearch /> */}
                     <FilmAutocompleate />
                     <FilmPagination />
                 </div>
-                {/* <FilmListHeader  */}
             </div>  
-            <button onClick={getFilms} className="bg-amber-500 px-4 py-2 rounded-lg hover:bg-amber-200">Get films</button>
+            {/* <button onClick={getFilms} className="bg-amber-500 px-4 py-2 rounded-lg hover:bg-amber-200">Get films</button> */}
+            {/* <FilmLst /> */}
         </div>
     )
 }
