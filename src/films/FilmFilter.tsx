@@ -2,41 +2,22 @@ import { useState, useEffect } from 'react'
 import FilmFilterSection from './FilmFilterSection'
 import FilmFilterRange from './FilmFilterRange'
 
-const FilmFilter = () => {
+type FilmFilterProps = {
+    setFiltersParams: (params: Map<string, string[]>) => void
+}
+
+const FilmFilter = (props: FilmFilterProps) => {
+
+    const {setFiltersParams} = props
+
+
     const [clearAllFilters, setClearAllFilters] = useState(false)
-    // const [activeFilters, setActiveFilters] = useState({
-    //     years: [],
-    //     countries: [],
-    //     rating: 0,
-    //     durations: [],
-    //     types: {
-    //         movies: false,
-    //         series: true,
-    //         cartoons: false
-    //     },
-    //     genres: []
-    // })
-    // const resetFilters = () => {
-    //     console.log(activeFilters)
-    //     setActiveFilters({
-    //         years: [],
-    //         countries: [],
-    //         rating: 0,
-    //         durations: [],
-    //         types: {
-    //             movies: false,
-    //             series: true,
-    //             cartoons: false
-    //         },
-    //         genres: []
-    //     });
-    // }
+
 
     const selectedFitersMap: Map<string, string[]> = new Map()
 
     const toggleFiltersItem = (key: string, value: string[]) => {
         selectedFitersMap.set(key, value)
-        console.log(selectedFitersMap)
     }
 
     const clearFilters = () => {
@@ -47,9 +28,9 @@ const FilmFilter = () => {
     const filtersMap = new Map([
         ['Год выпуска', ['2020-2024', '2010-2019', '2000-2009', '1990-1999', '1980-1989', 'До 1980']],
         ['Страна', ['США', 'Россия', 'Корея', 'Великобритания', 'Франция', 'Япония']],
-        ['Продолжительность', ['<1ч', '1-2ч', '>2ч', 'Любые']],
+        ['Продолжительность', ['<1ч', '1-2ч', '>2ч']],
         ['Жанры', ['Фантастика', 'Драма', 'Комедия', 'Боевик', 'Триллер', 'Мелодрама', 'Фэнтези', 'Ужасы']],
-        ['Тип контента', ['Фильмы', 'Сериалы', 'Мультфильмы', 'Аниме']]
+        // ['Тип контента', ['Фильмы', 'Сериалы', 'Мультфильмы', 'Аниме']]
     ])
 
     
@@ -110,7 +91,8 @@ const FilmFilter = () => {
                     className="px-4 py-1 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center"
                     onClick={() => {
                         // if (isMobile) setShowDrawer(false);
-                        console.log(selectedFitersMap)
+                        // console.log(selectedFitersMap)
+                        setFiltersParams(selectedFitersMap)
                     }}
                 >
                     Применить

@@ -8,7 +8,11 @@ class ApiService extends HttpService {
         super(API_PATH)
     }
 
-    getFilmsByFilter(path: string, signal?: AbortSignal) {
+    baseParams = 'movie?notNullFields=id&notNullFields=name&notNullFields=shortDescription&notNullFields=year&notNullFields=rating.imdb&notNullFields=ageRating&notNullFields=genres.name&notNullFields=poster.url'
+
+    getFilmsByFilter(page: number, limit: number, paramsPath?: string, signal?: AbortSignal) {
+        const path = this.baseParams + `&page=${page}&limit=${limit}` + paramsPath
+        console.log(path)
         return this.get(path, signal)
     }
 

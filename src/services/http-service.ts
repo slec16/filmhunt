@@ -18,6 +18,7 @@ export class HttpService {
 
     protected async get(path: string, signal?: AbortSignal){
 
+        console.log(`${this.baseApi}/${path}`)
         try{
             const response = await fetch(`${this.baseApi}/${path}`, {
                 headers: this.baseHeaders,

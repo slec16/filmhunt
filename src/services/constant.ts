@@ -1,1 +1,1 @@
-export const API_PATH = 'http://localhost:3000'
+export const API_PATH = 'https://api.kinopoisk.dev/v1.4'
