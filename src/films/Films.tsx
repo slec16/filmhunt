@@ -9,10 +9,13 @@ import ApiService from "../services/api-service"
 import { useQueryParams } from "../hooks/useQueryParams"
 import MovieCard from "./FilmCard"
 import mapToPath from "../helpers/mapToPath"
+import FilmsList from "./FilmsList"
 
 const Film = () => {
 
     const { queryParams, setQueryParams, getParam } = useQueryParams()
+
+    const [films, setFilms] = useState([])
 
     useEffect(() => {
         if (!queryParams.toString()) {
@@ -25,14 +28,14 @@ const Film = () => {
 
     const paginationData = {}
     
-    useEffect(() => {
-       fetchFunc()
-    }, [])
+    // useEffect(() => {
+    //    fetchFunc()
+    // }, [])
 
-    const fetchFunc = async() => {
+    // const fetchFunc = async() => {
         // const response = await ApiService.getFilmsByFilter(Number(page), Number(limit))
         // console.log(response)
-    }
+    // }
 
     
     
@@ -46,10 +49,9 @@ const Film = () => {
     }
 
     const setFilterParams = async(params: Map<string, string[]>) => {
-        // console.log(params)
         const paramsPath =  mapToPath(params)
         const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
-        console.log(response)
+        setFilms(response.docs)
     }
 
     return(
@@ -59,19 +61,22 @@ const Film = () => {
                 <FilmFilter 
                     setFiltersParams={setFilterParams}
                 />
-                <div className="flex flex-row h-fit w-full">
-                    <FilmAutocompleate /> 
-                    <FilmPagination 
-                        onPageChange={handleChangePage}
-                        onLimitChange={handleChangeLimitPage}
-                        page={Number(page)}
-                        limit={Number(limit)}
-                        paginationData={paginationData}
+                <div className="flex flex-col w-full">
+                    <div className="flex flex-row h-fit w-full mb-5">
+                        <FilmAutocompleate /> 
+                        <FilmPagination 
+                            onPageChange={handleChangePage}
+                            onLimitChange={handleChangeLimitPage}
+                            page={Number(page)}
+                            limit={Number(limit)}
+                            paginationData={paginationData}
+                        />
+                    </div>
+                    <FilmsList 
+                        films={films}
                     />
                 </div>
             </div>  
-            {/* <button onClick={getFilms} className="bg-amber-500 px-4 py-2 rounded-lg hover:bg-amber-200">Get films</button> */}
-            {/* <FilmLst /> */}
         </div>
     )
 }

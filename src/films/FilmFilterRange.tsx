@@ -24,7 +24,7 @@ const FilmFilterRange = (props: FilmFilterRange) => {
                 className="flex justify-between items-center w-full text-left group"
             >
                 <div className="flex items-center">
-                    <span className="font-medium text-sm group-hover:text-orange-400 transition">Рейтинг</span>
+                    <span className="font-medium text-sm group-hover:text-orange-400 transition">Рейтинг IMDB</span>
                     {rangeValue > 0 && (
                         <span className="ml-2 text-xs text-orange-400">
                             от {rangeValue}

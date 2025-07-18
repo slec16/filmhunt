@@ -65,7 +65,7 @@ const FilmAutocompleate = () => {
         setShowSuggestions(false)
     }
 
-    //Фильтрацияй
+    //Фильтрация
     const filteredSuggestions = searchQuery 
         ? searchHistory
             .filter(item => 
@@ -92,7 +92,7 @@ const FilmAutocompleate = () => {
     }
 
     return (
-        <div className="w-1/2 relative" ref={searchRef}>
+        <div className="w-1/2 relative mr-5" ref={searchRef}>
             <form onSubmit={handleSearch} className="relative">
                 <div className="flex items-center">
                     <input

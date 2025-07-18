@@ -7,13 +7,14 @@ type FilmFilterSectionProps = {
     dataArray: string[],
     sectionName: string,
     toggleFiltersItem: (key: string, value: string[]) => void
-    clearAllFilters: boolean
+    clearAllFilters: boolean,
+    exclusive: boolean
 }
 
 
 const FilmFilterSection = (props: FilmFilterSectionProps) => {
 
-    const { dataArray, sectionName, toggleFiltersItem, clearAllFilters } = props
+    const { dataArray, sectionName, toggleFiltersItem, clearAllFilters, exclusive } = props
 
     const [expandedSectionsState, setExpandedSectionsState] = useState(false)
     const [filtersArrays, setFiltersArrays] = useState<string[]>([])
@@ -37,15 +38,24 @@ const FilmFilterSection = (props: FilmFilterSectionProps) => {
     }
 
     const toggleFilters = (value: string) => {
-
-        const currentArray = filtersArrays
-
-        const newArray = currentArray.includes(value) ? 
-            currentArray.filter(item => item !== value) :
-            [...currentArray, value]
-
-        setFiltersArrays(newArray)
-        toggleFiltersItem(sectionName, newArray)
+        if(exclusive){
+            // const newArray = [value]
+            const currentArray = filtersArrays
+            const newArray = currentArray.includes(value) ? 
+                currentArray.filter(item => item !== value) :
+                [value]
+            setFiltersArrays(newArray)
+            toggleFiltersItem(sectionName, newArray)
+        } else {
+            const currentArray = filtersArrays
+    
+            const newArray = currentArray.includes(value) ? 
+                currentArray.filter(item => item !== value) :
+                [...currentArray, value]
+    
+            setFiltersArrays(newArray)
+            toggleFiltersItem(sectionName, newArray)
+        }
     }
 
 
