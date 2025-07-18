@@ -34,11 +34,11 @@ const FilmCard = (props: FilmCardProps) => {
     return (
         <div className="w-full bg-gray-800 rounded-lg overflow-hidden shadow-lg flex border border-gray-700">
             {/* Постер */}
-            <div className="w-1/3 flex-shrink-0">
+            <div className="w-72 h-108 flex-shrink-0">
                 <img
                     src={poster.url}
                     alt={`Постер ${name}`}
-                    className="w-full h-full object-cover"
+                    className="object-cover"
                 />
             </div>
 
