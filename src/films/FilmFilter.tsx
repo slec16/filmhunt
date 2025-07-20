@@ -51,7 +51,7 @@ const FilmFilter = (props: FilmFilterProps) => {
 
 
     const FilterContent = () => (
-        <div className={`${isMobile ? 'w-full p-4' : 'w-1/3 min-w-[300px] mr-2'} h-fit overflow-y-auto px-2 rounded-lg scrollbar-thin bg-gray-800 border-r border-gray-700`}>
+        <div className={`${isMobile ? 'w-full p-4' : 'w-1/3 min-w-[300px] mr-5'} h-fit overflow-y-auto px-2 rounded-lg scrollbar-thin bg-gray-800 border-r border-gray-700`}>
             <div className="flex justify-between items-center sticky top-0 bg-gray-800 py-2 z-10">
                 <h2 className="text-xl font-bold text-orange-400">Фильтры</h2>
                 {isMobile && (

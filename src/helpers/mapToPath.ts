@@ -28,7 +28,7 @@ const dictionary = new Map([
     ['Продолжительность', 'movieLength'],
     ['Жанры', 'genres.name'],
     ['Возрастной рейтинг', 'ageRating'],
-    ['Рейтинг', 'rating.tmdb'],
+    ['Рейтинг', 'rating.imdb'],
     // ['Тип контента', '']
 ])
 

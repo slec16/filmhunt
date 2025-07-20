@@ -33,7 +33,7 @@ const FilmPagination = (props: FilmPaginationProps) => {
     }
     
     return(
-        <div className="flex flex-row items-center justify-between w-1/2">
+        <div className="flex flex-row items-center justify-end w-1/2">
             {/* Выбор количества элементов на странице */}
             <div className="flex items-center">
             <span className="text-gray-400 text-sm mr-2">Показывать:</span>

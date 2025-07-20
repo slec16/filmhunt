@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react"
 import Header from "../components/Header"
 import FilmFilter from "./FilmFilter"
-import FilmListHeader from './FilmsListHeader'
-import FilmSearch from "./FilmSearch"
 import FilmAutocompleate from "./FilmAutocompleate"
 import FilmPagination from "./FilmPagination"
 import ApiService from "../services/api-service"
 import { useQueryParams } from "../hooks/useQueryParams"
-import MovieCard from "./FilmCard"
 import mapToPath from "../helpers/mapToPath"
 import FilmsList from "./FilmsList"
 
