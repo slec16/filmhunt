@@ -20,6 +20,10 @@ class ApiService extends HttpService {
         return this.get(path, signal)
     }
 
+    getFilmById(id: string, signal?: AbortSignal) {
+        return this.get(`movie/${id}`, signal)
+    }
+
 
     
 }

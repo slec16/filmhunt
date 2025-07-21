@@ -1,4 +1,4 @@
-// import { FiStar } from 'react-icons/fi';
+import { Link } from 'react-router'
 import StarIcon from '@mui/icons-material/Star'
 
 type IFilmCard = {
@@ -62,9 +62,9 @@ const FilmCard = (props: FilmCardProps) => {
                 <p className="text-gray-300 mb-6 line-clamp-3">{shortDescription}</p>
 
                 <div className="mt-auto flex space-x-3">
-                    <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition">
+                    <Link to={`/film/${id}`} className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition">
                         Подробнее
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
