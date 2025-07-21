@@ -8,6 +8,7 @@ import { useQueryParams } from "../hooks/useQueryParams"
 import mapToPath from "../helpers/mapToPath"
 import FilmsList from "./FilmsList"
 import LoadingDots from "../components/LoadingDots"
+import ScrollToTopButton from "../components/ScrollToTopButton"
 
 const Film = () => {
 
@@ -54,14 +55,15 @@ const Film = () => {
     }
 
     return(
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col px-2 sm:px-7">
             <Header />
             <div className="flex flex-row w-full ">
                 <FilmFilter 
                     currentParams={currentFilters}
                     setFiltersParams={setFilterParams}
                 />
-                <div className="flex flex-col w-full">
+                <ScrollToTopButton />
+                <div className="flex flex-col w-full mb-5">
                     <div className="flex flex-row h-fit w-full mb-5">
                         <FilmAutocompleate /> 
                         <FilmPagination 

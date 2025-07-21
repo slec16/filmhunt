@@ -40,20 +40,16 @@ const FilmAutocompleate = () => {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
         if (searchQuery.trim()) {
-            // Добавляем запрос в историю (если его там еще нет)
             setSearchHistory(prev => {
                 const newHistory = [searchQuery, ...prev.filter(item => item !== searchQuery)]
                 return newHistory.slice(0, 10) 
             })
-            // Здесь будет логика выполнения поиска
-            console.log('Searching for:', searchQuery)
             setShowSuggestions(false)
         }
     }
 
     const deleteSearch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, item: string) => {
         e.stopPropagation()
-        console.log(item)
         setSearchHistory(prev => {
             const newHistory = [...prev.filter(elemnt => elemnt !== item)]
             return newHistory
