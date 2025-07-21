@@ -27,20 +27,21 @@ const Film = () => {
     const currentFilters = getNamespaceParams("params")
     const paginationData = {}
     
-    // useEffect(() => {
-    //    fetchFunc()
-    // }, [])
-
-    // const fetchFunc = async() => {
-        // const response = await ApiService.getFilmsByFilter(Number(page), Number(limit))
-        // console.log(response)
-    // }
-
+    useEffect(() => {
+       fetchFunc(currentFilters)
+    }, [page, limit])
     
-    
+    const fetchFunc = async(params: Map<string, string[]>) => {
+        setIsLoading(true)
+        const paramsPath = mapToPath(params)
+        const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
+        setFilms(response.docs)
+        setIsLoading(false)
+    }
 
     const handleChangePage = ( newPage: number ) => {
         setQueryParams({ page: String(newPage) })
+        fetchFunc
     }
 
     const handleChangeLimitPage = (limit: number) => {
@@ -48,14 +49,8 @@ const Film = () => {
     }
 
     const setFilterParams = async(params: Map<string, string[]>) => {
-        console.log(params)
         setQueryParams({ params })
-        setIsLoading(true)
-        const paramsPath = mapToPath(params)
-        const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
-        console.log(response)
-        setFilms(response.docs)
-        setIsLoading(false)
+        fetchFunc(params)
     }
 
     return(
