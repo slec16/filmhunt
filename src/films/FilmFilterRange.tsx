@@ -4,20 +4,29 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 type FilmFilterRange = {
     toggleFiltersItem: (key: string, value: string[]) => void
-    clearAllFilters: boolean
+    clearAllFilters: boolean,
+    currentParams: Map<string, string[]>
 }
 
 const FilmFilterRange = (props: FilmFilterRange) => {
 
-    const { toggleFiltersItem, clearAllFilters } = props
+    const { toggleFiltersItem, clearAllFilters, currentParams } = props
     const [expandedSectionsState, setExpandedSectionsState] = useState(false)
+
+    const range = currentParams.get('Рейтинг')?.[0] ?? '0';
+
     const [rangeValue, setRangeValue] = useState(0)
+
 
     useEffect(() => {
         setRangeValue(0)
     }, [clearAllFilters])
 
-    return(
+    useEffect(() => {
+        setRangeValue(Number(range))
+    }, [])
+
+    return (
         <div className="border-b border-gray-700 pb-3">
             <button
                 onClick={() => setExpandedSectionsState(!expandedSectionsState)}

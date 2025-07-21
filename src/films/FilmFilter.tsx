@@ -4,27 +4,26 @@ import FilmFilterRange from './FilmFilterRange'
 
 type FilmFilterProps = {
     setFiltersParams: (params: Map<string, string[]>) => void
-    qurrentParams: Map<string, string[]>
+    currentParams: Map<string, string[]>
 }
 
 const FilmFilter = (props: FilmFilterProps) => {
 
-    const {setFiltersParams, qurrentParams} = props
+    const {setFiltersParams, currentParams} = props
 
-
-    console.log(qurrentParams)
     const [clearAllFilters, setClearAllFilters] = useState(false)
 
-
-    const selectedFitersMap: Map<string, string[]> = new Map()
+    const selectedFitersMap: Map<string, string[]> = new Map(currentParams)
 
     const toggleFiltersItem = (key: string, value: string[]) => {
+        console.log(key, value)
         selectedFitersMap.set(key, value)
     }
 
     const clearFilters = () => {
         setClearAllFilters(true)
         selectedFitersMap.clear()
+        setFiltersParams(selectedFitersMap)
     }
 
     const filtersMap = new Map([
@@ -41,15 +40,15 @@ const FilmFilter = (props: FilmFilterProps) => {
     const [isMobile, setIsMobile] = useState(false)
     const [showDrawer, setShowDrawer] = useState(false)
 
-    useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768)
-        }
+    // useEffect(() => {
+    //     const checkMobile = () => {
+    //         setIsMobile(window.innerWidth < 768)
+    //     }
 
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
-    }, [])
+    //     checkMobile()
+    //     window.addEventListener('resize', checkMobile)
+    //     return () => window.removeEventListener('resize', checkMobile)
+    // }, [])
 
 
     const FilterContent = () => (
@@ -74,12 +73,14 @@ const FilmFilter = (props: FilmFilterProps) => {
                         dataArray={value}
                         toggleFiltersItem={toggleFiltersItem}
                         clearAllFilters={clearAllFilters}
+                        currentParams={currentParams}
                         exclusive={key === 'Год выпуска' || key === 'Продолжительность' || key === 'Возрастной рейтинг'}
                     />
                 ))}
                 <FilmFilterRange 
                     toggleFiltersItem={toggleFiltersItem}
                     clearAllFilters={clearAllFilters}
+                    currentParams={currentParams}
                 />
             </div>
 
@@ -94,8 +95,7 @@ const FilmFilter = (props: FilmFilterProps) => {
                 <button
                     className="px-4 py-1 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center"
                     onClick={() => {
-                        // if (isMobile) setShowDrawer(false);
-                        // console.log(selectedFitersMap)
+                        // if (isMobile) setShowDrawer(false)
                         setFiltersParams(selectedFitersMap)
                     }}
                 >

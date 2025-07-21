@@ -8,16 +8,22 @@ type FilmFilterSectionProps = {
     sectionName: string,
     toggleFiltersItem: (key: string, value: string[]) => void
     clearAllFilters: boolean,
-    exclusive: boolean
+    exclusive: boolean,
+    currentParams: Map<string, string[]>
 }
 
 
 const FilmFilterSection = (props: FilmFilterSectionProps) => {
 
-    const { dataArray, sectionName, toggleFiltersItem, clearAllFilters, exclusive } = props
+    const { dataArray, sectionName, toggleFiltersItem, clearAllFilters, exclusive, currentParams } = props
 
     const [expandedSectionsState, setExpandedSectionsState] = useState(false)
     const [filtersArrays, setFiltersArrays] = useState<string[]>([])
+
+    useEffect(() => {
+        const array = currentParams.get(sectionName)
+        if(array !== undefined ) setFiltersArrays(array)
+    }, [])
 
     useEffect(() => {
         if(clearAllFilters) setFiltersArrays([])

@@ -16,22 +16,11 @@ export const useQueryParams = () => {
 
         const newParams = new URLSearchParams(location.search)
 
-        // Object.entries(params).forEach(([key, value]) => {
-        //     if (value === '' || value === null || value === undefined) {
-        //         newParams.delete(key)
-        //     } else {
-        //         newParams.set(key, value)
-        //     }
-        // })
-
-        // Обработка Map
-        // Проверяем, содержит ли params вложенные Map
         const hasNestedMaps = Object.values(params).some(
             (value) => value instanceof Map
         );
 
         if (hasNestedMaps) {
-            // Обработка Record<string, Map<string, string[]>>
             Object.entries(params as Record<string, Map<string, string[]>>).forEach(
                 ([namespace, map]) => {
                     // Удаляем все существующие параметры этого namespace
@@ -54,7 +43,6 @@ export const useQueryParams = () => {
                 }
             );
         } else {
-            // Обработка Record<string, string>
             Object.entries(params as Record<string, string>).forEach(([key, value]) => {
                 if (value === '' || value === null || value === undefined) {
                     newParams.delete(key);
