@@ -17,7 +17,7 @@ const LoadingDots = () => {
         }
       `}</style>
     </div>
-  );
-};
+  )
+}
 
-export default LoadingDots;
+export default LoadingDots

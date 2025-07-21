@@ -13,7 +13,7 @@ export class HttpService {
         return {
             'Content-Type': 'application/json',
             'X-Api-Key': `${this.token}`
-        };
+        }
     }
 
     protected async get(path: string, signal?: AbortSignal){

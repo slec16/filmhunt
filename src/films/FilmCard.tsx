@@ -68,7 +68,7 @@ const FilmCard = (props: FilmCardProps) => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default FilmCard;
+export default FilmCard

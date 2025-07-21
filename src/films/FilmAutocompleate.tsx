@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search'
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/Delete'
 import { useState, useEffect, useRef } from 'react'
 
 const FilmAutocompleate = () => {

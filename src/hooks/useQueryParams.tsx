@@ -18,7 +18,7 @@ export const useQueryParams = () => {
 
         const hasNestedMaps = Object.values(params).some(
             (value) => value instanceof Map
-        );
+        )
 
         if (hasNestedMaps) {
             Object.entries(params as Record<string, Map<string, string[]>>).forEach(
@@ -26,30 +26,30 @@ export const useQueryParams = () => {
                     // Удаляем все существующие параметры этого namespace
                     Array.from(newParams.keys())
                         .filter(key => key.startsWith(`${namespace}.`))
-                        .forEach(key => newParams.delete(key));
+                        .forEach(key => newParams.delete(key))
 
                     // Добавляем новые параметры
                     map?.forEach((values, paramKey) => {
-                        const fullKey = `${namespace}.${paramKey}`;
+                        const fullKey = `${namespace}.${paramKey}`
                         // Удаляем старые значения
-                        newParams.delete(fullKey);
+                        newParams.delete(fullKey)
                         // Добавляем новые значения
                         values.forEach(value => {
                             if (value !== '' && value !== null && value !== undefined) {
-                                newParams.append(fullKey, value);
+                                newParams.append(fullKey, value)
                             }
-                        });
-                    });
+                        })
+                    })
                 }
-            );
+            )
         } else {
             Object.entries(params as Record<string, string>).forEach(([key, value]) => {
                 if (value === '' || value === null || value === undefined) {
-                    newParams.delete(key);
+                    newParams.delete(key)
                 } else {
-                    newParams.set(key, value);
+                    newParams.set(key, value)
                 }
-            });
+            })
         }
 
 
@@ -58,20 +58,20 @@ export const useQueryParams = () => {
 
 
     const getNamespaceParams = (namespace: string) => {
-        const result = new Map<string, string[]>();
+        const result = new Map<string, string[]>()
 
         Array.from(queryParams.keys()).forEach(key => {
             if (key.startsWith(`${namespace}.`)) {
-                const paramKey = key.substring(namespace.length + 1);
-                const values = queryParams.getAll(key);
-                result.set(paramKey, values);
+                const paramKey = key.substring(namespace.length + 1)
+                const values = queryParams.getAll(key)
+                result.set(paramKey, values)
             }
-        });
+        })
 
-        return result;
-    };
+        return result
+    }
 
-    const getAllParams = (key: string) => queryParams.getAll(key);
+    const getAllParams = (key: string) => queryParams.getAll(key)
 
     return {
         queryParams,

@@ -13,7 +13,7 @@ const FilmFilterRange = (props: FilmFilterRange) => {
     const { toggleFiltersItem, clearAllFilters, currentParams } = props
     const [expandedSectionsState, setExpandedSectionsState] = useState(false)
 
-    const range = currentParams.get('Рейтинг')?.[0] ?? '0';
+    const range = currentParams.get('Рейтинг')?.[0] ?? '0'
 
     const [rangeValue, setRangeValue] = useState(0)
 
