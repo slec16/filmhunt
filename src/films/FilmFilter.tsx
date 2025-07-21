@@ -4,13 +4,15 @@ import FilmFilterRange from './FilmFilterRange'
 
 type FilmFilterProps = {
     setFiltersParams: (params: Map<string, string[]>) => void
+    qurrentParams: Map<string, string[]>
 }
 
 const FilmFilter = (props: FilmFilterProps) => {
 
-    const {setFiltersParams} = props
+    const {setFiltersParams, qurrentParams} = props
 
 
+    console.log(qurrentParams)
     const [clearAllFilters, setClearAllFilters] = useState(false)
 
 

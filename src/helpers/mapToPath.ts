@@ -1,7 +1,6 @@
 const mapToPath = (params: Map<string, string[]>) => {
     let parameterPath = ''
     params.forEach((value, key) => {
-
         if (key == 'Продолжительность') {
             value.forEach(el => {
                 parameterPath+=`&${dictionary.get(key)}=${timeToMinutes.get(el)}`
@@ -9,6 +8,14 @@ const mapToPath = (params: Map<string, string[]>) => {
         } else if (key == 'Возрастной рейтинг') {
             value.forEach(el => {
                 parameterPath+=`&${dictionary.get(key)}=${ageToRange.get(el)}`
+            })
+        } else if (key == 'Год выпуска' && value[0] == 'До 1980'){
+            parameterPath+=`&${dictionary.get(key)}=1900-1980`
+        } else if (key == 'Рейтинг') {
+            parameterPath+=`&${dictionary.get(key)}=${value[0]}-10`
+        } else if (key == 'Жанры') {
+            value.forEach((el) => {
+                parameterPath+=`&${dictionary.get(key)}=${el.toLocaleLowerCase()}`
             })
         } else {
             value.forEach((el) => {
@@ -40,9 +47,10 @@ const timeToMinutes = new Map([
 
 
 const ageToRange = new Map([
-    ['0+', '0-5'],
-    ['6+', '0-6'],
-    ['12+', '0-12'],
-    ['16+', '0-16'],
-    ['18+', '0-18']
+    ['0+', '5'],
+    ['6+', '6'],
+    ['12+', '12'],
+    ['16+', '16'],
+    ['18+', '18']
 ])
+

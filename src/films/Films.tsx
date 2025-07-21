@@ -7,12 +7,15 @@ import ApiService from "../services/api-service"
 import { useQueryParams } from "../hooks/useQueryParams"
 import mapToPath from "../helpers/mapToPath"
 import FilmsList from "./FilmsList"
+import CachedIcon from '@mui/icons-material/Cached';
+import LoadingDots from "../components/LoadingDots"
 
 const Film = () => {
 
-    const { queryParams, setQueryParams, getParam } = useQueryParams()
+    const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
 
     const [films, setFilms] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if (!queryParams.toString()) {
@@ -22,6 +25,8 @@ const Film = () => {
 
     const page = getParam('page') || '1'
     const limit = getParam('limit') || '10'
+    // const filter = getParam('filter') || new Map()
+    const currentFilters = getNamespaceParams("params");
 
     const paginationData = {}
     
@@ -46,9 +51,14 @@ const Film = () => {
     }
 
     const setFilterParams = async(params: Map<string, string[]>) => {
-        const paramsPath =  mapToPath(params)
-        const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
-        setFilms(response.docs)
+        console.log(params)
+        setQueryParams({ params })
+        // setIsLoading(true)
+        // const paramsPath =  mapToPath(params)
+        // const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
+        // console.log(response)
+        // setFilms(response.docs)
+        // setIsLoading(false)
     }
 
     return(
@@ -56,6 +66,7 @@ const Film = () => {
             <Header />
             <div className="flex flex-row w-full ">
                 <FilmFilter 
+                    qurrentParams={currentFilters}
                     setFiltersParams={setFilterParams}
                 />
                 <div className="flex flex-col w-full">
@@ -69,9 +80,13 @@ const Film = () => {
                             paginationData={paginationData}
                         />
                     </div>
-                    <FilmsList 
-                        films={films}
-                    />
+                    {isLoading ?
+                        <LoadingDots />
+                        :
+                        <FilmsList 
+                            films={films}
+                        />
+                    }
                 </div>
             </div>  
         </div>
