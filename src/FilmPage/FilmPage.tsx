@@ -28,6 +28,11 @@ const FilmPage = () => {
             label: 'Детали',
             content: <div>Детали</div>,
         },
+        {
+            id: 'review',
+            label: 'Отзывы',
+            content: <div>Отзывы</div>,
+        },
     ]
 
     useEffect(() => {
