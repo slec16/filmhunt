@@ -4,36 +4,20 @@ import ApiService from "../services/api-service"
 import FilmInfo from './FilmInfo'
 import LoadingDots from '../components/LoadingDots'
 import Tabs from '../components/Tabs'
+import SimilarMovies from "./SimilarMovies"
+import type { IFilmInfo, ISimilarMovies } from '../interfaces'
 
 
 const FilmPage = () => {
 
-    const [filmInfo, setFilmInfo] = useState({})
+    const [filmInfo, setFilmInfo] = useState<IFilmInfo | null>(null)
+    const [similarMovies, setSimilarMovies] = useState<ISimilarMovies[] | null>(null)
     const [isLoading, setIsLoading] = useState(true)
+    const [isSeries, setIsSeries] = useState(false)
+
 
     let { id } = useParams()
-    const tabs = [
-        {
-            id: 'description',
-            label: 'Описание',
-            content: <FilmInfo filmInfo={filmInfo} /> 
-        },
-        {
-            id: 'series',
-            label: 'Серии и сезоны',
-            content: <div>Список серий</div>,
-        },
-        {
-            id: 'details',
-            label: 'Детали',
-            content: <div>Детали</div>,
-        },
-        {
-            id: 'review',
-            label: 'Отзывы',
-            content: <div>Отзывы</div>,
-        },
-    ]
+   
 
     useEffect(() => {
         fetchFunc()
@@ -44,10 +28,35 @@ const FilmPage = () => {
             setIsLoading(true)
             const response = await ApiService.getFilmById(id)
             console.log(response)
+            setIsSeries(response.isSeries)
+            response.similarMovies && setSimilarMovies(response.similarMovies)
             setFilmInfo(response)
             setIsLoading(false)
         }
     }
+
+    const tabs = [
+        {
+            id: 'description',
+            label: 'Описание',
+            content: filmInfo && <FilmInfo filmInfo={filmInfo} />
+        },
+        {
+            id: 'series',
+            label: 'Серии и сезоны',
+            content: <div>Список серий</div>,
+        },
+        {
+            id: 'details',
+            label: 'Детали',
+            content: similarMovies && <SimilarMovies similarMovies={similarMovies} />
+        },
+        {
+            id: 'review',
+            label: 'Отзывы',
+            content: <div>Отзывы</div>,
+        },
+    ]
 
     return (<div>
 
@@ -56,13 +65,13 @@ const FilmPage = () => {
             :
             <div>
                 <div className='pt-2' />
-                <Tabs tabs={tabs} defaultActiveId="description" />
+                <Tabs tabs={tabs} defaultActiveId="description" isSeries={isSeries} />
                 {/* tabs */}
                 {/* back button */}
                 {/* <FilmInfo
                     filmInfo={filmInfo}
                 /> */}
-                {/* similar films */}
+                
             </div>
         }
     </div>

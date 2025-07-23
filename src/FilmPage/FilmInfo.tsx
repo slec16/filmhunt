@@ -1,35 +1,40 @@
 import StarIcon from '@mui/icons-material/Star'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { useEffect, useState } from 'react'
+import { type IFilmInfo } from '../interfaces'
 
-const FilmInfo = (props: any) => {
-    // const {
-    //     ageRating,
-    //     backdrop,
-    //     countries,
-    //     genres,
-    //     name,
-    //     rating,
-    //     year,
-    //     shortDescription,
-    // } = props.filmInfo
+type FilmInfoProps = {
+    filmInfo: IFilmInfo
+}
 
-    const url = "https://image.openmoviedb.com/kinopoisk-ott-images/212840/2a00000186a8b7a1951185c6175ed0f07fd0/1344x756"
-    const name = "Атака титанов"
-    const rating = {
-        imdb: 9
-    }
-    const shortDescription = "Люди сражаются с титанами, которые мечтают их съесть. Финал самого эпичного аниме современности"
-    const ageRating = 18
-    const year = 2013
-    const countries = [{ name: 'Япония' }, { name: 'Россия' }]
-    const genres = [{ name: 'аниме' },
-        { name: 'мультфильм' },
-        { name: 'фантастика' },
-        { name: 'драма' },
-        { name: 'боевик' },
-        { name: 'фэнтези' }
-    ]
+const FilmInfo = (props: FilmInfoProps) => {
+    const {
+        ageRating,
+        backdrop,
+        countries,
+        genres,
+        name,
+        rating,
+        year,
+        shortDescription,
+    } = props.filmInfo
+
+    // const url = "https://image.openmoviedb.com/kinopoisk-ott-images/212840/2a00000186a8b7a1951185c6175ed0f07fd0/1344x756"
+    // const name = "Атака титанов"
+    // const rating = {
+    //     imdb: 9
+    // }
+    // const shortDescription = "Люди сражаются с титанами, которые мечтают их съесть. Финал самого эпичного аниме современности"
+    // const ageRating = 18
+    // const year = 2013
+    // const countries = [{ name: 'Япония' }, { name: 'Россия' }]
+    // const genres = [{ name: 'аниме' },
+    //     { name: 'мультфильм' },
+    //     { name: 'фантастика' },
+    //     { name: 'драма' },
+    //     { name: 'боевик' },
+    //     { name: 'фэнтези' }
+    // ]
 
 
     const [isMountedBackdrop, setIsMountedBackdrop] = useState(false)
@@ -64,7 +69,7 @@ const FilmInfo = (props: any) => {
                         <span>{year},</span>
                         {countries.map((item, index, array) => {
                             return(
-                                <span>{index !== array.length-1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
+                                <span key={item.name}>{index !== array.length-1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
                             )
                         })}
                         <span>{ageRating}+</span>
@@ -72,7 +77,7 @@ const FilmInfo = (props: any) => {
                     <div className='flex flex-row gap-x-2 mb-5'>
                         {genres.map((item, index, array) => {
                             return(
-                                <span>{index !== array.length-1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
+                                <span key={item.name}>{index !== array.length-1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
                             )
                         })}
                     </div>
@@ -96,7 +101,8 @@ const FilmInfo = (props: any) => {
                     }}>
                         <div className={`absolute inset-0 bg-gradient-to-r from-black via-black/10 to-transparent z-10 transition-opacity duration-500 ${isMountedGradient ? 'opacity-100' : 'opacity-0'}`} />
                         <img
-                            src={url}
+                            // src={url}
+                            src={backdrop.url}
                             alt={`${name}`}
                             className="w-full h-full object-cover absolute inset-0"
                         />

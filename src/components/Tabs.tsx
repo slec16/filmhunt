@@ -9,10 +9,11 @@ type TabItem = {
 type TabsProps = {
     tabs: TabItem[];
     defaultActiveId?: string;
+    isSeries?: boolean
 };
 
 const Tabs = (props: TabsProps) => {
-    const { tabs, defaultActiveId } = props
+    const { tabs, defaultActiveId, isSeries } = props
     const [activeTab, setActiveTab] = useState(defaultActiveId || tabs[0]?.id)
 
     return (
@@ -23,6 +24,7 @@ const Tabs = (props: TabsProps) => {
                     <button
                         key={tab.id}
                         className={`px-4 py-2 text-sm font-medium relative
+                            ${!isSeries && tab.id == "series" ? 'hidden' : ''}
                             ${activeTab === tab.id
                                 ? 'text-orange-500 border-b-2 border-orange-500'
                                 : 'text-gray-500 hover:text-gray-700'
