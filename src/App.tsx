@@ -11,7 +11,7 @@ function App() {
                 <Route path='/' element={<Films />}/>
                 <Route path='/film/:id' element={<FilmPage />} />
             </Routes>
-            <div className="mt-auto bg-gray-950 w-full  flex justify-center px-2"><span>FilmHunt</span></div>
+            <div className="mt-auto bg-gray-950 w-full flex justify-center px-2"><span>FilmHunt</span></div>
         </div>
     )
 }

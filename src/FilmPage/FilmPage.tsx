@@ -58,23 +58,22 @@ const FilmPage = () => {
         },
     ]
 
-    return (<div>
-
-        {isLoading ?
-            <LoadingDots />
-            :
-            <div>
-                <div className='pt-2' />
-                <Tabs tabs={tabs} defaultActiveId="description" isSeries={isSeries} />
-                {/* tabs */}
-                {/* back button */}
-                {/* <FilmInfo
-                    filmInfo={filmInfo}
-                /> */}
-                
-            </div>
-        }
-    </div>
+    return (
+        <>
+            {isLoading ?
+                <LoadingDots />
+                :
+                <div className='px-10 py-2 h-full flex flex-col flex-1'>
+                    <Tabs tabs={tabs} defaultActiveId="description" isSeries={isSeries} />
+                    {/* tabs */}
+                    {/* back button */}
+                    {/* <FilmInfo
+                        filmInfo={filmInfo}
+                    /> */}
+                    
+                </div>
+            }
+        </>
 
     )
 }

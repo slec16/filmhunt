@@ -17,7 +17,7 @@ const Tabs = (props: TabsProps) => {
     const [activeTab, setActiveTab] = useState(defaultActiveId || tabs[0]?.id)
 
     return (
-        <div className="w-full">
+        <div className="w-full h-full flex flex-col flex-1 ">
             {/* Tab headers */}
             <div className="flex justify-center">
                 {tabs.map((tab) => (
@@ -40,9 +40,9 @@ const Tabs = (props: TabsProps) => {
             </div>
 
             {/* Tab content */}
-            <div className="p-4">
+            {/* <div className="h-full flex flex-col flex-1 "> */}
                 {tabs.find((tab) => tab.id === activeTab)?.content || null}
-            </div>
+            {/* </div> */}
         </div>
     )
 }
