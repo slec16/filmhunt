@@ -29,13 +29,14 @@ const FilmInfo = (props: FilmInfoProps) => {
     // const year = 2013
     // const countries = [{ name: 'Япония' }, { name: 'Россия' }]
     // const genres = [{ name: 'аниме' },
-    //     { name: 'мультфильм' },
-    //     { name: 'фантастика' },
-    //     { name: 'драма' },
-    //     { name: 'боевик' },
-    //     { name: 'фэнтези' }
+    // { name: 'мультфильм' },
+    // { name: 'фантастика' },
+    // { name: 'драма' },
+    // { name: 'боевик' },
+    // { name: 'фэнтези' }
     // ]
 
+    console.log("name length", name.length)
 
     const [isMountedBackdrop, setIsMountedBackdrop] = useState(false)
     const [isMountedGradient, setIsMountedGradient] = useState(false)
@@ -44,9 +45,9 @@ const FilmInfo = (props: FilmInfoProps) => {
 
     useEffect(() => {
         const timer1 = setTimeout(() => setIsMountedBackdrop(true), 200)
-        const timer2 = setTimeout(() => setIsMountedGradient(true), 500)
+        const timer2 = setTimeout(() => setIsMountedGradient(true), 700)
         const timer3 = setTimeout(() => setIsMountedBlack(true), 800)
-        const timer4 = setTimeout(() => setIsMountedInfo(true), 1100)
+        const timer4 = setTimeout(() => setIsMountedInfo(true), 1300)
 
         return () => {
             clearTimeout(timer1)
@@ -57,27 +58,33 @@ const FilmInfo = (props: FilmInfoProps) => {
     }, [])
 
     return (
-        <div className=" bg-gray-900">
-            <div className=" px-6 ">
-                <div className={`absolute z-20 w-1/3 ml-20 mt-10 transform transition-all duration-700 ease-out ${isMountedInfo ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'}`}>
-                    <h1 className="text-5xl text-gray-300 font-bold mb-5">{name}</h1>
+        <div className='flex flex-col justify-center flex-1 '>
+            <div
+                className={`relative flex flex-row transform-gpu transition-all duration-500 ease-linear ${isMountedBackdrop ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                style={{
+                    width: '100%',
+                    height: '80vh',
+                }}
+            >
+                <div className={`absolute z-20 w-1/3 ml-[5%] mt-[5%] transform transition-all duration-900 ease-out ${isMountedInfo ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
+                    <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold mb-7`}>{name}</h1>
                     <div className='flex flex-row gap-x-2 mb-2'>
-                        <span className={`flex items-center  ${rating.imdb > 8 ? 'text-green-700': 'text-yellow-400'}`}>
+                        <span className={`flex items-center  ${rating.imdb > 8 ? 'text-green-700' : 'text-yellow-400'}`}>
                             <StarIcon className="mr-1" />
                             {rating.imdb}
                         </span>
                         <span>{year},</span>
                         {countries.map((item, index, array) => {
-                            return(
-                                <span key={item.name}>{index !== array.length-1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
+                            return (
+                                <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
                             )
                         })}
                         <span>{ageRating}+</span>
                     </div>
                     <div className='flex flex-row gap-x-2 mb-5'>
                         {genres.map((item, index, array) => {
-                            return(
-                                <span key={item.name}>{index !== array.length-1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
+                            return (
+                                <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
                             )
                         })}
                     </div>
@@ -88,25 +95,24 @@ const FilmInfo = (props: FilmInfoProps) => {
                         active:from-orange-700 active:to-amber-700'
                     >
                         <PlayArrowIcon />
-                        <span className='ml-0.5'>Смотреть</span> 
+                        <span className='ml-0.5'>Смотреть</span>
                     </button>
                 </div>
-
-                <div className={`w-full mt-0 relative flex flex-row transform-gpu transition-all duration-300 ease-linear ${isMountedBackdrop ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-
-                    <div className={`relative min-h-[600px] bg-black rounded-l-lg transition-all duration-250 ease-out ${isMountedBlack ? 'w-1/3 opacity-100' : 'w-0 opacity-0'}`}></div>
-
-                    <div className="relative h-full min-h-[600px] rounded-r-lg overflow-hidden transition-all duration-300 ease-linear" style={{
-                        width: isMountedBlack ? '66.666667%' : '100%'
-                    }}>
-                        <div className={`absolute inset-0 bg-gradient-to-r from-black via-black/10 to-transparent z-10 transition-opacity duration-500 ${isMountedGradient ? 'opacity-100' : 'opacity-0'}`} />
-                        <img
-                            // src={url}
-                            src={backdrop.url}
-                            alt={`${name}`}
-                            className="w-full h-full object-cover absolute inset-0"
-                        />
-                    </div>
+                <div
+                    className={`relative h-full bg-black rounded-l-lg transition-all duration-1000 ease-out ${isMountedBlack ? 'w-1/3' : 'w-0'}`}
+                ></div>
+                <div
+                    className={`relative h-full rounded-r-lg overflow-hidden transition-all duration-1000 ease-linear ${isMountedBlack ? 'w-2/3' : 'w-full'}`}
+                >
+                    <div
+                        className={`absolute inset-0 bg-gradient-to-r from-black via-black/10 to-transparent z-10 transition-opacity duration-300 ${isMountedGradient ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                    <img
+                        // src={url}
+                        src={backdrop.url}
+                        alt={`${name}`}
+                        className="w-full h-full object-cover absolute inset-0"
+                    />
                 </div>
             </div>
         </div>
