@@ -16,7 +16,6 @@ const FilmFilter = (props: FilmFilterProps) => {
     const selectedFitersMap: Map<string, string[]> = new Map(currentParams)
 
     const toggleFiltersItem = (key: string, value: string[]) => {
-        console.log(key, value)
         selectedFitersMap.set(key, value)
     }
 

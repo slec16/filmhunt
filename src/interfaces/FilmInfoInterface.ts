@@ -16,8 +16,57 @@ export interface IFilmInfo {
         kp: number
     },
     year: number,
-    shortDescription: string
+    shortDescription: string,
+    logo: {
+        url: string,
+        previewUrl: string
+    }
 
+}
+
+export interface IFilmDetail {
+    ageRating: number,
+    countries: {
+        name: string
+    }[],
+    description: string
+    genres: {
+        name: string
+    }[],
+    id: number,
+    isSeries: boolean
+    logo: {
+        url: string,
+        previewUrl: string
+    }
+    movieLength: number | null
+    name: string,
+    persons: {
+        description: string,
+        enName: string,
+        enProfession: string,
+        id: number,
+        name: string,
+        photo: string,
+        profession: string
+    }[],
+    poster: {
+        previewUrl: string,
+        url: string
+    },
+    rating: {
+        imdb: number,
+        kp: number
+    },
+    releaseYears: {
+        end: number,
+        start: number
+    }[],
+    seasonsInfo: {
+        number: number,
+        episodesCount: number
+    }[],
+    year: number
 }
 
 export interface ISimilarMovies {

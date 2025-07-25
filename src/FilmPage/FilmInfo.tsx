@@ -17,6 +17,7 @@ const FilmInfo = (props: FilmInfoProps) => {
         rating,
         year,
         shortDescription,
+        logo
     } = props.filmInfo
 
     // const url = "https://image.openmoviedb.com/kinopoisk-ott-images/212840/2a00000186a8b7a1951185c6175ed0f07fd0/1344x756"
@@ -36,7 +37,6 @@ const FilmInfo = (props: FilmInfoProps) => {
     // { name: 'фэнтези' }
     // ]
 
-    console.log("name length", name.length)
 
     const [isMountedBackdrop, setIsMountedBackdrop] = useState(false)
     const [isMountedGradient, setIsMountedGradient] = useState(false)
@@ -67,7 +67,14 @@ const FilmInfo = (props: FilmInfoProps) => {
                 }}
             >
                 <div className={`absolute z-20 w-1/3 ml-[5%] mt-[5%] transform transition-all duration-900 ease-out ${isMountedInfo ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
-                    <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold mb-7`}>{name}</h1>
+                    {/* <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold mb-7`}>{name}</h1> */}
+                    
+                    {logo.previewUrl ?
+                        <div className="mb-2">
+                            <img src={logo.previewUrl} />
+                        </div> :
+                        <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold mb-2`}>{name}</h1> 
+                    }
                     <div className='flex flex-row gap-x-2 mb-2'>
                         <span className={`flex items-center  ${rating.imdb > 8 ? 'text-green-700' : 'text-yellow-400'}`}>
                             <StarIcon className="mr-1" />
@@ -105,7 +112,7 @@ const FilmInfo = (props: FilmInfoProps) => {
                     className={`relative h-full rounded-r-lg overflow-hidden transition-all duration-1000 ease-linear ${isMountedBlack ? 'w-2/3' : 'w-full'}`}
                 >
                     <div
-                        className={`absolute inset-0 bg-gradient-to-r from-black via-black/10 to-transparent z-10 transition-opacity duration-300 ${isMountedGradient ? 'opacity-100' : 'opacity-0'}`}
+                        className={` absolute inset-0 bg-gradient-to-r from-black via-black/10 to-transparent z-10 transition-opacity duration-300 ${isMountedGradient ? 'opacity-100' : 'opacity-0'}`}
                     />
                     <img
                         // src={url}
