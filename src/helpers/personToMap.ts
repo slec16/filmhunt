@@ -1,15 +1,13 @@
-const groupByProfession = (objectsArray: any) => {
-    const professionMap = new Map();
+import { type Person } from "../interfaces";
+
+const groupByProfession = (objectsArray: Person[]) => {
+    const professionMap = new Map<string, Person[]>();
     
     for (const obj of objectsArray) {
-        if (obj && obj.profession !== undefined) {
+        if (obj?.profession) {
             const profession = obj.profession;
-            
-            if (!professionMap.has(profession)) {
-                professionMap.set(profession, []);
-            }
-            
-            professionMap.get(profession).push(obj);
+            const currentArray = professionMap.get(profession) ?? []
+            professionMap.set(profession, [...currentArray, obj])
         }
     }
     

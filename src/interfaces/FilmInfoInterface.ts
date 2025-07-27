@@ -69,6 +69,8 @@ export interface IFilmDetail {
     year: number
 }
 
+export type Person = Pick<IFilmDetail, "persons">["persons"][number]
+
 export interface ISimilarMovies {
     id: number,
     name: string,

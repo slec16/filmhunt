@@ -50,7 +50,7 @@ const FilmCard = (props: FilmCardProps) => {
                         </span>
                         <span>{countries[0]?.name}</span>
                         <span>{ageRating}+</span>
-                        <span>{movieLength} мин.</span>
+                        {movieLength && <span>{movieLength} мин.</span>}
                     </div>
                 </div>
 

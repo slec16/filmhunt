@@ -1,13 +1,13 @@
 import StarIcon from '@mui/icons-material/Star'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { type IFilmInfo } from '../interfaces'
 
 type FilmInfoProps = {
     filmInfo: IFilmInfo
 }
 
-const FilmInfo = (props: FilmInfoProps) => {
+const FilmInfo = memo((props: FilmInfoProps) => {
     const {
         ageRating,
         backdrop,
@@ -37,7 +37,7 @@ const FilmInfo = (props: FilmInfoProps) => {
     // { name: 'фэнтези' }
     // ]
 
-
+    // console.log(props.filmInfo)
     const [isMountedBackdrop, setIsMountedBackdrop] = useState(false)
     const [isMountedGradient, setIsMountedGradient] = useState(false)
     const [isMountedBlack, setIsMountedBlack] = useState(false)
@@ -58,9 +58,10 @@ const FilmInfo = (props: FilmInfoProps) => {
     }, [])
 
     return (
+        
         <div className='flex flex-col justify-center flex-1 '>
             <div
-                className={`relative flex flex-row transform-gpu transition-all duration-500 ease-linear ${isMountedBackdrop ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                className={`relative flex flex-row transform-gpu transition-all duration-400 ease-linear ${isMountedBackdrop ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
                 style={{
                     width: '100%',
                     height: '80vh',
@@ -69,13 +70,13 @@ const FilmInfo = (props: FilmInfoProps) => {
                 <div className={`absolute z-20 w-1/3 ml-[5%] mt-[5%] transform transition-all duration-900 ease-out ${isMountedInfo ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
                     {/* <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold mb-7`}>{name}</h1> */}
                     
-                    {logo.previewUrl ?
-                        <div className="mb-2">
-                            <img src={logo.previewUrl} />
+                    {(logo && logo.previewUrl) || (logo && logo.url) ?
+                        <div className="mb-4">
+                            <img src={logo.previewUrl} loading='lazy' />
                         </div> :
-                        <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold mb-2`}>{name}</h1> 
+                        <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold mb-4`}>{name}</h1> 
                     }
-                    <div className='flex flex-row gap-x-2 mb-2'>
+                    <div className='flex flex-row gap-x-2 mb-2 flex-wrap'>
                         <span className={`flex items-center  ${rating.imdb > 8 ? 'text-green-700' : 'text-yellow-400'}`}>
                             <StarIcon className="mr-1" />
                             {rating.imdb}
@@ -124,6 +125,6 @@ const FilmInfo = (props: FilmInfoProps) => {
             </div>
         </div>
     )
-}
+})
 
 export default FilmInfo

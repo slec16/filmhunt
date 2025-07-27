@@ -36,6 +36,7 @@ const Film = () => {
         setIsLoading(true)
         const paramsPath = mapToPath(params)
         const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
+        console.log(response)
         setFilms(response.docs)
         setIsLoading(false)
     }

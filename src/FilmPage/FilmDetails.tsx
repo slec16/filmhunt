@@ -1,18 +1,47 @@
+import { useState, useEffect, memo } from "react"
 import SimilarMovies from "./SimilarMovies"
 import type { ISimilarMovies, IFilmDetail } from "../interfaces"
 import groupByProfession from "../helpers/personToMap"
 import StarIcon from '@mui/icons-material/Star'
 
-type FilmDetailsProps = {
-    filmDetail: IFilmDetail,
-    similarMovies: ISimilarMovies[]
+type releaseYearsComponentProps = {
+    releaseYears: {
+        start: number | null,
+        end: number | null
+    }[] | undefined,
+    year: number
 }
 
+const ReleaseYearsComponent = memo((props: releaseYearsComponentProps) => {
+    const {releaseYears, year} = props
+    if( releaseYears !== undefined && releaseYears[0] ){
+        console.log(props)
+        if(releaseYears[0].start &&  releaseYears[0].end && releaseYears[0].start !== releaseYears[0].end ) {
+            return(
+                <span>{releaseYears[0].start}-{releaseYears[0].end},</span>
+            )
+        } else if( (releaseYears[0] && releaseYears[0].start) ) {
+            return(
+                <span>С {releaseYears[0] && releaseYears[0].start},</span>
+            )
+        } 
+    } else {
+        return(
+            <span>{year},</span>
+        )
+    }
+})
 
-const FilmDetails = (props: FilmDetailsProps) => {
+type FilmDetailsProps = {
+    filmDetail: IFilmDetail,
+    similarMovies: ISimilarMovies[] | null
+}
+
+const FilmDetails = memo((props: FilmDetailsProps) => {
 
     const similarMovies = props.similarMovies
-    const { id,
+    const { 
+        // id,
         ageRating,
         countries,
         description,
@@ -21,60 +50,72 @@ const FilmDetails = (props: FilmDetailsProps) => {
         movieLength,
         name,
         persons,
-        poster,
         rating,
         releaseYears,
-        seasonsInfo,
         year
     } = props.filmDetail
 
+    console.log(props.filmDetail.releaseYears)
 
-    console.log(groupByProfession(persons))
-    
+    const [isMountedDetail, setIsMountedDetail] = useState(false)
+    const [isMountedSimilar, setIsMountedSimilar] = useState(false)
+
+    useEffect(() => {
+        const timer1 = setTimeout(() => setIsMountedDetail(true), 200)
+        const timer2 = setTimeout(() => setIsMountedSimilar(true), 400)
+
+        return () => {
+            clearTimeout(timer1)
+            clearTimeout(timer2)
+        }
+    }, [])
 
 
     return (
         <>
-            <div className="flex flex-row w-full pt-7">
-                <section className="w-1/2 px-5">
-                    {logo.previewUrl ?
-                        <div className="mb-2">
-                            <img src={logo.previewUrl} />
+            <div className={`flex flex-row w-full pt-7 mb-15 transform transition-all duration-500 ease-out ${isMountedDetail ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+                <section className="w-1/2 px-5 space-y-4">
+                    {(logo && logo.previewUrl) || (logo && logo.url) ?
+                        <div >
+                            <img src={logo.previewUrl} className='mb-3'/>
+                            <h1 className="text-sm text-gray-300 font-bold">{name}</h1> 
                         </div> :
-                        <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold mb-2`}>{name}</h1> 
+                        <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold`}>{name}</h1> 
                     }
-                    <div className='flex flex-row gap-x-2 mb-5'>
-                        <span>{year},</span>
+                    <div className='flex flex-row gap-x-3 flex-wrap'>
+                        {/* <span>{year},</span> */}
+                        <ReleaseYearsComponent releaseYears={releaseYears} year={year}/>
                         {countries.map((item, index, array) => {
                             return (
                                 <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
                             )
                         })}
+                        {movieLength && <span>{movieLength}мин</span>}
                         <span>{ageRating}+</span>
                     </div>
                     <span className={`flex items-center ${rating.imdb > 8 ? 'text-green-700' : 'text-yellow-400'}`}>
                         <StarIcon className="mr-1" />
                         {rating.imdb}
                     </span>
-                    <div className='flex flex-row gap-x-2 mb-5'>
+                    <div className='flex flex-row gap-x-2'>
                         {genres.map((item, index, array) => {
                             return (
                                 <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
                             )
                         })}
                     </div>
-                    <p className="text-2xl text-gray-300 mb-15">{description}</p>
+                    <p className="text-2xl text-gray-300 ">{description}</p>
                 </section>
                 <div className="w-1/2 px-10">
                     {/* pesrons */}
                     <div className="flex flex-row flex-wrap gap-x-7 gap-y-5">
-                        {[...groupByProfession(persons)].map(([value, key]) => {
+                        {persons && [...groupByProfession(persons)].map(([value, key]) => {
                             return(
-                                <div className="flex flex-col space-y-1.5">
-                                    <p className="font-extrabold">{value}</p>
+                                <div className="flex flex-col space-y-1.5" key={value}>
+                                    <p className="font-extrabold text-slate-300">{value}</p>
                                     {key.slice(0,5).map(item => {
                                         return(
-                                            <span>{item.name}</span>
+                                            <span key={item.name}>{item.name}</span>
                                         )
                                     })}
                                 </div>
@@ -83,9 +124,11 @@ const FilmDetails = (props: FilmDetailsProps) => {
                     </div>
                 </div>
             </div>
-            <SimilarMovies similarMovies={similarMovies} />
+            <div className={`transform transition-all duration-500 ease-out ${isMountedSimilar ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+                {(similarMovies && similarMovies.length !== 0) && <SimilarMovies similarMovies={similarMovies} />}
+            </div>
         </>
     )
-}
+})
 
 export default FilmDetails

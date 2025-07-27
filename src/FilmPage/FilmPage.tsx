@@ -22,7 +22,7 @@ const FilmPage = () => {
 
     useEffect(() => {
         fetchFunc()
-    }, [])
+    }, [id])
 
     const fetchFunc = async () => {
         if (id) {

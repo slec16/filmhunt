@@ -7,7 +7,6 @@ type SimilarMoviesProps = {
 const SimilarMovies = (props: SimilarMoviesProps) => {
 
 
-
     return(
         <div className="py-5">
             <h3 className="border-b mb-5 text-3xl">Похожее</h3>
