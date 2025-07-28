@@ -5,6 +5,7 @@ import FilmInfo from './FilmInfo'
 import LoadingDots from '../components/LoadingDots'
 import Tabs from '../components/Tabs'
 import FilmDetails from './FilmDetails'
+import SeriasPage from './SeriasPage'
 import type { IFilmInfo, ISimilarMovies, IFilmDetail } from '../interfaces'
 
 
@@ -46,7 +47,7 @@ const FilmPage = () => {
         {
             id: 'series',
             label: 'Серии и сезоны',
-            content: <div>Список серий</div>,
+            content: <SeriasPage id={id} />
         },
         {
             id: 'details',

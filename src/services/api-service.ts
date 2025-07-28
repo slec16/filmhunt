@@ -24,6 +24,9 @@ class ApiService extends HttpService {
         return this.get(`movie/${id}`, signal)
     }
 
+    getSeasonsById(id: string, signal?: AbortSignal) {
+        return this.get(`season?page=1&limit=10&movieId=${id}`, signal)
+    }
 
     
 }

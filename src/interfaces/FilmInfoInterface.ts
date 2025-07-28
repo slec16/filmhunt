@@ -85,3 +85,34 @@ export interface ISimilarMovies {
     year: number,
     type: string
 }
+
+export interface ISeasons {
+    airDate: string,
+    createdAt: string,
+    enName: string,
+    episodes: IEpisode[],
+    episodesCount: number,
+    id: string,
+    movieId: number,
+    name: string
+    number: number,
+    poster: {
+        previewUrl: string,
+        url: string
+    },
+    source: string,
+    updatedAt: string
+}
+
+export interface IEpisode {
+    airDate: string,
+    description: string,
+    enDescription: string,
+    enName: string,
+    name: string,
+    number: number,
+    still: {
+        previewUrl: string,
+        url: string
+    }
+}
