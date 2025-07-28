@@ -3,11 +3,15 @@ import type { ISeasons } from "../interfaces"
 import SeriasList from './SeriasList'
 
 type SeriasTabProps = {
-    seasons: ISeasons[]
+    seasons: ISeasons[],
+    poster: {
+        previewUrl: string,
+        url: string
+    }
 }
 
 const SeriasTab = (props: SeriasTabProps) => {
-    const seasons = props.seasons
+    const {seasons, poster} = props
     
     const [activeTab, setActiveTab] = useState(1 || seasons[0]?.number)
 
@@ -33,7 +37,7 @@ const SeriasTab = (props: SeriasTabProps) => {
                 ))}
             </div>
 
-            <SeriasList season={seasons.find((season) => season.number === activeTab)}/>
+            <SeriasList season={seasons.find((season) => season.number === activeTab)} poster={poster}/>
         </div>
     )
 }

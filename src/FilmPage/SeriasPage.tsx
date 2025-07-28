@@ -5,9 +5,17 @@ import LoadingDots from '../components/LoadingDots'
 import SeriasTab from './SeriasTab'
 import type { ISeasons } from "../interfaces"
 
-const SeriasPage = (props: any) => {
+type SeriasPageProps = {
+    id: string,
+    poster: {
+        previewUrl: string,
+        url: string
+    }
+}
 
-    const { id } = props
+const SeriasPage = (props: SeriasPageProps) => {
+
+    const { id, poster } = props
     // let { id } = useParams()
 
     const [isLoading, setIsLoading] = useState(true)
@@ -36,7 +44,7 @@ const SeriasPage = (props: any) => {
                 <LoadingDots />
                 :
                 <div className='px-10 py-2 h-full flex flex-col flex-1'>
-                    {seriasInfo && <SeriasTab seasons={seriasInfo}/>}
+                    {seriasInfo && <SeriasTab seasons={seriasInfo} poster={poster}/>}
                 </div>
             }
         </>

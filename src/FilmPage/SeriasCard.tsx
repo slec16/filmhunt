@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react'
 import type { IEpisode } from "../interfaces"
+import ImageIcon from '@mui/icons-material/Image';
 
 type SeriasCardProps = {
-    series: IEpisode
+    series: IEpisode,
+    poster: {
+        previewUrl: string,
+        url: string
+    }
 }
 
 const SeriasCard = (props: SeriasCardProps) => {
 
-    const series = props.series
+    const { series, poster } = props
     const { airDate, description, name, number, still } = series
 
     // console.log(series)
@@ -27,42 +32,47 @@ const SeriasCard = (props: SeriasCardProps) => {
                 className={`relative w-full h-full transition-transform duration-500 transform-style-preserve-3d ${isFlipped ? 'rotate-y-180' : ''
                     }`}
             >
-                {/* Передняя сторона (основная информация) */}
                 <div className={`absolute w-full h-full backface-hidden ${isFlipped ? 'hidden' : ''}`}>
                     <div className="flex flex-col h-full bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700">
-                        <div className="relative aspect-video flex-shrink-0">
-                            <img
-                                src={still.previewUrl || still.url}
-                                alt={`Кадр из серии ${number}: ${name}`}
-                                className="w-full h-full object-cover"
-                                loading="lazy"
-                            />
+                        <div className="relative aspect-video h-1/2">
+                            {still || poster ?
+                                <img
+                                    src={(still && still?.previewUrl) ? still.previewUrl : poster.previewUrl}
+                                    alt={`Кадр из серии ${number}: ${name}`}
+                                    className="w-full h-full object-cover"
+                                />
+                                :
+                                <div className='flex justify-center items-center h-full'><ImageIcon /></div>
+                            }
                             <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm">
                                 Серия {number}
+                            </div>
+                            <div className="absolute bottom-2 left-2  bg-opacity-70 px-2 py-1 rounded text-sm">
+                                <button
+                                    onClick={handleFlip}
+                                    className="mt-auto self-end text-orange-400 hover:text-orange-300 text-xs font-medium transition-colors"
+                                >
+                                    Подробнее →
+                                </button>
                             </div>
                         </div>
 
                         <div className="p-4 flex flex-col flex-1">
-                            <div className="mb-3">
+                            <div className="mb-2">
                                 <h3 className="text-lg font-bold text-white mb-1">
                                     {number}. {name}
                                 </h3>
                             </div>
 
                             <p className="text-gray-400 text-xs mb-2">
-                                {new Date(airDate).toLocaleDateString()}
+                                {airDate && new Date(airDate).toLocaleDateString()}
                             </p>
 
-                            <p className="text-gray-300 text-sm mb-3 line-clamp-3">
+                            <p className="text-gray-300 text-sm mb-2 line-clamp-3">
                                 {description}
                             </p>
 
-                            <button
-                                onClick={handleFlip}
-                                className="mt-auto self-end text-orange-400 hover:text-orange-300 text-xs font-medium transition-colors"
-                            >
-                                Подробнее →
-                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -89,9 +99,7 @@ const SeriasCard = (props: SeriasCardProps) => {
                             </p>
                         </div>
 
-                        <p className="text-gray-400 text-xs mt-2">
-                            Дата выхода: {new Date(airDate).toLocaleDateString()}
-                        </p>
+                        {airDate && <p className="text-gray-400 text-xs mt-2">Дата выхода: {new Date(airDate).toLocaleDateString()}</p>}
                     </div>
                 </div>
             </div>
