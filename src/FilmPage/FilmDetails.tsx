@@ -77,7 +77,7 @@ const FilmDetails = memo((props: FilmDetailsProps) => {
                 <section className="w-1/2 px-5 space-y-4">
                     {(logo && logo.previewUrl) || (logo && logo.url) ?
                         <div >
-                            <img src={logo.previewUrl} className='mb-3'/>
+                            <img src={logo.previewUrl} className='mb-3 max-h-64'/>
                             <h1 className="text-sm text-gray-300 font-bold">{name}</h1> 
                         </div> :
                         <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold`}>{name}</h1> 

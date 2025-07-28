@@ -72,7 +72,7 @@ const FilmInfo = memo((props: FilmInfoProps) => {
                     
                     {(logo && logo.previewUrl) || (logo && logo.url) ?
                         <div className="mb-4">
-                            <img src={logo.previewUrl} loading='lazy' />
+                            <img src={logo.previewUrl} loading='lazy' className='max-h-64'/>
                         </div> :
                         <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold mb-4`}>{name}</h1> 
                     }
