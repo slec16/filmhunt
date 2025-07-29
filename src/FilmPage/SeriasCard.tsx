@@ -94,7 +94,7 @@ const SeriasCard = (props: SeriasCardProps) => {
                         </div>
 
                         <div className="flex-1 overflow-y-auto">
-                            <p className="text-gray-300 text-sm mb-3">
+                            <p className="text-gray-300 text-sm mb-3 px-3">
                                 {description}
                             </p>
                         </div>
