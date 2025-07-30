@@ -14,7 +14,7 @@ const SeriasList = (props: SeriasListProps) => {
 
     // console.log(season)
     return (
-        <div className="flex flex-row flex-wrap gap-4 justify-around">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] justify-center gap-4">
             {season?.episodes.sort((a, b) => a.number - b.number).map(series => {
                 return (
                     <SeriasCard series={series} poster={poster}/>
