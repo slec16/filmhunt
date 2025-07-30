@@ -14,12 +14,20 @@ const SeriasTab = (props: SeriasTabProps) => {
     const {seasons, poster} = props
     
     const [activeTab, setActiveTab] = useState(1 || seasons[0]?.number)
+    console.log(seasons)
+
+    const sortFn = (a: ISeasons, b: ISeasons) => {
+        if (a.number === 0 && b.number === 0) return 0;
+        if (a.number === 0) return 1;
+        if (b.number === 0) return -1;
+        return a.number - b.number;
+    }
 
     return (
         <div className={`w-full h-full flex flex-col flex-1`}>
             {/* Tab headers */}
             <div className="flex justify-start mb-10">
-                {seasons.map(season => (
+                {seasons?.sort(sortFn).map(season => (
                     <button
                         key={season.number}
                         className={`px-4 py-2 text-sm font-medium relative
