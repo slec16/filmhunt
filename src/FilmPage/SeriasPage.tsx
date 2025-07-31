@@ -30,7 +30,6 @@ const SeriasPage = (props: SeriasPageProps) => {
         // setIsLoading(true)
         if (id) {
             const response = await ApiService.getSeasonsById(id)
-            console.log(response)
             setSeriasInfo(response.docs)
             setIsLoading(false)
 

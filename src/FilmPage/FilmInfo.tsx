@@ -37,7 +37,6 @@ const FilmInfo = memo((props: FilmInfoProps) => {
     // { name: 'фэнтези' }
     // ]
 
-    // console.log(props.filmInfo)
     const [isMountedBackdrop, setIsMountedBackdrop] = useState(false)
     const [isMountedGradient, setIsMountedGradient] = useState(false)
     const [isMountedBlack, setIsMountedBlack] = useState(false)

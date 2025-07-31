@@ -12,7 +12,6 @@ type SeriasListProps = {
 const SeriasList = (props: SeriasListProps) => {
     const {season, poster} = props
 
-    // console.log(season)
     return (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] justify-center gap-4">
             {season?.episodes.sort((a, b) => a.number - b.number).map(series => {

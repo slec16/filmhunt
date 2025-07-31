@@ -12,7 +12,6 @@ class ApiService extends HttpService {
 
     getFilmsByFilter(page: number, limit: number, paramsPath?: string, signal?: AbortSignal) {
         const path = this.baseParams + `&page=${page}&limit=${limit}` + paramsPath
-        console.log(path)
         return this.get(path, signal)
     }
 

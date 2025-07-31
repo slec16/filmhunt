@@ -15,8 +15,6 @@ const SeriasCard = (props: SeriasCardProps) => {
     const { series, poster } = props
     const { airDate, description, name, number, still } = series
 
-    // console.log(series)
-
 
     const [isFlipped, setIsFlipped] = useState(false);
 

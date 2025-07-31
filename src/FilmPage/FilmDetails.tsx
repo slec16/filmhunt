@@ -15,7 +15,6 @@ type releaseYearsComponentProps = {
 const ReleaseYearsComponent = memo((props: releaseYearsComponentProps) => {
     const {releaseYears, year} = props
     if( releaseYears !== undefined && releaseYears[0] ){
-        console.log(props)
         if(releaseYears[0].start &&  releaseYears[0].end && releaseYears[0].start !== releaseYears[0].end ) {
             return(
                 <span>{releaseYears[0].start}-{releaseYears[0].end},</span>
@@ -55,7 +54,6 @@ const FilmDetails = memo((props: FilmDetailsProps) => {
         year
     } = props.filmDetail
 
-    console.log(props.filmDetail.releaseYears)
 
     const [isMountedDetail, setIsMountedDetail] = useState(false)
     const [isMountedSimilar, setIsMountedSimilar] = useState(false)

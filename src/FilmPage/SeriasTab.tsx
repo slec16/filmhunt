@@ -14,7 +14,6 @@ const SeriasTab = (props: SeriasTabProps) => {
     const {seasons, poster} = props
     
     const [activeTab, setActiveTab] = useState(1 || seasons[0]?.number)
-    console.log(seasons)
 
     const sortFn = (a: ISeasons, b: ISeasons) => {
         if (a.number === 0 && b.number === 0) return 0;
