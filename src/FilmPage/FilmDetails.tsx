@@ -3,6 +3,7 @@ import SimilarMovies from "./SimilarMovies"
 import type { ISimilarMovies, IFilmDetail } from "../interfaces"
 import groupByProfession from "../helpers/personToMap"
 import StarIcon from '@mui/icons-material/Star'
+import FilmName from "./FilmName"
 
 type releaseYearsComponentProps = {
     releaseYears: {
@@ -13,19 +14,19 @@ type releaseYearsComponentProps = {
 }
 
 const ReleaseYearsComponent = memo((props: releaseYearsComponentProps) => {
-    const {releaseYears, year} = props
-    if( releaseYears !== undefined && releaseYears[0] ){
-        if(releaseYears[0].start &&  releaseYears[0].end && releaseYears[0].start !== releaseYears[0].end ) {
-            return(
+    const { releaseYears, year } = props
+    if (releaseYears !== undefined && releaseYears[0]) {
+        if (releaseYears[0].start && releaseYears[0].end && releaseYears[0].start !== releaseYears[0].end) {
+            return (
                 <span>{releaseYears[0].start}-{releaseYears[0].end},</span>
             )
-        } else if( (releaseYears[0] && releaseYears[0].start) ) {
-            return(
+        } else if ((releaseYears[0] && releaseYears[0].start)) {
+            return (
                 <span>С {releaseYears[0] && releaseYears[0].start},</span>
             )
-        } 
+        }
     } else {
-        return(
+        return (
             <span>{year},</span>
         )
     }
@@ -39,7 +40,7 @@ type FilmDetailsProps = {
 const FilmDetails = memo((props: FilmDetailsProps) => {
 
     const similarMovies = props.similarMovies
-    const { 
+    const {
         // id,
         ageRating,
         countries,
@@ -73,16 +74,12 @@ const FilmDetails = memo((props: FilmDetailsProps) => {
         <>
             <div className={`flex flex-row w-full pt-7 mb-15 transform transition-all duration-500 ease-out ${isMountedDetail ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
                 <section className="w-1/2 px-5 space-y-4">
-                    {(logo && logo.previewUrl) || (logo && logo.url) ?
-                        <div >
-                            <img src={logo.previewUrl} className='mb-3 max-h-64'/>
-                            <h1 className="text-sm text-gray-300 font-bold">{name}</h1> 
-                        </div> :
-                        <h1 className={`${name.length > 35 ? 'text-4xl' : 'text-7xl'} text-gray-300 font-bold`}>{name}</h1> 
-                    }
+
+                    <FilmName logo={logo} name={name} isDetail={true}/>
+
                     <div className='flex flex-row gap-x-3 flex-wrap'>
                         {/* <span>{year},</span> */}
-                        <ReleaseYearsComponent releaseYears={releaseYears} year={year}/>
+                        <ReleaseYearsComponent releaseYears={releaseYears} year={year} />
                         {countries && countries.map((item, index, array) => {
                             return (
                                 <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
@@ -108,11 +105,11 @@ const FilmDetails = memo((props: FilmDetailsProps) => {
                     {/* pesrons */}
                     <div className="flex flex-row flex-wrap gap-x-7 gap-y-5">
                         {persons && [...groupByProfession(persons)].map(([value, key]) => {
-                            return(
+                            return (
                                 <div className="flex flex-col space-y-1.5" key={value}>
                                     <p className="font-extrabold text-slate-300">{value}</p>
-                                    {key.slice(0,5).map(item => {
-                                        return(
+                                    {key.slice(0, 5).map(item => {
+                                        return (
                                             <span key={item.name}>{item.name}</span>
                                         )
                                     })}
