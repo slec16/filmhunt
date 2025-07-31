@@ -8,7 +8,6 @@ const FilmsList = (props: FilmsListProps) => {
 
     const {films} = props
 
-    // console.log(films)
     let filmsList
 
     films.length !== 0 ? filmsList = films.map(item => {

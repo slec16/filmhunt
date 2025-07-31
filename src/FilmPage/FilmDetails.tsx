@@ -83,7 +83,7 @@ const FilmDetails = memo((props: FilmDetailsProps) => {
                     <div className='flex flex-row gap-x-3 flex-wrap'>
                         {/* <span>{year},</span> */}
                         <ReleaseYearsComponent releaseYears={releaseYears} year={year}/>
-                        {countries.map((item, index, array) => {
+                        {countries && countries.map((item, index, array) => {
                             return (
                                 <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
                             )

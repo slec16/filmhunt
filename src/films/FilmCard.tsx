@@ -48,7 +48,7 @@ const FilmCard = (props: FilmCardProps) => {
                             <StarIcon />
                             {rating.imdb.toFixed(1)}
                         </span>
-                        <span>{countries[0]?.name}</span>
+                        {countries && <span>{countries[0]?.name}</span>}
                         <span>{ageRating}+</span>
                         {movieLength && <span>{movieLength} мин.</span>}
                     </div>
