@@ -1,5 +1,5 @@
 import { type ISimilarMovies } from "../interfaces"
-import SimilarMovieCard from './SimilarMovieCard';
+import SimilarMovieCard from './SimilarMovieCard'
 type SimilarMoviesProps = {
     similarMovies: ISimilarMovies[]
 }

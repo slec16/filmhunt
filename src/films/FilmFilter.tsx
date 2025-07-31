@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import FilmFilterSection from './FilmFilterSection'
 import FilmFilterRange from './FilmFilterRange'
 
@@ -7,7 +7,7 @@ type FilmFilterProps = {
     currentParams: Map<string, string[]>
 }
 
-const FilmFilter = (props: FilmFilterProps) => {
+const FilmFilter = memo((props: FilmFilterProps) => {
 
     const {setFiltersParams, currentParams} = props
 
@@ -153,6 +153,6 @@ const FilmFilter = (props: FilmFilterProps) => {
 
     // Десктопная версия
     return <FilterContent />
-}
+})
 
 export default FilmFilter

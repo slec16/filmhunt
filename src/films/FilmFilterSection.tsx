@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
@@ -13,7 +13,7 @@ type FilmFilterSectionProps = {
 }
 
 
-const FilmFilterSection = (props: FilmFilterSectionProps) => {
+const FilmFilterSection = memo((props: FilmFilterSectionProps) => {
 
     const { dataArray, sectionName, toggleFiltersItem, clearAllFilters, exclusive, currentParams } = props
 
@@ -96,6 +96,6 @@ const FilmFilterSection = (props: FilmFilterSectionProps) => {
             )}
         </div>
     )
-}
+})
 
 export default FilmFilterSection
