@@ -116,3 +116,21 @@ export interface IEpisode {
         url: string
     }
 }
+
+export interface IFilmCard {
+    id: number,
+    name: string,
+    poster: {
+        url: string,
+        previewUrl: string
+    },
+    shortDescription: string,
+    ageRating: number,
+    genres: {name: string}[],
+    year: number, 
+    rating: {
+        imdb: number
+    },
+    countries: {name: string}[],
+    movieLength: number
+}

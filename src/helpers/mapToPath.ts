@@ -1,3 +1,4 @@
+// TODO switch - case
 const mapToPath = (params: Map<string, string[]>) => {
     let parameterPath = ''
     params.forEach((value, key) => {
@@ -16,6 +17,10 @@ const mapToPath = (params: Map<string, string[]>) => {
         } else if (key == 'Жанры') {
             value.forEach((el) => {
                 parameterPath+=`&${dictionary.get(key)}=${el.toLocaleLowerCase()}`
+            })
+        } else if(key == "Тип контента") {
+            value.forEach((el) => {
+                parameterPath+=`&${dictionary.get(key)}=${typeToPath.get(el)}`
             })
         } else {
             value.forEach((el) => {
@@ -36,7 +41,7 @@ const dictionary = new Map([
     ['Жанры', 'genres.name'],
     ['Возрастной рейтинг', 'ageRating'],
     ['Рейтинг', 'rating.imdb'],
-    // ['Тип контента', '']
+    ['Тип контента', 'type']
 ])
 
 const timeToMinutes = new Map([
@@ -54,3 +59,9 @@ const ageToRange = new Map([
     ['18+', '18']
 ])
 
+const typeToPath = new Map([
+    ['Фильмы', 'movie'],
+    ['Сериалы', 'tv-series'],
+    ['Мультфильмы', 'cartoon'],
+    ['Аниме', 'anime'],
+])

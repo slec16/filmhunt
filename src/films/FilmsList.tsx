@@ -1,7 +1,8 @@
 import FilmCard from './FilmCard'
+import { type IFilmCard } from '../interfaces'
 
 type FilmsListProps = {
-    films: any[]
+    films: IFilmCard[]
 }
 
 const FilmsList = (props: FilmsListProps) => {
@@ -13,6 +14,7 @@ const FilmsList = (props: FilmsListProps) => {
     films.length !== 0 ? filmsList = films.map(item => {
         return(
             <FilmCard
+                key={item.id}
                 film={item}
             />
         )
