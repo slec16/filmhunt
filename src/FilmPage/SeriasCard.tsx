@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { IEpisode } from "../interfaces"
 import ImageIcon from '@mui/icons-material/Image';
 
