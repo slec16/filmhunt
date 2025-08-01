@@ -7,6 +7,7 @@ import Tabs from '../components/Tabs'
 import FilmDetails from './FilmDetails'
 import SeriasPage from './SeriasPage'
 import type { IFilmInfo, ISimilarMovies, IFilmDetail } from '../interfaces'
+import Review from './Review'
 
 
 const FilmPage = () => {
@@ -57,7 +58,7 @@ const FilmPage = () => {
         {
             id: 'review',
             label: 'Отзывы',
-            content: <div>Отзывы</div>,
+            content: <Review id={id}/>,
         },
     ]
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from 'react-router';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { useNavigate } from 'react-router'
 
 type TabItem = {
     id: string;
@@ -18,7 +18,7 @@ const Tabs = (props: TabsProps) => {
     const { tabs, defaultActiveId, isSeries } = props
     const [activeTab, setActiveTab] = useState(defaultActiveId || tabs[0]?.id)
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     return (
         <div className="w-full h-full flex flex-col flex-1 ">

@@ -9,12 +9,12 @@ import mapToPath from "../helpers/mapToPath"
 import FilmsList from "./FilmsList"
 import LoadingDots from "../components/LoadingDots"
 import ScrollToTopButton from "../components/ScrollToTopButton"
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router'
 
 const Film = () => {
 
     const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
-    const location = useLocation();
+    const location = useLocation()
     const [films, setFilms] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
@@ -30,7 +30,7 @@ const Film = () => {
 
     // я не знаю почему это работает только когда нужно а не всегда скролит
     const scrollToSavedPosition = () => {
-        const savedPosition = sessionStorage.getItem('scrollPosition');
+        const savedPosition = sessionStorage.getItem('scrollPosition')
         if (savedPosition) {
             window.scrollTo({
                 top: Number(savedPosition),

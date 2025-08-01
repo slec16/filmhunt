@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { IEpisode } from "../interfaces"
-import ImageIcon from '@mui/icons-material/Image';
+import ImageIcon from '@mui/icons-material/Image'
 
 type SeriasCardProps = {
     series: IEpisode,
@@ -16,11 +16,11 @@ const SeriasCard = (props: SeriasCardProps) => {
     const { airDate, description, name, number, still } = series
 
 
-    const [isFlipped, setIsFlipped] = useState(false);
+    const [isFlipped, setIsFlipped] = useState(false)
 
     const handleFlip = () => {
-        setIsFlipped(!isFlipped);
-    };
+        setIsFlipped(!isFlipped)
+    }
 
     return (
         <div

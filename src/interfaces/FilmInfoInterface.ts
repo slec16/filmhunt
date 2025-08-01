@@ -134,3 +134,19 @@ export interface IFilmCard {
     countries: {name: string}[],
     movieLength: number
 }
+
+export interface IReview {
+    id: number,
+    movieId: number,
+    title: string,
+    type: string,
+    review: string,
+    date: string,
+    author: string,
+    userRating: number,
+    authorId: number,
+    reviewLikes: number,
+    reviewDislikes: number,
+    createdAt: string,
+    updatedAt: string
+}

@@ -16,10 +16,10 @@ const SeriasTab = (props: SeriasTabProps) => {
     const [activeTab, setActiveTab] = useState(1 || seasons[0]?.number)
 
     const sortFn = (a: ISeasons, b: ISeasons) => {
-        if (a.number === 0 && b.number === 0) return 0;
-        if (a.number === 0) return 1;
-        if (b.number === 0) return -1;
-        return a.number - b.number;
+        if (a.number === 0 && b.number === 0) return 0
+        if (a.number === 0) return 1
+        if (b.number === 0) return -1
+        return a.number - b.number
     }
 
     return (
