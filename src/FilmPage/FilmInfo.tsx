@@ -114,7 +114,7 @@ const FilmInfo = memo((props: FilmInfoProps) => {
                     />
                     {((backdrop && backdrop.previewUrl) || (backdrop && backdrop.url)) &&
                         <img
-                            src={backdrop.previewUrl || backdrop.url}
+                            src={backdrop.url || backdrop.previewUrl}
                             alt={`${name}`}
                             className={`w-full h-full object-cover absolute inset-0 ${backdropHasError ? 'hidden' : 'block'}`}
                             onError={() => setBackdropHasError(true)}

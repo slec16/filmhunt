@@ -17,7 +17,7 @@ const FilmCard = (props: FilmCardProps) => {
 
             <div className="w-64 h-96 flex-shrink-0">
                 <img
-                    src={poster.url}
+                    src={poster.url || poster.previewUrl}
                     alt={`Постер ${name}`}
                     className="object-cover"
                 />

@@ -35,7 +35,7 @@ const SeriasCard = (props: SeriasCardProps) => {
                         <div className="relative aspect-video h-1/2">
                             {still || poster ?
                                 <img
-                                    src={(still && still?.previewUrl) ? still.previewUrl : poster.previewUrl}
+                                    src={(still && still?.url) ? still.url : poster.url}
                                     alt={`Кадр из серии ${number}: ${name}`}
                                     className="w-full h-full object-cover"
                                 />

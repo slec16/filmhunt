@@ -17,7 +17,7 @@ const SimilarMovieCard = (props: SimilarMovieCardProps) => {
                 {/* Poster image */}
                 <div className="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md mb-2">
                     <img 
-                        src={poster.previewUrl || poster.url} 
+                        src={poster.url || poster.previewUrl} 
                         alt={name}
                         className="w-full h-full object-cover"
                     />
