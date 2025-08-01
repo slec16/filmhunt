@@ -41,7 +41,10 @@ const FilmCard = (props: FilmCardProps) => {
 
                 <p className="text-gray-300 mb-6 line-clamp-3">{shortDescription}</p>
 
-                <div className="mt-auto flex space-x-3">
+                <div className="mt-auto flex space-x-3" onClick={() => {
+                    const scrollY = window.scrollY
+                    sessionStorage.setItem('scrollPosition', scrollY.toString())
+                }}>
                     <Link to={`/film/${id}`} className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition">
                         Подробнее
                     </Link>

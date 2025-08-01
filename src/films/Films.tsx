@@ -9,11 +9,12 @@ import mapToPath from "../helpers/mapToPath"
 import FilmsList from "./FilmsList"
 import LoadingDots from "../components/LoadingDots"
 import ScrollToTopButton from "../components/ScrollToTopButton"
+import { useLocation } from 'react-router';
 
 const Film = () => {
 
     const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
-
+    const location = useLocation();
     const [films, setFilms] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
@@ -23,51 +24,66 @@ const Film = () => {
         }
     }, [])
 
+    useEffect(() => {
+        sessionStorage.setItem('previousParams', location.search)
+    }, [location.search])
+
+    // я не знаю почему это работает только когда нужно а не всегда скролит
+    const scrollToSavedPosition = () => {
+        const savedPosition = sessionStorage.getItem('scrollPosition');
+        if (savedPosition) {
+            window.scrollTo({
+                top: Number(savedPosition),
+                behavior: 'smooth'
+            })
+        }
+    }
+
     const page = getParam('page') || '1'
     const limit = getParam('limit') || '10'
     const currentFilters = getNamespaceParams("params")
     const paginationData = {}
-    
+
     useEffect(() => {
-       fetchFunc(currentFilters)
+        fetchFunc(currentFilters)
     }, [page, limit])
-    
-    const fetchFunc = async(params: Map<string, string[]>) => {
+
+    const fetchFunc = async (params: Map<string, string[]>) => {
         setIsLoading(true)
         const paramsPath = mapToPath(params)
         const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
         console.log(response)
         setFilms(response.docs)
         setIsLoading(false)
+        scrollToSavedPosition()
     }
 
-    const handleChangePage = ( newPage: number ) => {
+    const handleChangePage = (newPage: number) => {
         setQueryParams({ page: String(newPage) })
-        fetchFunc
     }
 
     const handleChangeLimitPage = (limit: number) => {
         setQueryParams({ limit: String(limit), page: String(1) })
     }
 
-    const setFilterParams = async(params: Map<string, string[]>) => {
+    const setFilterParams = async (params: Map<string, string[]>) => {
         setQueryParams({ params })
         fetchFunc(params)
     }
 
-    return(
+    return (
         <div className="h-full flex flex-col px-2 sm:px-7">
             <Header />
             <div className="flex flex-row w-full ">
-                <FilmFilter 
+                <FilmFilter
                     currentParams={currentFilters}
                     setFiltersParams={setFilterParams}
                 />
                 <ScrollToTopButton />
                 <div className="flex flex-col w-full mb-5">
                     <div className="flex flex-row h-fit w-full mb-5">
-                        <FilmAutocompleate /> 
-                        <FilmPagination 
+                        <FilmAutocompleate />
+                        <FilmPagination
                             onPageChange={handleChangePage}
                             onLimitChange={handleChangeLimitPage}
                             page={Number(page)}
@@ -78,12 +94,12 @@ const Film = () => {
                     {isLoading ?
                         <LoadingDots />
                         :
-                        <FilmsList 
+                        <FilmsList
                             films={films}
                         />
                     }
                 </div>
-            </div>  
+            </div>
         </div>
     )
 }
