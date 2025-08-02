@@ -27,8 +27,8 @@ class ApiService extends HttpService {
         return this.get(`season?page=1&limit=10&movieId=${id}`, signal)
     }
 
-    getReviewByFilmId(id: string, signal?: AbortSignal) {
-        return this.get(`review?page=1&limit=10&movieId=${id}`, signal)
+    getReviewByFilmId(id: string, page: string, limit: string, signal?: AbortSignal) {
+        return this.get(`review?page=${page}&limit=${limit}&movieId=${id}`, signal)
     }
     
 }

@@ -1,7 +1,10 @@
+import { useState } from "react"
 import { type IReview } from "../interfaces"
 import StarIcon from '@mui/icons-material/Star'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 
 interface ReviewCardProps {
@@ -21,8 +24,20 @@ const ReviewCard = (props: ReviewCardProps) => {
         })
     }
 
+    const [isExpanded, setIsExpanded] = useState(false)
+    const shouldTruncate = review.review.length > 700
+    const displayText = isExpanded
+        ? review.review
+        : shouldTruncate
+            ? `${review.review.substring(0, 700)}...`
+            : review.review
+
+    const createMarkup = (html: string) => {
+        return { __html: html };
+    };
+
     return (
-        <div className='bg-gray-800 rounded-lg p-6 shadow-md border-l-4 border-orange-500 hover:border-orange-400 transition-colors'>
+        <div className='bg-gray-800 w-full rounded-lg p-6 shadow-md border-l-4 border-orange-500 transition-colors'>
             <div className="flex justify-between items-start mb-4">
                 <h3 className="text-xl font-bold text-white group-hover:text-orange-300 transition-colors">
                     {review.title}
@@ -45,18 +60,39 @@ const ReviewCard = (props: ReviewCardProps) => {
                 </div>
             </div>
 
-            <div className="mb-4">
-                <p className="text-gray-300 whitespace-pre-line">{review.review}</p>
+            <div className="mb-2">
+                {/* TODO доделать безопасность */}
+                <div 
+                    className="text-gray-300 whitespace-pre-line review-content"
+                    dangerouslySetInnerHTML={createMarkup(displayText)} 
+                />
+                {shouldTruncate && (
+                    <button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        className="text-orange-400 hover:text-orange-300 text-sm mt-2 flex items-center transition-colors"
+                    >
+                        {isExpanded ? (
+                            <>
+                                <ExpandLessIcon className="mr-1" />
+                                Свернуть
+                            </>
+                        ) : (
+                            <>
+                                <ExpandMoreIcon className="mr-1" />
+                                Читать полностью
+                            </>
+                        )}
+                    </button>
+                )}
             </div>
 
             <div className="flex justify-between items-center pt-3 border-t border-gray-700">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    review.type === 'Позитивный' 
-                        ? 'bg-green-900/50 text-green-300 border border-green-800' 
-                        : review.type === 'Негативный' 
-                            ? 'bg-red-900/50 text-red-300 border border-red-800' 
-                            : 'bg-gray-700 text-gray-300 border border-gray-600'
-                }`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${review.type === 'Позитивный'
+                    ? 'bg-green-900/50 text-green-300 border border-green-800'
+                    : review.type === 'Негативный'
+                        ? 'bg-red-900/50 text-red-300 border border-red-800'
+                        : 'bg-gray-700 text-gray-300 border border-gray-600'
+                    }`}>
                     {review.type}
                 </span>
 
