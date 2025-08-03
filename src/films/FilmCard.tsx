@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import StarIcon from '@mui/icons-material/Star'
 import { type IFilmCard } from '../interfaces'
-
+import HideImageIcon from '@mui/icons-material/HideImage';
 
 type FilmCardProps = {
     film: IFilmCard
@@ -10,17 +10,23 @@ type FilmCardProps = {
 const FilmCard = (props: FilmCardProps) => {
 
     const {id, name, poster, shortDescription, ageRating, genres, rating, year, countries, movieLength} = props.film
-
+    console.log(props.film)
 
     return (
         <div className="w-full bg-gray-800 rounded-lg overflow-hidden shadow-lg flex border border-gray-700">
 
             <div className="w-64 h-96 flex-shrink-0">
-                <img
-                    src={poster.url || poster.previewUrl}
-                    alt={`Постер ${name}`}
-                    className="object-cover"
-                />
+                {((poster && poster.previewUrl) || (poster && poster.url)) ?
+                    <img
+                        src={poster.url || poster.previewUrl}
+                        alt={`Постер ${name}`}
+                        className="object-cover"
+                    />
+                    : 
+                    <div className='w-full h-full flex justify-center items-center text-6xl'>
+                       <HideImageIcon fontSize='inherit'/> 
+                    </div>
+                }
             </div>
 
             <div className="p-6 flex flex-col flex-grow">
