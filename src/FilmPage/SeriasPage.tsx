@@ -7,7 +7,7 @@ import type { ISeasons } from "../interfaces"
 
 type SeriasPageProps = {
     id: string,
-    poster: {
+    poster?: {
         previewUrl: string,
         url: string
     }

@@ -48,7 +48,7 @@ const FilmPage = () => {
         {
             id: 'series',
             label: 'Серии и сезоны',
-            content: <SeriasPage id={id} poster={filmInfo?.backdrop}/>
+            content: id && <SeriasPage id={id} poster={filmInfo?.backdrop}/>
         },
         {
             id: 'details',
@@ -58,7 +58,7 @@ const FilmPage = () => {
         {
             id: 'review',
             label: 'Отзывы',
-            content: <Review id={id}/>,
+            content: id && <Review id={id}/>,
         },
     ]
 

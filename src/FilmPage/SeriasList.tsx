@@ -3,7 +3,7 @@ import SeriasCard from "./SeriasCard"
 
 type SeriasListProps = {
     season: ISeasons | undefined,
-    poster: {
+    poster?: {
         previewUrl: string,
         url: string
     }

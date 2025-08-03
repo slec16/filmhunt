@@ -4,7 +4,7 @@ import ImageIcon from '@mui/icons-material/Image'
 
 type SeriasCardProps = {
     series: IEpisode,
-    poster: {
+    poster?: {
         previewUrl: string,
         url: string
     }
@@ -35,7 +35,7 @@ const SeriasCard = (props: SeriasCardProps) => {
                         <div className="relative aspect-video h-1/2">
                             {((still && still.previewUrl) || (still && still.url) || (poster && poster.url) || (poster && poster.previewUrl)) ?
                                 <img
-                                    src={(still && still?.url) ? still.url : poster.url}
+                                    src={(still && still?.url) ? still.url : poster?.url}
                                     alt={`Кадр из серии ${number}: ${name}`}
                                     className="w-full h-full object-cover"
                                 />
