@@ -44,15 +44,16 @@ const Film = () => {
     const page = getParam('page') || '1'
     const limit = getParam('limit') || '10'
     const currentFilters = getNamespaceParams("params")
+    const searchName = getParam('name') || ''
 
     useEffect(() => {
-        fetchFunc(currentFilters)
-    }, [page, limit])
+        fetchFunc(currentFilters, searchName)
+    }, [page, limit, searchName])
 
-    const fetchFunc = async (params: Map<string, string[]>) => {
+    const fetchFunc = async (params: Map<string, string[]>, searchName: string = '') => {
         setIsLoading(true)
         const paramsPath = mapToPath(params)
-        const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
+        const response = searchName.length > 0 ? await ApiService.getFilmsBySearch(searchName, Number(page), Number(limit)) : await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
         console.log(response)
         setFilms(response.docs)
         setPaginationData({
@@ -65,6 +66,11 @@ const Film = () => {
         scrollToSavedPosition()
     }
 
+    const handleChangeName = (name: string) => {
+        // fetchFunc(currentFilters, name)
+        setQueryParams({ name: name })
+    }
+
     const handleChangePage = (newPage: number) => {
         setQueryParams({ page: String(newPage) })
     }
@@ -75,7 +81,8 @@ const Film = () => {
 
     const setFilterParams = async (params: Map<string, string[]>) => {
         setQueryParams({ params })
-        fetchFunc(params)
+        fetchFunc(params, '')
+        setQueryParams({ name: '' })
     }
 
     return (
@@ -89,7 +96,7 @@ const Film = () => {
                 <ScrollToTopButton />
                 <div className="flex flex-col w-full mb-5">
                     <div className="flex flex-row h-fit w-full mb-5">
-                        <FilmAutocompleate />
+                        <FilmAutocompleate changeName={handleChangeName} currentName={searchName}/>
                         {paginationData && 
                             <div className="flex flex-row justify-end min-w-1/2">
                                 <Pagination

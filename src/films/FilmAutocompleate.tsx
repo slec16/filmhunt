@@ -2,8 +2,16 @@ import SearchIcon from '@mui/icons-material/Search'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useState, useEffect, useRef } from 'react'
 
-const FilmAutocompleate = () => {
-    const [searchQuery, setSearchQuery] = useState('')
+type FilmAutocompleateProps = {
+    changeName: (name: string) => void,
+    currentName: string
+}
+
+const FilmAutocompleate = (props: FilmAutocompleateProps) => {
+
+    const { currentName, changeName } = props
+
+    const [searchQuery, setSearchQuery] = useState(currentName)
     const [searchHistory, setSearchHistory] = useState<string[]>([])
     const [showSuggestions, setShowSuggestions] = useState(false)
     const searchRef = useRef<HTMLDivElement>(null)
@@ -105,6 +113,7 @@ const FilmAutocompleate = () => {
                     <button
                         type="submit"
                         className="bg-orange-500 text-white px-4 py-2 rounded-r-lg hover:bg-orange-600 transition"
+                        onClick={() => changeName(searchQuery)}
                     >
                         <SearchIcon />
                     </button>
