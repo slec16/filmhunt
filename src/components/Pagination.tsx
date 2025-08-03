@@ -29,7 +29,6 @@ const Pagination = (props: FilmPaginationProps) => {
     
     return(
         <div className="flex flex-row items-center w-fit">
-            {/* Выбор количества элементов на странице */}
             <div className="flex items-center mr-2.5">
                 <span className="text-gray-400 text-sm mr-2">Показывать:</span>
                 <select
@@ -45,7 +44,6 @@ const Pagination = (props: FilmPaginationProps) => {
                 <span className="text-gray-400 text-sm ml-2">на странице</span>
             </div>
 
-            {/* Навигация по страницам */}
             <div className="flex items-center space-x-1 mr-1">
                 <button
                     onClick={() => prevPage()}

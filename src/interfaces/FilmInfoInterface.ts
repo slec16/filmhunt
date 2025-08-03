@@ -150,3 +150,5 @@ export interface IReview {
     createdAt: string,
     updatedAt: string
 }
+
+export type IPaginationData = Record<'limit' | 'page' | 'pages' | 'total', number>;

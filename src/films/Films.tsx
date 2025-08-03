@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import Header from "../components/Header"
 import FilmFilter from "./FilmFilter"
 import FilmAutocompleate from "./FilmAutocompleate"
-import FilmPagination from "./FilmPagination"
+import Pagination  from "../components/Pagination"
 import ApiService from "../services/api-service"
 import { useQueryParams } from "../hooks/useQueryParams"
 import mapToPath from "../helpers/mapToPath"
@@ -10,12 +10,14 @@ import FilmsList from "./FilmsList"
 import LoadingDots from "../components/LoadingDots"
 import ScrollToTopButton from "../components/ScrollToTopButton"
 import { useLocation } from 'react-router'
+import { type IPaginationData } from '../interfaces'
 
 const Film = () => {
 
     const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
     const location = useLocation()
     const [films, setFilms] = useState([])
+    const [paginationData, setPaginationData] = useState<IPaginationData | null>(null)
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
@@ -42,7 +44,6 @@ const Film = () => {
     const page = getParam('page') || '1'
     const limit = getParam('limit') || '10'
     const currentFilters = getNamespaceParams("params")
-    const paginationData = {}
 
     useEffect(() => {
         fetchFunc(currentFilters)
@@ -54,6 +55,12 @@ const Film = () => {
         const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
         console.log(response)
         setFilms(response.docs)
+        setPaginationData({
+            page: response.page,
+            pages: response.pages,
+            limit: response.limit,
+            total: response.total
+        })
         setIsLoading(false)
         scrollToSavedPosition()
     }
@@ -83,13 +90,17 @@ const Film = () => {
                 <div className="flex flex-col w-full mb-5">
                     <div className="flex flex-row h-fit w-full mb-5">
                         <FilmAutocompleate />
-                        <FilmPagination
-                            onPageChange={handleChangePage}
-                            onLimitChange={handleChangeLimitPage}
-                            page={Number(page)}
-                            limit={Number(limit)}
-                            paginationData={paginationData}
-                        />
+                        {paginationData && 
+                            <div className="flex flex-row justify-end min-w-1/2">
+                                <Pagination
+                                    onPageChange={handleChangePage}
+                                    onLimitChange={handleChangeLimitPage}
+                                    page={Number(page)}
+                                    limit={Number(limit)}
+                                    paginationData={paginationData}
+                                />
+                            </div>
+                        }
                     </div>
                     {isLoading ?
                         <LoadingDots />

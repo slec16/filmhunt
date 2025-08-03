@@ -21,23 +21,6 @@ const FilmInfo = memo((props: FilmInfoProps) => {
         logo
     } = props.filmInfo
 
-    // const url = "https://image.openmoviedb.com/kinopoisk-ott-images/212840/2a00000186a8b7a1951185c6175ed0f07fd0/1344x756"
-    // const name = "Атака титанов"
-    // const rating = {
-    //     imdb: 9
-    // }
-    // const shortDescription = "Люди сражаются с титанами, которые мечтают их съесть. Финал самого эпичного аниме современности"
-    // const ageRating = 18
-    // const year = 2013
-    // const countries = [{ name: 'Япония' }, { name: 'Россия' }]
-    // const genres = [{ name: 'аниме' },
-    // { name: 'мультфильм' },
-    // { name: 'фантастика' },
-    // { name: 'драма' },
-    // { name: 'боевик' },
-    // { name: 'фэнтези' }
-    // ]
-
     const [isMountedBackdrop, setIsMountedBackdrop] = useState(false)
     const [isMountedGradient, setIsMountedGradient] = useState(false)
     const [isMountedBlack, setIsMountedBlack] = useState(false)
