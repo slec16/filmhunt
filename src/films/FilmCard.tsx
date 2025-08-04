@@ -10,7 +10,6 @@ type FilmCardProps = {
 const FilmCard = (props: FilmCardProps) => {
 
     const {id, name, poster, shortDescription, ageRating, genres, rating, year, countries, movieLength} = props.film
-    console.log(props.film)
 
     return (
         <div className="w-full bg-gray-800 rounded-lg overflow-hidden shadow-lg flex border border-gray-700">
