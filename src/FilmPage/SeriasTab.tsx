@@ -4,7 +4,7 @@ import SeriasList from './SeriasList'
 
 type SeriasTabProps = {
     seasons: ISeasons[],
-    poster: {
+    poster?: {
         previewUrl: string,
         url: string
     }

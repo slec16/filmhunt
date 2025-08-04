@@ -4,21 +4,27 @@ import FilmFilter from "./FilmFilter"
 import FilmAutocompleate from "./FilmAutocompleate"
 import Pagination  from "../components/Pagination"
 import ApiService from "../services/api-service"
-import { useQueryParams } from "../hooks/useQueryParams"
+// import { useQueryParams } from "../hooks/useQueryParams"
 import mapToPath from "../helpers/mapToPath"
 import FilmsList from "./FilmsList"
 import LoadingDots from "../components/LoadingDots"
 import ScrollToTopButton from "../components/ScrollToTopButton"
 import { useLocation } from 'react-router'
-import { type IPaginationData } from '../interfaces'
+import { type IPaginationData } from "../interfaces"
+import LoopIcon from '@mui/icons-material/Loop';
+
+import { useQueryParamsTest } from '../hooks/useQueryParamstest'
 
 const Film = () => {
 
-    const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
+    // const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
+    const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParamsTest()
+
     const location = useLocation()
     const [films, setFilms] = useState([])
     const [paginationData, setPaginationData] = useState<IPaginationData | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [isLoadingMoreFilms, setIsLoadingMoreFilms] = useState(false)
 
     useEffect(() => {
         if (!queryParams.toString()) {
@@ -43,14 +49,15 @@ const Film = () => {
 
     const page = getParam('page') || '1'
     const limit = getParam('limit') || '10'
-    const currentFilters = getNamespaceParams("params")
+    const currentFilters = getNamespaceParams("filters")
     const searchName = getParam('name') || ''
+    console.log(currentFilters)
 
     useEffect(() => {
-        fetchFunc(currentFilters, searchName)
-    }, [page, limit, searchName])
+        fetchFunc(Number(page), Number(limit), currentFilters, searchName)
+    }, [, searchName])
 
-    const fetchFunc = async (params: Map<string, string[]>, searchName: string = '') => {
+    const fetchFunc = async(page: number, limit: number, params: Map<string, string[]>, searchName: string = '') => {
         setIsLoading(true)
         const paramsPath = mapToPath(params)
         const response = searchName.length > 0 ? await ApiService.getFilmsBySearch(searchName, Number(page), Number(limit)) : await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
@@ -73,16 +80,32 @@ const Film = () => {
 
     const handleChangePage = (newPage: number) => {
         setQueryParams({ page: String(newPage) })
+        fetchFunc(newPage, Number(limit), currentFilters)
     }
 
     const handleChangeLimitPage = (limit: number) => {
         setQueryParams({ limit: String(limit), page: String(1) })
+        fetchFunc(1, limit, currentFilters)
     }
 
     const setFilterParams = async (params: Map<string, string[]>) => {
         setQueryParams({ params })
         fetchFunc(params, '')
         setQueryParams({ name: '' })
+        setQueryParams({
+            page: '1',
+            filters: params
+        }) 
+        fetchFunc(Number(1), Number(limit), params)
+    }
+
+    const handleLoadMore = async() => {
+        setIsLoadingMoreFilms(true)
+        setQueryParams({ page: String(Number(page)+1) })
+        const response = await ApiService.getFilmsByFilter(Number(page)+1, Number(limit), mapToPath(getNamespaceParams('params')))
+        console.log(response)
+        setFilms((prevFilms) => [...prevFilms, ...response.docs]) //TODO types
+        setIsLoadingMoreFilms(false)
     }
 
     return (
@@ -112,9 +135,19 @@ const Film = () => {
                     {isLoading ?
                         <LoadingDots />
                         :
-                        <FilmsList
-                            films={films}
-                        />
+                        <>
+                            <FilmsList
+                                films={films}
+                            />
+                            <div onClick={handleLoadMore} className="w-full flex flex-row justify-center mt-3">
+                                <button className="w-1/5 px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1">
+                                    Загрузить еще
+                                    {isLoadingMoreFilms && 
+                                       <LoopIcon className="animate-spin" />
+                                    }
+                                </button>
+                            </div>
+                        </>
                     }
                 </div>
             </div>
