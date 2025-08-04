@@ -10,7 +10,8 @@ import FilmsList from "./FilmsList"
 import LoadingDots from "../components/LoadingDots"
 import ScrollToTopButton from "../components/ScrollToTopButton"
 import { useLocation } from 'react-router'
-import { type IPaginationData } from '../interfaces'
+import { type IPaginationData } from "../interfaces"
+import LoopIcon from '@mui/icons-material/Loop';
 
 const Film = () => {
 
@@ -19,6 +20,7 @@ const Film = () => {
     const [films, setFilms] = useState([])
     const [paginationData, setPaginationData] = useState<IPaginationData | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [isLoadingMoreFilms, setIsLoadingMoreFilms] = useState(false)
 
     useEffect(() => {
         if (!queryParams.toString()) {
@@ -46,10 +48,10 @@ const Film = () => {
     const currentFilters = getNamespaceParams("params")
 
     useEffect(() => {
-        fetchFunc(currentFilters)
-    }, [page, limit])
+        fetchFunc(Number(page), Number(limit), currentFilters)
+    }, [])
 
-    const fetchFunc = async (params: Map<string, string[]>) => {
+    const fetchFunc = async(page: number, limit: number, params: Map<string, string[]>) => {
         setIsLoading(true)
         const paramsPath = mapToPath(params)
         const response = await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
@@ -67,15 +69,26 @@ const Film = () => {
 
     const handleChangePage = (newPage: number) => {
         setQueryParams({ page: String(newPage) })
+        fetchFunc(newPage, Number(limit), currentFilters)
     }
 
     const handleChangeLimitPage = (limit: number) => {
         setQueryParams({ limit: String(limit), page: String(1) })
+        fetchFunc(1, limit, currentFilters)
     }
 
     const setFilterParams = async (params: Map<string, string[]>) => {
         setQueryParams({ params })
-        fetchFunc(params)
+        fetchFunc(Number(page), Number(limit), params)
+    }
+
+    const handleLoadMore = async() => {
+        setIsLoadingMoreFilms(true)
+        setQueryParams({ page: String(Number(page)+1) })
+        const response = await ApiService.getFilmsByFilter(Number(page)+1, Number(limit), mapToPath(getNamespaceParams('params')))
+        console.log(response)
+        setFilms((prevFilms) => [...prevFilms, ...response.docs]) //TODO types
+        setIsLoadingMoreFilms(false)
     }
 
     return (
@@ -105,9 +118,19 @@ const Film = () => {
                     {isLoading ?
                         <LoadingDots />
                         :
-                        <FilmsList
-                            films={films}
-                        />
+                        <>
+                            <FilmsList
+                                films={films}
+                            />
+                            <div onClick={handleLoadMore} className="w-full flex flex-row justify-center mt-3">
+                                <button className="w-1/5 px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1">
+                                    Загрузить еще
+                                    {isLoadingMoreFilms && 
+                                       <LoopIcon className="animate-spin" />
+                                    }
+                                </button>
+                            </div>
+                        </>
                     }
                 </div>
             </div>
