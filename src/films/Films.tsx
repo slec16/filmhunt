@@ -4,7 +4,7 @@ import FilmFilter from "./FilmFilter"
 import FilmAutocompleate from "./FilmAutocompleate"
 import Pagination  from "../components/Pagination"
 import ApiService from "../services/api-service"
-import { useQueryParams } from "../hooks/useQueryParams"
+// import { useQueryParams } from "../hooks/useQueryParams"
 import mapToPath from "../helpers/mapToPath"
 import FilmsList from "./FilmsList"
 import LoadingDots from "../components/LoadingDots"
@@ -13,9 +13,13 @@ import { useLocation } from 'react-router'
 import { type IPaginationData } from "../interfaces"
 import LoopIcon from '@mui/icons-material/Loop';
 
+import { useQueryParamsTest } from '../hooks/useQueryParamstest'
+
 const Film = () => {
 
-    const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
+    // const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
+    const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParamsTest()
+
     const location = useLocation()
     const [films, setFilms] = useState([])
     const [paginationData, setPaginationData] = useState<IPaginationData | null>(null)
@@ -45,7 +49,8 @@ const Film = () => {
 
     const page = getParam('page') || '1'
     const limit = getParam('limit') || '10'
-    const currentFilters = getNamespaceParams("params")
+    const currentFilters = getNamespaceParams("filters")
+    console.log(currentFilters)
 
     useEffect(() => {
         fetchFunc(Number(page), Number(limit), currentFilters)
@@ -78,8 +83,11 @@ const Film = () => {
     }
 
     const setFilterParams = async (params: Map<string, string[]>) => {
-        setQueryParams({ params })
-        fetchFunc(Number(page), Number(limit), params)
+        setQueryParams({
+            page: '1',
+            filters: params
+        }) 
+        fetchFunc(Number(1), Number(limit), params)
     }
 
     const handleLoadMore = async() => {
