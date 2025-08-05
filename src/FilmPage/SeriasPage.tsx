@@ -42,7 +42,7 @@ const SeriasPage = (props: SeriasPageProps) => {
             {isLoading ?
                 <LoadingDots />
                 :
-                <div className='px-10 py-2 h-full flex flex-col flex-1'>
+                <div className='md:px-10 py-2 h-full flex flex-col flex-1'>
                     {seriasInfo && <SeriasTab seasons={seriasInfo} poster={poster}/>}
                 </div>
             }

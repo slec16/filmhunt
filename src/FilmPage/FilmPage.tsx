@@ -47,7 +47,7 @@ const FilmPage = () => {
         },
         {
             id: 'series',
-            label: 'Серии и сезоны',
+            label: 'Сезоны',
             content: id && <SeriasPage id={id} poster={filmInfo?.backdrop}/>
         },
         {

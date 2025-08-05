@@ -22,8 +22,7 @@ const Tabs = (props: TabsProps) => {
 
     return (
         <div className="w-full h-full flex flex-col flex-1 ">
-            {/* Tab headers */}
-            <div className="flex justify-between">
+            <div className="flex  flex-col-reverse gap-y-2 md:flex-row justify-between">
                 <div></div>
                 <div className='flex justify-center'>
                     {tabs.map((tab) => (
@@ -48,10 +47,7 @@ const Tabs = (props: TabsProps) => {
                     <ArrowBackIcon />
                 </button>
             </div>
-            {/* Tab content */}
-            {/* <div className="h-full flex flex-col flex-1 "> */}
                 {tabs.find((tab) => tab.id === activeTab)?.content || null}
-            {/* </div> */}
         </div>
     )
 }

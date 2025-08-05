@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import FilmFilterSection from './FilmFilterSection'
 import FilmFilterRange from './FilmFilterRange'
+import TuneIcon from '@mui/icons-material/Tune';
+import CloseIcon from '@mui/icons-material/Close';
 
 type FilmFilterProps = {
     setFiltersParams: (params: Map<string, string[]>) => void
@@ -33,21 +35,20 @@ const FilmFilter = (props: FilmFilterProps) => {
         ['Возрастной рейтинг', ['0+','6+','12+','16+','18+']],
         ['Тип контента', ['Фильмы', 'Сериалы', 'Мультфильмы', 'Аниме']]
     ])
-
     
 
     const [isMobile, setIsMobile] = useState(false)
     const [showDrawer, setShowDrawer] = useState(false)
 
-    // useEffect(() => {
-    //     const checkMobile = () => {
-    //         setIsMobile(window.innerWidth < 768)
-    //     }
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768)
+        }
 
-    //     checkMobile()
-    //     window.addEventListener('resize', checkMobile)
-    //     return () => window.removeEventListener('resize', checkMobile)
-    // }, [])
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
 
 
     const FilterContent = () => (
@@ -59,7 +60,7 @@ const FilmFilter = (props: FilmFilterProps) => {
                         onClick={() => setShowDrawer(false)}
                         className="text-gray-400 hover:text-white"
                     >
-                        <div>fix</div>
+                        <CloseIcon />
                     </button>
                 )}
             </div>
@@ -104,52 +105,36 @@ const FilmFilter = (props: FilmFilterProps) => {
         </div>
     )
 
-    // if (isMobile) {
-    //     return (
-    //         <>
-    //             {/* Кнопка для открытия фильтров на мобильных */}
-    //             <button
-    //                 onClick={() => setShowDrawer(true)}
-    //                 className="fixed bottom-6 right-6 z-50 bg-orange-500 text-white p-3 rounded-full shadow-lg hover:bg-orange-600 transition flex items-center justify-center"
-    //                 aria-label="Открыть фильтры"
-    //             >
-    //                 <div>filter</div>
-    //                 {Object.values(activeFilters).some(filter =>
-    //                     Array.isArray(filter) ? filter.length > 0 :
-    //                         typeof filter === 'object' ? Object.values(filter).some(Boolean) :
-    //                             filter > 0
-    //                 ) && (
-    //                         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-    //                             {[
-    //                                 ...activeFilters.years,
-    //                                 ...activeFilters.countries,
-    //                                 ...activeFilters.durations,
-    //                                 ...activeFilters.genres,
-    //                                 activeFilters.rating > 0 ? 1 : 0,
-    //                                 ...getSelectedTypes()
-    //                             ].length}
-    //                         </span>
-    //                     )}
-    //             </button>
+    if (isMobile) {
+        return (
+            <>
+                {/* Кнопка для открытия фильтров на мобильных */}
+                <button
+                    onClick={() => setShowDrawer(true)}
+                    className="fixed bottom-10 right-6 z-50 bg-orange-500 text-white p-3 rounded-full shadow-lg hover:bg-orange-600 transition flex items-center justify-center"
+                    aria-label="Открыть фильтры"
+                >
+                    <TuneIcon />
+                </button>
 
-    //             {/* Drawer для мобильных */}
-    //             {showDrawer && (
-    //                 <div className="fixed inset-0 z-40">
-    //                     {/* Затемнение фона */}
-    //                     <div
-    //                         className="absolute inset-0 bg-black bg-opacity-50"
-    //                         onClick={() => setShowDrawer(false)}
-    //                     />
+                {/* Drawer для мобильных */}
+                {showDrawer && (
+                    <div className="fixed inset-0 z-40">
+                        {/* Затемнение фона */}
+                        <div
+                            className="absolute inset-0 bg-transparent bg-opacity-50"
+                            onClick={() => setShowDrawer(false)}
+                        />
 
-    //                     {/* Сам drawer */}
-    //                     <div className="absolute right-0 top-0 h-full w-4/5 max-w-sm bg-gray-800 shadow-xl transform transition-transform">
-    //                         <FilterContent />
-    //                     </div>
-    //                 </div>
-    //             )}
-    //         </>
-    //     );
-    // }
+                        {/* Сам drawer */}
+                        <div className="absolute right-0 top-0 h-full w-4/5 max-w-sm bg-gray-800 shadow-xl transform transition-transform">
+                            <FilterContent />
+                        </div>
+                    </div>
+                )}
+            </>
+        );
+    }
 
     // Десктопная версия
     return <FilterContent />

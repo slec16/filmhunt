@@ -42,70 +42,141 @@ const FilmInfo = memo((props: FilmInfoProps) => {
         }
     }, [])
 
-    return (
-        
-        <div className='flex flex-col justify-center flex-1 '>
-            <div
-                className={`relative flex flex-row transform-gpu transition-all duration-400 ease-linear ${isMountedBackdrop ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-                style={{
-                    width: '100%',
-                    height: '80vh',
-                }}
-            >
-                <div className={`absolute z-20 w-1/3 ml-[5%] mt-[5%] transform transition-all duration-900 ease-out ${isMountedInfo ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
-                    
-                    <FilmName logo={logo} name={name}/>
+    const [isMobile, setIsMobile] = useState(false)
 
-                    <div className='flex flex-row gap-x-2 mb-2 flex-wrap'>
-                        <span className={`flex items-center  ${rating.imdb > 8 ? 'text-green-700' : 'text-yellow-400'}`}>
-                            <StarIcon className="mr-1" />
-                            {rating.imdb}
-                        </span>
-                        {year && <span>{year},</span>}
-                        {countries.map((item, index, array) => {
-                            return (
-                                <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
-                            )
-                        })}
-                        {ageRating && <span>{ageRating}+</span>}
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768)
+        }
+
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
+    return (
+        <>
+            {isMobile ?
+                <div className='flex flex-col flex-1'>
+                    <div
+                        className={`relative w-full h-48 sm:h-64 md:h-80 transition-all duration-400 ease-linear ${isMountedBackdrop ? 'opacity-100' : 'opacity-0'}`}
+                    >
+                        {((backdrop && backdrop.previewUrl) || (backdrop && backdrop.url)) && (
+                            <img
+                                src={backdrop.url || backdrop.previewUrl}
+                                alt={`${name}`}
+                                className="w-full h-full object-cover"
+                                onError={() => setBackdropHasError(true)}
+                            />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 z-10" />
                     </div>
-                    <div className='flex flex-row gap-x-2 mb-5'>
-                        {genres.map((item, index, array) => {
-                            return (
-                                <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
-                            )
-                        })}
+
+                    <div
+                        className={`px-4 py-4 transform transition-all duration-500 ease-out ${isMountedInfo ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                    >
+                        <FilmName logo={logo} name={name} />
+
+                        <div className='flex flex-row gap-x-2 mb-3 flex-wrap items-center'>
+                            <span className={`flex items-center ${rating.imdb > 8 ? 'text-green-700' : 'text-yellow-400'}`}>
+                                <StarIcon className="mr-1" />
+                                {rating.imdb}
+                            </span>
+                            {year && <span>{year},</span>}
+                            {countries.map((item, index, array) => (
+                                <span key={item.name}>
+                                    {index !== array.length - 1 ? `${item.name},` : item.name}
+                                </span>
+                            ))}
+                            {ageRating && <span>{ageRating}+</span>}
+                        </div>
+
+                        <div className='flex flex-row gap-x-2 mb-4 flex-wrap'>
+                            {genres.map((item, index, array) => (
+                                <span key={item.name}>
+                                    {index !== array.length - 1 ? `${item.name},` : item.name}
+                                </span>
+                            ))}
+                        </div>
+
+                        <p className="text-base text-gray-300 mb-5">{shortDescription}</p>
+
+                        <button className='px-4 py-2 text-white rounded-3xl flex items-center transition 
+            bg-gradient-to-r from-orange-500 to-amber-500
+            hover:from-orange-600 hover:to-amber-600
+            active:from-orange-700 active:to-amber-700'
+                        >
+                            <PlayArrowIcon />
+                            <span className='ml-1'>Смотреть</span>
+                        </button>
                     </div>
-                    <p className="text-2xl text-gray-300 mb-15">{shortDescription}</p>
-                    <button className='px-4 py-2 text-white rounded-3xl flex items-center transition 
+                </div> :
+                <div className='flex flex-col justify-center flex-1 '>
+                    <div
+                        className={`relative flex flex-row transform-gpu transition-all duration-400 ease-linear ${isMountedBackdrop ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                        style={{
+                            width: '100%',
+                            height: '80vh',
+                        }}
+                    >
+                        <div className={`absolute z-20 w-1/3 ml-[5%] mt-[5%] transform transition-all duration-900 ease-out ${isMountedInfo ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
+
+                            <FilmName logo={logo} name={name} />
+
+                            <div className='flex flex-row gap-x-2 mb-2 flex-wrap'>
+                                <span className={`flex items-center  ${rating.imdb > 8 ? 'text-green-700' : 'text-yellow-400'}`}>
+                                    <StarIcon className="mr-1" />
+                                    {rating.imdb}
+                                </span>
+                                {year && <span>{year},</span>}
+                                {countries.map((item, index, array) => {
+                                    return (
+                                        <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
+                                    )
+                                })}
+                                {ageRating && <span>{ageRating}+</span>}
+                            </div>
+                            <div className='flex flex-row gap-x-2 mb-5'>
+                                {genres.map((item, index, array) => {
+                                    return (
+                                        <span key={item.name}>{index !== array.length - 1 ? <span>{item.name},</span> : <span>{item.name}</span>}</span>
+                                    )
+                                })}
+                            </div>
+                            <p className="text-2xl text-gray-300 mb-15">{shortDescription}</p>
+                            <button className='px-4 py-2 text-white rounded-3xl flex items-center transition 
                         bg-gradient-to-r from-orange-500 to-amber-500
                         hover:from-orange-600 hover:to-amber-600
                         active:from-orange-700 active:to-amber-700'
-                    >
-                        <PlayArrowIcon />
-                        <span className='ml-0.5'>Смотреть</span>
-                    </button>
+                            >
+                                <PlayArrowIcon />
+                                <span className='ml-0.5'>Смотреть</span>
+                            </button>
+                        </div>
+                        <div
+                            className={`relative h-full bg-black rounded-l-lg transition-all duration-1000 ease-out ${isMountedBlack ? 'w-1/3' : 'w-0'}`}
+                        ></div>
+                        <div
+                            className={`relative h-full rounded-r-lg overflow-hidden transition-all duration-1000 ease-linear ${isMountedBlack ? 'w-2/3' : 'w-full'}`}
+                        >
+                            <div
+                                className={` absolute inset-0 bg-gradient-to-r from-black via-black/10 to-transparent z-10 transition-opacity duration-300 ${isMountedGradient ? 'opacity-100' : 'opacity-0'}`}
+                            />
+                            {((backdrop && backdrop.previewUrl) || (backdrop && backdrop.url)) &&
+                                <img
+                                    src={backdrop.url || backdrop.previewUrl}
+                                    alt={`${name}`}
+                                    className={`w-full h-full object-cover absolute inset-0 ${backdropHasError ? 'hidden' : 'block'}`}
+                                    onError={() => setBackdropHasError(true)}
+                                />
+                            }
+                        </div>
+                    </div>
                 </div>
-                <div
-                    className={`relative h-full bg-black rounded-l-lg transition-all duration-1000 ease-out ${isMountedBlack ? 'w-1/3' : 'w-0'}`}
-                ></div>
-                <div
-                    className={`relative h-full rounded-r-lg overflow-hidden transition-all duration-1000 ease-linear ${isMountedBlack ? 'w-2/3' : 'w-full'}`}
-                >
-                    <div
-                        className={` absolute inset-0 bg-gradient-to-r from-black via-black/10 to-transparent z-10 transition-opacity duration-300 ${isMountedGradient ? 'opacity-100' : 'opacity-0'}`}
-                    />
-                    {((backdrop && backdrop.previewUrl) || (backdrop && backdrop.url)) &&
-                        <img
-                            src={backdrop.url || backdrop.previewUrl}
-                            alt={`${name}`}
-                            className={`w-full h-full object-cover absolute inset-0 ${backdropHasError ? 'hidden' : 'block'}`}
-                            onError={() => setBackdropHasError(true)}
-                        />
-                    }
-                </div>
-            </div>
-        </div>
+            }
+        </>
+
+
     )
 })
 

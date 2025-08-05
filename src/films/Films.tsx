@@ -119,7 +119,7 @@ const Film = () => {
     }
 
     return (
-        <div className="h-full flex flex-col px-2 sm:px-7">
+        <div className="h-full flex flex-col px-2 md:px-7">
             <Header />
             <div className="flex flex-row w-full ">
                 <FilmFilter
@@ -128,10 +128,10 @@ const Film = () => {
                 />
                 <ScrollToTopButton />
                 <div className="flex flex-col w-full mb-5">
-                    <div className="flex flex-row h-fit w-full mb-5">
+                    <div className="flex flex-col md:flex-row h-fit w-full mb-5 gap-y-2">
                         <FilmAutocompleate changeName={handleChangeName} currentName={searchName} ref={filmAutocompleateRef}/>
                         {paginationData && 
-                            <div className="flex flex-row justify-end min-w-1/2">
+                            <div className="flex flex-row justify-center md:justify-end min-w-1/2">
                                 <Pagination
                                     onPageChange={handleChangePage}
                                     onLimitChange={handleChangeLimitPage}
@@ -150,7 +150,7 @@ const Film = () => {
                                 films={films}
                             />
                             <div onClick={handleLoadMore} className="w-full flex flex-row justify-center mt-3">
-                                <button className="w-1/5 px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1">
+                                <button className="w-fit px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1">
                                     Загрузить еще
                                     {isLoadingMoreFilms && 
                                        <LoopIcon className="animate-spin" />

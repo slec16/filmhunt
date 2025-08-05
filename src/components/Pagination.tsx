@@ -30,18 +30,18 @@ const Pagination = (props: FilmPaginationProps) => {
     return(
         <div className="flex flex-row items-center w-fit">
             <div className="flex items-center mr-2.5">
-                <span className="text-gray-400 text-sm mr-2">Показывать:</span>
+                <span className="text-gray-400 text-sm mr-2 hidden md:block">Показывать:</span>
                 <select
                     value={limit}
                     onChange={(e) => handleItemsPerPageChange(e.target.value)}
-                    className="bg-gray-800 text-white text-sm rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-orange-500 last:rounded-b-md"
+                    className="w-15 h-10 bg-gray-800 text-white text-sm rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-orange-500 last:rounded-b-md"
                 >
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
                 </select>
-                <span className="text-gray-400 text-sm ml-2">на странице</span>
+                <span className="text-gray-400 text-sm hidden md:block">на странице</span>
             </div>
 
             <div className="flex items-center space-x-1 mr-1">

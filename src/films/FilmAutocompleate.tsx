@@ -103,7 +103,7 @@ const FilmAutocompleate = forwardRef((props: FilmAutocompleateProps, ref) => {
     }
 
     return (
-        <div className="w-1/2 relative mr-5" ref={searchRef}>
+        <div className="w-full relative " ref={searchRef}>
             <form onSubmit={handleSearch} className="relative">
                 <div className="flex items-center">
                     <input
