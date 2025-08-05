@@ -9,7 +9,7 @@ type FilmCardProps = {
 
 const FilmCard = (props: FilmCardProps) => {
 
-    const { id, name, poster, shortDescription, ageRating, genres, rating, year, countries, movieLength } = props.film
+    const { id, name, poster, shortDescription, ageRating, rating, year, countries, movieLength } = props.film
 
     return (
         // <div className="w-full flex-col md:flex-row bg-gray-800 rounded-lg overflow-hidden shadow-lg flex border border-gray-700">

@@ -3,7 +3,7 @@ import Films from './films/Films'
 import FilmPage from './filmPage/FilmPage'
 import Header from "./components/Header"
 import './App.css'
-import { AuthProvider, useAuth } from "./contexts/auth-context"
+import { AuthProvider } from "./contexts/auth-context"
 import PrivateRoute from "./components/PrivateRoute"
 
 function App() {

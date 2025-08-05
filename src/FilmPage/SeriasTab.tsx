@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { ISeasons } from "../interfaces"
 import SeriasList from './SeriasList'
 
