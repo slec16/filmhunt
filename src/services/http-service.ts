@@ -1,7 +1,7 @@
 export class HttpService {
 
     baseApi = ''
-    token = import.meta.env.VITE_API_KEY
+    // token = import.meta.env.VITE_API_KEY
 
     constructor(baseApiPath: string){
         this.baseApi = baseApiPath
@@ -9,18 +9,25 @@ export class HttpService {
 
     // https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&selectFields=&sortField=id&sortType=-1
 
-    get baseHeaders() {
+    // get baseHeaders() {
+        // return {
+        //     'Content-Type': 'application/json',
+        //     'X-Api-Key': `${this.token}`
+        // }
+    // }
+    
+    protected baseHeaders(token: string) {
         return {
             'Content-Type': 'application/json',
-            'X-Api-Key': `${this.token}`
+            'X-Api-Key': `${token}`
         }
     }
 
-    protected async get(path: string, signal?: AbortSignal){
+    protected async get(path: string, token: string, signal?: AbortSignal){
 
         try{
             const response = await fetch(`${this.baseApi}/${path}`, {
-                headers: this.baseHeaders,
+                headers: this.baseHeaders(token),
                 signal  
             })
 

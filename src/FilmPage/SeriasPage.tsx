@@ -4,6 +4,7 @@ import ApiService from "../services/api-service"
 import LoadingDots from '../components/LoadingDots'
 import SeriasTab from './SeriasTab'
 import type { ISeasons } from "../interfaces"
+import { useAuth } from "../contexts/auth-context"
 
 type SeriasPageProps = {
     id: string,
@@ -15,6 +16,7 @@ type SeriasPageProps = {
 
 const SeriasPage = (props: SeriasPageProps) => {
 
+    const { token } = useAuth()
     const { id, poster } = props
     // let { id } = useParams()
 
@@ -29,7 +31,7 @@ const SeriasPage = (props: SeriasPageProps) => {
     const fetchFunc = async () => {
         // setIsLoading(true)
         if (id) {
-            const response = await ApiService.getSeasonsById(id)
+            const response = await ApiService.getSeasonsById(id, token)
             setSeriasInfo(response.docs)
             setIsLoading(false)
 

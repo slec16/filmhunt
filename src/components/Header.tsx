@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import { useAuth }from '../contexts/auth-context'
+import { useAuth } from '../contexts/auth-context'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import NoAccountsIcon from '@mui/icons-material/NoAccounts'
 import Dialog from '@mui/material/Dialog'
 
+
 const Header = () => {
 
-    const { login } = useAuth()
+    const { login, token, logout, isAuthorized } = useAuth()
 
     const [open, setOpen] = useState(false)
-    const [tokenSting, setToken] = useState('')
+    const [tokenSting, setToken] = useState(token)
+    // const [isValidToken, setIsValidToken] = useState(false)
 
     const handleClickOpen = () => {
         setOpen(true)
@@ -19,14 +21,18 @@ const Header = () => {
         setOpen(false)
     }
 
-    const handleClearToken = () => {
-        setToken('')
-    }
-
     const handleApplyToken = () => {
         login(tokenSting)
     }
 
+    const handleLogout = () => {
+        logout()
+    }
+
+    // function isValidTokenFunc(token: string): boolean {
+    //     const pattern = /^[A-Z0-9]{7}-[A-Z0-9]{7}-[A-Z0-9]{7}-[A-Z0-9]{7}$/;
+    //     return pattern.test(token);
+    // }
 
     return (
         <header className='py-7 border-b-2 border-amber-600 sm:px-7 mb-5'>
@@ -61,32 +67,31 @@ const Header = () => {
                         />
                     </div>
 
-                    <button
-                        type="button"
-                        onClick={handleApplyToken}
-                        disabled={!tokenSting.trim()}
-                        className={`w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 ease-in-out
-                                        ${!tokenSting.trim()
-                                        ? ' cursor-not-allowed  bg-gray-700 text-gray-400'
-                                        : 'text-white shadow-md hover:shadow-orange-500/30 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 bg-orange-600 hover:bg-orange-700'
-                                    }`}
-                    >
-                        Применить
-                    </button>
-
-                    <div className="mt-2 flex items-center justify-between">
-                        <p id="token-help" className="text-xs text-gray-500">
-                            Токен будет сохранен локально в вашем браузере
-                        </p>
-
+                    {!isAuthorized ?
                         <button
                             type="button"
-                            className="text-xs text-orange-500 hover:text-orange-700 "
-                            onClick={handleClearToken}
+                            onClick={handleApplyToken}
+                            disabled={!tokenSting.trim()}
+                            className={`w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 ease-in-out
+                                        ${!tokenSting.trim()
+                                    ? ' cursor-not-allowed  bg-gray-700 text-gray-400'
+                                    : 'text-white shadow-md hover:shadow-orange-500/30 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 bg-orange-600 hover:bg-orange-700'
+                                }`}
                         >
-                            Очистить
+                            Применить
                         </button>
-                    </div>
+                        :
+                        <button
+                            type="button"
+                            onClick={handleLogout}
+                            className="w-full px-4 py-3 rounded-lg font-medium transition-colors duration-150
+                                    bg-gray-700 hover:bg-gray-600 text-gray-200
+                                    border border-gray-600
+                                    focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                        >
+                            Выйти
+                        </button>
+                    }
                 </div>
             </Dialog>
         </header>

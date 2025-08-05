@@ -8,10 +8,12 @@ import FilmDetails from './FilmDetails'
 import SeriasPage from './SeriasPage'
 import type { IFilmInfo, ISimilarMovies, IFilmDetail } from '../interfaces'
 import Review from './Review'
-
+import { useAuth } from "../contexts/auth-context"
 
 const FilmPage = () => {
 
+    const { token } = useAuth()
+ 
     const [filmInfo, setFilmInfo] = useState<IFilmInfo | null>(null)
     const [filmmDetail, setFilmDetail] = useState<IFilmDetail| null>(null)
     const [similarMovies, setSimilarMovies] = useState<ISimilarMovies[] | null>(null)
@@ -29,7 +31,7 @@ const FilmPage = () => {
     const fetchFunc = async () => {
         if (id) {
             setIsLoading(true)
-            const response = await ApiService.getFilmById(id)
+            const response = await ApiService.getFilmById(id, token)
             console.log(response)
             setIsSeries(response.isSeries)
             response.similarMovies && setSimilarMovies(response.similarMovies)

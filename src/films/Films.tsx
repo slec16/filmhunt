@@ -47,15 +47,15 @@ const Film = () => {
     }, [location.search])
 
     // я не знаю почему это работает только когда нужно а не всегда скролит
-    const scrollToSavedPosition = () => {
-        const savedPosition = sessionStorage.getItem('scrollPosition')
-        if (savedPosition) {
-            window.scrollTo({
-                top: Number(savedPosition),
-                behavior: 'smooth'
-            })
-        }
-    }
+    // const scrollToSavedPosition = () => {
+    //     const savedPosition = sessionStorage.getItem('scrollPosition')
+    //     if (savedPosition) {
+    //         window.scrollTo({
+    //             top: Number(savedPosition),
+    //             behavior: 'smooth'
+    //         })
+    //     }
+    // }
 
     const page = getParam('page') || '1'
     const limit = getParam('limit') || '10'
@@ -69,7 +69,7 @@ const Film = () => {
     const fetchFunc = async (page: number, limit: number, params: Map<string, string[]>, searchName: string = '') => {
         setIsLoading(true)
         const paramsPath = mapToPath(params)
-        const response = searchName.length > 0 ? await ApiService.getFilmsBySearch(searchName, Number(page), Number(limit)) : await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
+        const response = searchName.length > 0 ? await ApiService.getFilmsBySearch(searchName, Number(page), Number(limit), token) : await ApiService.getFilmsByFilter(Number(page), Number(limit), token, paramsPath)
         console.log(response)
         setFilms(response.docs)
         setPaginationData({
@@ -79,7 +79,7 @@ const Film = () => {
             total: response.total
         })
         setIsLoading(false)
-        scrollToSavedPosition()
+        // scrollToSavedPosition()
     }
 
     const handleChangeName = (name: string) => {
@@ -115,9 +115,10 @@ const Film = () => {
         setIsLoadingMoreFilms(true)
         setQueryParams({ page: String(Number(page) + 1) })
         const response = searchName.length > 0 ?
-            await ApiService.getFilmsBySearch(searchName, Number(page) + 1, Number(limit)) :
-            await ApiService.getFilmsByFilter(Number(page) + 1, Number(limit), mapToPath(getNamespaceParams('filters')))
+            await ApiService.getFilmsBySearch(searchName, Number(page) + 1, Number(limit), token) :
+            await ApiService.getFilmsByFilter(Number(page) + 1, Number(limit), token, mapToPath(getNamespaceParams('filters')))
         console.log(response)
+        //@ts-ignore
         setFilms((prevFilms) => [...prevFilms, ...response.docs]) //TODO types
         setIsLoadingMoreFilms(false)
     }

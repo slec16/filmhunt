@@ -6,8 +6,11 @@ import ReviewList from './ReviewList'
 import ScrollToTopButton from '../components/ScrollToTopButton'
 import Pagination from "../components/Pagination"
 import { type IPaginationData } from '../interfaces'
+import { useAuth } from '../contexts/auth-context'
 
 const Review = ({ id }: { id: string }) => {
+
+    const { token } = useAuth()
 
     const [review, setReview] = useState<IReview[] | null>(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -23,7 +26,7 @@ const Review = ({ id }: { id: string }) => {
     const fetchFunc = async () => {
         if (id) {
             setIsLoading(true)
-            const response = await ApiService.getReviewByFilmId(id, page.toString(), limit.toString())
+            const response = await ApiService.getReviewByFilmId(id, page.toString(), limit.toString(), token)
             console.log(response)
             setReview(response.docs)
             setIsLoading(false)
