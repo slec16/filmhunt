@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import Header from "../components/Header"
 import FilmFilter from "./FilmFilter"
 import FilmAutocompleate from "./FilmAutocompleate"
-import Pagination  from "../components/Pagination"
+import Pagination from "../components/Pagination"
 import ApiService from "../services/api-service"
 // import { useQueryParams } from "../hooks/useQueryParams"
 import mapToPath from "../helpers/mapToPath"
@@ -15,11 +15,15 @@ import LoopIcon from '@mui/icons-material/Loop';
 
 import { useQueryParamsTest } from '../hooks/useQueryParamstest'
 
+import { useAuth } from "../contexts/auth-context"
+
 type FilmAutocompleateRef = {
-  clearSearchName: () => void;
+    clearSearchName: () => void;
 };
 
 const Film = () => {
+
+    const { token } = useAuth()
 
     // const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
     const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParamsTest()
@@ -62,7 +66,7 @@ const Film = () => {
         fetchFunc(Number(page), Number(limit), currentFilters, searchName)
     }, [])
 
-    const fetchFunc = async(page: number, limit: number, params: Map<string, string[]>, searchName: string = '') => {
+    const fetchFunc = async (page: number, limit: number, params: Map<string, string[]>, searchName: string = '') => {
         setIsLoading(true)
         const paramsPath = mapToPath(params)
         const response = searchName.length > 0 ? await ApiService.getFilmsBySearch(searchName, Number(page), Number(limit)) : await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
@@ -79,12 +83,12 @@ const Film = () => {
     }
 
     const handleChangeName = (name: string) => {
-        setQueryParams({ 
-            name: name, 
+        setQueryParams({
+            name: name,
             page: '1',
             filters: new Map()
         })
-        fetchFunc(1, Number(limit), currentFilters, name )
+        fetchFunc(1, Number(limit), currentFilters, name)
     }
 
     const handleChangePage = (newPage: number) => {
@@ -107,12 +111,12 @@ const Film = () => {
         fetchFunc(Number(1), Number(limit), params)
     }
 
-    const handleLoadMore = async() => {
+    const handleLoadMore = async () => {
         setIsLoadingMoreFilms(true)
-        setQueryParams({ page: String(Number(page)+1) })
-        const response = searchName.length > 0 ? 
-            await ApiService.getFilmsBySearch(searchName, Number(page)+1, Number(limit)) :
-            await ApiService.getFilmsByFilter(Number(page)+1, Number(limit), mapToPath(getNamespaceParams('filters')))
+        setQueryParams({ page: String(Number(page) + 1) })
+        const response = searchName.length > 0 ?
+            await ApiService.getFilmsBySearch(searchName, Number(page) + 1, Number(limit)) :
+            await ApiService.getFilmsByFilter(Number(page) + 1, Number(limit), mapToPath(getNamespaceParams('filters')))
         console.log(response)
         setFilms((prevFilms) => [...prevFilms, ...response.docs]) //TODO types
         setIsLoadingMoreFilms(false)
@@ -129,8 +133,8 @@ const Film = () => {
                 <ScrollToTopButton />
                 <div className="flex flex-col w-full mb-5">
                     <div className="flex flex-col md:flex-row h-fit w-full mb-5 gap-y-2">
-                        <FilmAutocompleate changeName={handleChangeName} currentName={searchName} ref={filmAutocompleateRef}/>
-                        {paginationData && 
+                        <FilmAutocompleate changeName={handleChangeName} currentName={searchName} ref={filmAutocompleateRef} />
+                        {paginationData &&
                             <div className="flex flex-row justify-center md:justify-end min-w-1/2">
                                 <Pagination
                                     onPageChange={handleChangePage}
@@ -152,8 +156,8 @@ const Film = () => {
                             <div onClick={handleLoadMore} className="w-full flex flex-row justify-center mt-3">
                                 <button className="w-fit px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1">
                                     Загрузить еще
-                                    {isLoadingMoreFilms && 
-                                       <LoopIcon className="animate-spin" />
+                                    {isLoadingMoreFilms &&
+                                        <LoopIcon className="animate-spin" />
                                     }
                                 </button>
                             </div>
