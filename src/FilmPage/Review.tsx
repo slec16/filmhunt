@@ -56,7 +56,7 @@ const Review = ({ id }: { id: string }) => {
                         :
                         <>
                             <ScrollToTopButton />
-                            <div className='md:px-15 py-2 h-full flex flex-col flex-1'>
+                            <div className='xl:px-15 py-2 h-full flex flex-col flex-1'>
                                 {paginationData && 
                                     <div className='flex flex-row w-full justify-start my-5'>
                                         <Pagination

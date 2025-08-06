@@ -119,7 +119,7 @@ const Film = () => {
     }
 
     return (
-        <div className="h-full flex flex-col px-2 md:px-7">
+        <div className="h-full flex flex-col px-4 xl:px-7">
             <Header />
             <div className="flex flex-row w-full ">
                 <FilmFilter
@@ -128,10 +128,10 @@ const Film = () => {
                 />
                 <ScrollToTopButton />
                 <div className="flex flex-col w-full mb-5">
-                    <div className="flex flex-col md:flex-row h-fit w-full mb-5 gap-y-2">
+                    <div className="flex flex-col xl:flex-row h-fit w-full mb-5 gap-y-2">
                         <FilmAutocompleate changeName={handleChangeName} currentName={searchName} ref={filmAutocompleateRef}/>
                         {paginationData && 
-                            <div className="flex flex-row justify-center md:justify-end min-w-1/2">
+                            <div className="flex flex-row justify-start xl:justify-end min-w-1/2">
                                 <Pagination
                                     onPageChange={handleChangePage}
                                     onLimitChange={handleChangeLimitPage}

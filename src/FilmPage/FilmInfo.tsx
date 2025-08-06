@@ -46,7 +46,7 @@ const FilmInfo = memo((props: FilmInfoProps) => {
 
     useEffect(() => {
         const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768)
+            setIsMobile(window.innerWidth < 1024)
         }
 
         checkMobile()
@@ -59,13 +59,13 @@ const FilmInfo = memo((props: FilmInfoProps) => {
             {isMobile ?
                 <div className='flex flex-col flex-1'>
                     <div
-                        className={`relative w-full h-48 sm:h-64 md:h-80 transition-all duration-400 ease-linear ${isMountedBackdrop ? 'opacity-100' : 'opacity-0'}`}
+                        className={`relative w-full h-56 sm:h-80 transition-all duration-400 ease-linear ${isMountedBackdrop ? 'opacity-100' : 'opacity-0'}`}
                     >
                         {((backdrop && backdrop.previewUrl) || (backdrop && backdrop.url)) && (
                             <img
                                 src={backdrop.url || backdrop.previewUrl}
                                 alt={`${name}`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover rounded-xl"
                                 onError={() => setBackdropHasError(true)}
                             />
                         )}
@@ -73,7 +73,7 @@ const FilmInfo = memo((props: FilmInfoProps) => {
                     </div>
 
                     <div
-                        className={`px-4 py-4 transform transition-all duration-500 ease-out ${isMountedInfo ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                        className={`px-4 py-4 flex flex-col items-center transform transition-all duration-500 ease-out ${isMountedInfo ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
                     >
                         <FilmName logo={logo} name={name} />
 
@@ -91,7 +91,7 @@ const FilmInfo = memo((props: FilmInfoProps) => {
                             {ageRating && <span>{ageRating}+</span>}
                         </div>
 
-                        <div className='flex flex-row gap-x-2 mb-4 flex-wrap'>
+                        <div className='flex flex-row justify-center gap-x-2 mb-4 flex-wrap'>
                             {genres.map((item, index, array) => (
                                 <span key={item.name}>
                                     {index !== array.length - 1 ? `${item.name},` : item.name}
@@ -99,12 +99,12 @@ const FilmInfo = memo((props: FilmInfoProps) => {
                             ))}
                         </div>
 
-                        <p className="text-base text-gray-300 mb-5">{shortDescription}</p>
+                        <p className="text-sm text-center text-gray-300 mb-5">{shortDescription}</p>
 
                         <button className='px-4 py-2 text-white rounded-3xl flex items-center transition 
-            bg-gradient-to-r from-orange-500 to-amber-500
-            hover:from-orange-600 hover:to-amber-600
-            active:from-orange-700 active:to-amber-700'
+                                            bg-gradient-to-r from-orange-500 to-amber-500
+                                            hover:from-orange-600 hover:to-amber-600
+                                            active:from-orange-700 active:to-amber-700'
                         >
                             <PlayArrowIcon />
                             <span className='ml-1'>Смотреть</span>
@@ -143,7 +143,7 @@ const FilmInfo = memo((props: FilmInfoProps) => {
                                     )
                                 })}
                             </div>
-                            <p className="text-2xl text-gray-300 mb-15">{shortDescription}</p>
+                            <p className="text-2xl text-gray-300 mb-5">{shortDescription}</p>
                             <button className='px-4 py-2 text-white rounded-3xl flex items-center transition 
                         bg-gradient-to-r from-orange-500 to-amber-500
                         hover:from-orange-600 hover:to-amber-600

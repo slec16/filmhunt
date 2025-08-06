@@ -12,9 +12,9 @@ const FilmCard = (props: FilmCardProps) => {
     const { id, name, poster, shortDescription, ageRating, genres, rating, year, countries, movieLength } = props.film
 
     return (
-        // <div className="w-full flex-col md:flex-row bg-gray-800 rounded-lg overflow-hidden shadow-lg flex border border-gray-700">
+        // <div className="w-full flex-col xl:flex-row bg-gray-800 rounded-lg overflow-hidden shadow-lg flex border border-gray-700">
 
-        //     <div className="w-full md:w-64 h-64 md:h-96 flex-shrink-0">
+        //     <div className="w-full xl:w-64 h-64 xl:h-96 flex-shrink-0">
         //         {((poster && poster.previewUrl) || (poster && poster.url)) ?
         //             <img
         //                 src={poster.url || poster.previewUrl}
@@ -56,8 +56,8 @@ const FilmCard = (props: FilmCardProps) => {
         //         </div>
         //     </div>
         // </div>
-        <div className="w-full flex flex-col md:flex-row bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700">
-            <div className="w-full md:w-64 h-64 md:h-96 flex-shrink-0">
+        <div className="w-full flex flex-col lg:flex-row bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700">
+            <div className="w-full lg:w-64 h-64 lg:h-96 flex-shrink-0">
                 {((poster && poster.previewUrl) || (poster && poster.url)) ? (
                     <img
                         src={poster.url || poster.previewUrl}
@@ -71,10 +71,10 @@ const FilmCard = (props: FilmCardProps) => {
                 )}
             </div>
 
-            <div className="p-4 md:p-6 flex flex-col flex-grow">
+            <div className="p-4 lg:p-6 flex flex-col flex-grow">
                 <div className="mb-4">
-                    <h2 className="text-xl md:text-2xl font-bold text-white mb-2">{name}</h2>
-                    <div className="flex flex-wrap items-center gap-2 text-sm md:text-base text-gray-300">
+                    <h2 className="text-xl lg:text-2xl font-bold text-white mb-2">{name}</h2>
+                    <div className="flex flex-wrap items-center gap-2 text-sm lg:text-base text-gray-300">
                         <span>{year}</span>
                         <span className="flex items-center">
                             <StarIcon className="mr-1" />

@@ -22,7 +22,7 @@ const Tabs = (props: TabsProps) => {
 
     return (
         <div className="w-full h-full flex flex-col flex-1 ">
-            <div className="flex  flex-col-reverse gap-y-2 md:flex-row justify-between">
+            <div className="flex  flex-col-reverse gap-y-2 lg:flex-row justify-between">
                 <div></div>
                 <div className='flex justify-center'>
                     {tabs.map((tab) => (

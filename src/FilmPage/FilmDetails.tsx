@@ -72,7 +72,7 @@ const FilmDetails = memo((props: FilmDetailsProps) => {
 
     return (
         <>
-            {/* <div className={`flex flex-col md:flex-row w-full pt-7 mb-15 transform transition-all duration-500 ease-out ${isMountedDetail ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+            {/* <div className={`flex flex-col xl:flex-row w-full pt-7 mb-15 transform transition-all duration-500 ease-out ${isMountedDetail ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
                 <section className="w-1/2 px-5 space-y-4">
 
                     <FilmName logo={logo} name={name} isDetail={true}/>
@@ -117,49 +117,49 @@ const FilmDetails = memo((props: FilmDetailsProps) => {
                     </div>
                 </div>
             </div> */}
-            <div className={`flex flex-col md:flex-row w-full pt-4 md:pt-7 mb-8 md:mb-15 transform transition-all duration-500 ease-out ${isMountedDetail ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+            <div className={`flex flex-col lg:flex-row w-full pt-4 xl:pt-7 mb-8 xl:mb-15 transform transition-all duration-500 ease-out ${isMountedDetail ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
                 {/* Основная информация */}
-                <section className="w-full md:w-1/2 px-4 md:px-5 space-y-3 md:space-y-4">
+                <section className="w-full xl:w-1/2 px-4 xl:px-5 space-y-3 xl:space-y-4">
                     <FilmName logo={logo} name={name} isDetail={true} />
 
-                    <div className='flex flex-row gap-x-2 gap-y-1 md:gap-x-3 flex-wrap items-center'>
+                    <div className='flex flex-row gap-x-2 gap-y-1 xl:gap-x-3 flex-wrap items-center'>
                         <ReleaseYearsComponent releaseYears={releaseYears} year={year} />
                         {countries && countries.map((item, index, array) => (
-                            <span key={item.name} className="text-sm md:text-base">
+                            <span key={item.name} className="text-sm xl:text-base">
                                 {index !== array.length - 1 ? `${item.name},` : item.name}
                             </span>
                         ))}
-                        {movieLength && <span className="text-sm md:text-base">{movieLength} мин</span>}
-                        <span className="text-sm md:text-base">{ageRating}+</span>
+                        {movieLength && <span className="text-sm xl:text-base">{movieLength} мин</span>}
+                        <span className="text-sm xl:text-base">{ageRating}+</span>
 
-                        <span className={`flex items-center text-sm md:text-base ${rating.imdb > 8 ? 'text-green-700' : 'text-yellow-400'}`}>
+                        <span className={`flex items-center text-sm xl:text-base ${rating.imdb > 8 ? 'text-green-700' : 'text-yellow-400'}`}>
                             <StarIcon className="mr-1 w-4 h-4" />
                             {rating.imdb}
                         </span>
                     </div>
 
-                    <div className='flex flex-row gap-x-2 md:gap-x-3 flex-wrap'>
+                    <div className='flex flex-row gap-x-2 xl:gap-x-3 flex-wrap'>
                         {genres.map((item, index, array) => (
-                            <span key={item.name} className="text-sm md:text-base">
+                            <span key={item.name} className="text-sm xl:text-base">
                                 {index !== array.length - 1 ? `${item.name},` : item.name}
                             </span>
                         ))}
                     </div>
 
-                    <p className="text-base md:text-2xl text-gray-300">{description}</p>
+                    <p className="text-base xl:text-2xl text-gray-300">{description}</p>
                 </section>
 
                 {/* Блок с персонами */}
-                <div className="w-full md:w-1/2 px-4 md:px-10 mt-6 md:mt-0">
-                    <div className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-4 md:gap-x-7 md:gap-y-5">
+                <div className="w-full xl:w-1/2 px-4 xl:px-10 mt-6 xl:mt-0">
+                    <div className="grid grid-cols-2 xl:flex xl:flex-row xl:flex-wrap gap-4 xl:gap-x-7 xl:gap-y-5">
                         {persons && [...groupByProfession(persons)].map(([value, key]) => (
-                            <div className="flex flex-col space-y-1 md:space-y-1.5" key={value}>
-                                <p className="font-bold md:font-extrabold text-sm md:text-base text-slate-300">{value}</p>
+                            <div className="flex flex-col space-y-1 xl:space-y-1.5" key={value}>
+                                <p className="font-bold xl:font-extrabold text-sm xl:text-base text-slate-300">{value}</p>
                                 {key.slice(0, 3).map(item => (
-                                    <span key={item.name} className="text-xs md:text-base">{item.name}</span>
+                                    <span key={item.name} className="text-xs xl:text-base">{item.name}</span>
                                 ))}
                                 {key.length > 3 && (
-                                    <span className="text-xs md:text-base text-gray-500">и ещё {key.length - 3}</span>
+                                    <span className="text-xs xl:text-base text-gray-500">и ещё {key.length - 3}</span>
                                 )}
                             </div>
                         ))}
