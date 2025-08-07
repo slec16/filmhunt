@@ -30,6 +30,10 @@ class ApiService extends HttpService {
     getReviewByFilmId(id: string, page: string, limit: string, signal?: AbortSignal) {
         return this.get(`review?page=${page}&limit=${limit}&movieId=${id}`, signal)
     }
+
+    getRandomFilm(){
+        return this.get('movie/random')
+    }
     
 }
 

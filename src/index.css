@@ -33,3 +33,12 @@
 .rotate-y-180 {
   transform: rotateY(180deg);
 }
+
+input[type="checkbox"] {
+  accent-color: #f97316; 
+}
+
+input[type="checkbox"]:checked {
+  background-color: #f97316;
+  border-color: #f97316;
+}
