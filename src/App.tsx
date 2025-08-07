@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router"
 import Films from './films/Films'
 import FilmPage from './filmPage/FilmPage'
+import RandomFilmPage from "./randomfilm/RandomFilmPage"
 import './App.css'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Films />}/>
                 <Route path='/film/:id' element={<FilmPage />} />
+                <Route path='/random' element={<RandomFilmPage />} />
             </Routes>
             <div className="mt-auto bg-gray-950 w-full flex justify-center px-2"><span>FilmHunt</span></div>
         </div>

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router';
 import FilmFilterSection from './FilmFilterSection'
 import FilmFilterRange from './FilmFilterRange'
 import TuneIcon from '@mui/icons-material/Tune';
 import CloseIcon from '@mui/icons-material/Close';
+import CasinoIcon from '@mui/icons-material/Casino';
 
 type FilmFilterProps = {
     setFiltersParams: (params: Map<string, string[]>) => void
@@ -11,7 +13,7 @@ type FilmFilterProps = {
 
 const FilmFilter = (props: FilmFilterProps) => {
 
-    const {setFiltersParams, currentParams} = props
+    const { setFiltersParams, currentParams } = props
 
     const [clearAllFilters, setClearAllFilters] = useState(false)
 
@@ -32,10 +34,10 @@ const FilmFilter = (props: FilmFilterProps) => {
         ['Страна', ['США', 'Россия', 'Корея', 'Великобритания', 'Франция', 'Япония']],
         ['Продолжительность', ['<1ч', '1-2ч', '>2ч']],
         ['Жанры', ['Фантастика', 'Драма', 'Комедия', 'Боевик', 'Триллер', 'Мелодрама', 'Фэнтези', 'Ужасы']],
-        ['Возрастной рейтинг', ['0+','6+','12+','16+','18+']],
+        ['Возрастной рейтинг', ['0+', '6+', '12+', '16+', '18+']],
         ['Тип контента', ['Фильмы', 'Сериалы', 'Мультфильмы', 'Аниме']]
     ])
-    
+
 
     const [isMobile, setIsMobile] = useState(false)
     const [showDrawer, setShowDrawer] = useState(false)
@@ -52,8 +54,8 @@ const FilmFilter = (props: FilmFilterProps) => {
 
 
     const FilterContent = () => (
-        <div className={`${isMobile ? 'w-full p-4' : 'w-1/3 min-w-[300px] mr-5'} h-fit overflow-y-auto px-2 rounded-lg bg-gray-800 border-r border-gray-700`}>
-            <div className="flex justify-between items-center sticky top-0 bg-gray-800 py-2 z-10">
+        <div className={`${isMobile ? 'w-full p-4' : 'w-1/3 min-w-[300px] mr-5 py-3'} h-fit overflow-y-auto px-2 rounded-lg bg-gray-800 border-r border-gray-700`}>
+            <div className="flex justify-between items-center sticky top-0 bg-gray-800 z-10">
                 <h2 className="text-xl font-bold text-orange-400">Фильтры</h2>
                 {isMobile && (
                     <button
@@ -67,7 +69,7 @@ const FilmFilter = (props: FilmFilterProps) => {
 
             <div className="space-y-4 mt-4">
                 {[...filtersMap].map(([key, value]) => (
-                    <FilmFilterSection 
+                    <FilmFilterSection
                         key={key}
                         sectionName={key}
                         dataArray={value}
@@ -77,7 +79,7 @@ const FilmFilter = (props: FilmFilterProps) => {
                         exclusive={key === 'Год выпуска' || key === 'Продолжительность' || key === 'Возрастной рейтинг'}
                     />
                 ))}
-                <FilmFilterRange 
+                <FilmFilterRange
                     toggleFiltersItem={toggleFiltersItem}
                     clearAllFilters={clearAllFilters}
                     currentParams={currentParams}
@@ -102,6 +104,10 @@ const FilmFilter = (props: FilmFilterProps) => {
                     Применить
                 </button>
             </div>
+            <Link to={'/random'} className="w-full mt-3 px-4 py-2 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center justify-center space-x-2">
+                <p>Случайный фильм</p>
+                <CasinoIcon className='rotate-30'/>
+            </Link>
         </div>
     )
 
