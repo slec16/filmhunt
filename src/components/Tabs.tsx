@@ -43,7 +43,7 @@ const Tabs = (props: TabsProps) => {
                         </button>
                     ))}
                 </div>
-                <button onClick={() => navigate(`/${sessionStorage.getItem('previousParams')}`)} className="p-2 rounded-xl bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white  transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 flex items-center justify-center w-10 h-10">
+                <button onClick={() => navigate(`/${localStorage.getItem('previousParams')}`)} className="p-2 rounded-xl bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white  transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 flex items-center justify-center w-10 h-10">
                     <ArrowBackIcon />
                 </button>
             </div>

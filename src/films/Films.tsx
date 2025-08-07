@@ -39,7 +39,7 @@ const Film = () => {
     }, [])
 
     useEffect(() => {
-        sessionStorage.setItem('previousParams', location.search)
+        localStorage.setItem('previousParams', location.search)
     }, [location.search])
 
     // я не знаю почему это работает только когда нужно а не всегда скролит
