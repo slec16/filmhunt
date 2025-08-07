@@ -66,17 +66,17 @@ const FilmCard = ({film}: {film: IFilmCard}) => {
 
                     <p className="text-gray-300 mb-4 line-clamp-3">{shortDescription}</p>
 
-                    <div className="mt-auto" onClick={() => {
+                    {!isMobile && <div className="mt-auto" onClick={() => {
                         const scrollY = window.scrollY;
                         sessionStorage.setItem('scrollPosition', scrollY.toString());
                     }}>
                         <Link
                             to={`/film/${id}`}
-                            className="hidden sm:inline-block px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition"
+                            className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition"
                         >
                             Подробнее
                         </Link>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </ConditionalLink>
