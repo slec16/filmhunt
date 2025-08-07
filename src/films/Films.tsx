@@ -108,6 +108,7 @@ const Film = () => {
     }
 
     const handleLoadMore = async() => {
+        if( Number(page) == paginationData?.pages ) return
         setIsLoadingMoreFilms(true)
         setQueryParams({ page: String(Number(page)+1) })
         const response = searchName.length > 0 ? 
@@ -149,8 +150,8 @@ const Film = () => {
                             <FilmsList
                                 films={films}
                             />
-                            <div onClick={handleLoadMore} className="w-full flex flex-row justify-center mt-3">
-                                <button className="w-fit px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1">
+                            <div className="w-full flex flex-row justify-center mt-3">
+                                <button onClick={handleLoadMore} className={`${ (paginationData && Number(page) >= paginationData?.pages) && 'hidden' } w-fit px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1`}>
                                     Загрузить еще
                                     {isLoadingMoreFilms && 
                                        <LoopIcon className="animate-spin" />
