@@ -2,12 +2,13 @@ import { useState, useEffect } from "react"
 import Header from "../components/Header"
 import RandomFilmFilter from  './RandomFilmFilter'
 import RandomFilmCard from './RandomFilmCard'
+import RandomFilmYearRange from './RandomFilmYearRange'
 import ApiService from "../services/api-service"
 
 const RandomFilmPage = () => {
     
     useEffect(() => {
-        fetchFunc()
+        // fetchFunc()
     }, [])
 
     const fetchFunc = async() => {
@@ -21,6 +22,7 @@ const RandomFilmPage = () => {
             <div className="w-full flex justify-center">
                 <div className="w-3/5">
                     <RandomFilmFilter />
+                    <RandomFilmYearRange />
                 </div>
             </div>
         </div>
