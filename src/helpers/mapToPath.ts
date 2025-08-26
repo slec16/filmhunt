@@ -1,5 +1,5 @@
 // TODO switch - case
-const mapToPath = (params: Map<string, string[]>) => {
+export const mapToPath = (params: Map<string, string[]>) => {
     let parameterPath = ''
     params.forEach((value, key) => {
         if (key == 'Продолжительность') {
@@ -31,7 +31,13 @@ const mapToPath = (params: Map<string, string[]>) => {
     return parameterPath
 }
 
-export default mapToPath
+export const arrayToPath = (array: string[], params: string) => {
+    let parameterPath = ''
+    array.forEach((value) => {
+        parameterPath += `&${params}=${value}`
+    })
+    return parameterPath
+}
 
 // TODO - типы жанров с маленькой буквы
 const dictionary = new Map([
@@ -65,3 +71,7 @@ const typeToPath = new Map([
     ['Мультфильмы', 'cartoon'],
     ['Аниме', 'anime'],
 ])
+
+
+
+// export default arrayToPath

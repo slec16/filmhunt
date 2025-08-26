@@ -4,6 +4,7 @@ import RandomFilmFilter from  './RandomFilmFilter'
 import RandomFilmCard from './RandomFilmCard'
 import RandomFilmYearRange from './RandomFilmYearRange'
 import ApiService from "../services/api-service"
+import { arrayToPath } from '../helpers/mapToPath'
 
 const RandomFilmPage = () => {
     
@@ -14,11 +15,15 @@ const RandomFilmPage = () => {
  
 
     useEffect(() => {
-        // fetchFunc()
+        fetchFunc()
     }, [])
 
     const fetchFunc = async() => {
-        const response = await ApiService.getRandomFilm()
+        const yearRange = `${startYear}-${endYear}`
+        const countriesPath = arrayToPath(selectedCountries, 'countries.name')
+        const genresPath = arrayToPath(selectedGenres, 'genres.name')
+
+        const response = await ApiService.getRandomFilm(yearRange, genresPath, countriesPath)
         console.log(response)
     }
 
@@ -41,7 +46,7 @@ const RandomFilmPage = () => {
                     />
                     <button
                         className="w-1/3 text-xl py-4 bg-orange-500 text-white rounded hover:bg-orange-600 transition flex justify-center"
-                        onClick={() => console.log(selectedGenres, selectedCountries)}
+                        onClick={fetchFunc}
                     >
                         <span>Найти фильм</span>
                     </button>
