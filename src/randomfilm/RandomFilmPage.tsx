@@ -20,9 +20,14 @@ const RandomFilmPage = () => {
         <div className="h-full flex flex-col px-4 xl:px-7">
             <Header />
             <div className="w-full flex justify-center">
-                <div className="w-3/5">
+                <div className="w-3/5 flex flex-col items-center gap-y-4">
                     <RandomFilmFilter />
                     <RandomFilmYearRange />
+                    <button
+                        className="w-1/3 text-xl py-4 bg-orange-500 text-white rounded hover:bg-orange-600 transition flex justify-center"
+                    >
+                        <span>Найти фильм</span>
+                    </button>
                 </div>
             </div>
         </div>

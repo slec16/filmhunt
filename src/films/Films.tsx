@@ -118,6 +118,7 @@ const Film = () => {
             await ApiService.getFilmsBySearch(searchName, Number(page)+1, Number(limit)) :
             await ApiService.getFilmsByFilter(Number(page)+1, Number(limit), mapToPath(getNamespaceParams('filters')))
         console.log(response)
+        //@ts-ignore
         setFilms((prevFilms) => [...prevFilms, ...response.docs]) //TODO types
         setIsLoadingMoreFilms(false)
     }
@@ -132,7 +133,7 @@ const Film = () => {
                         setFiltersParams={setFilterParams}
                     />
                     <AnimatedButton
-                        icon={<CasinoIcon className="w-6 h-6 rotate-30" />}
+                        icon={<CasinoIcon className="w-6 h-6" />}
                         text="Случайный фильм"
                         onClick={() => navigate('/random')}
                     />

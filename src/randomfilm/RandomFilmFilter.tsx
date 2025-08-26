@@ -8,7 +8,7 @@ const RandomFilmFilter = () => {
     const countryOptions = ['Россия', 'США', 'СССР', 'Великобритания', 'Германия', 'Италия', 'Япония', 'Китай', 'Франция', 'Южная Корея', 'Щвеция']
 
     return (
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col w-full gap-y-4">
             <MultiSelect
                 options={genresOptions}
                 selected={selectedGenres}

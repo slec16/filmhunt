@@ -25,7 +25,7 @@ const AnimatedButton = (props: AnimatedButtonProps) => {
                 space-x-2
                 overflow-hidden
                 transition-all
-                duration-500
+                duration-400
                 ease-in-out
                 rounded-full
                 bg-orange-400
@@ -44,19 +44,17 @@ const AnimatedButton = (props: AnimatedButtonProps) => {
                     left-4
                     opacity-0
                     transition-all
-                    duration-300
-                    ease-in-out
+                    duration-400
+                    ease-linear
                     whitespace-nowrap
                     group-hover:opacity-100
                     group-hover:static
-                    -translate-x-full
                     group-hover:translate-x-0
+                    -translate-x-full
                 `}
             >
                 {text}
             </span>
-
-
             <div
                 className={`
                     absolute
@@ -69,6 +67,7 @@ const AnimatedButton = (props: AnimatedButtonProps) => {
                     group-hover:static
                     group-hover:translate-x-0
                     group-hover:left-auto
+                    group-hover:rotate-30
                 `}
             >
                 {icon}
