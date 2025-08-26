@@ -94,14 +94,14 @@ const MultiSelect = (props: MultiSelectProps) => {
             </div>
 
             {isOpen && (
-                <div className="absolute z-30 w-full mt-1 max-h-60 overflow-auto bg-white border border-gray-200 rounded-lg shadow-lg">
+                <div className="absolute z-30 w-full mt-1 max-h-60 overflow-auto bg-gray-800 border border-gray-200 rounded-lg shadow-lg">
                     {filteredOptions.length === 0 ? (
-                        <div className="px-4 py-2 text-gray-500">Ничего не найдено</div>
+                        <div className="px-4 py-2 text-gray-200">Ничего не найдено</div>
                     ) : (
                         filteredOptions.map(option => (
                             <div
                                 key={option}
-                                className={`flex items-center px-4 py-2 cursor-pointer hover:bg-gray-200 ${selected.includes(option) ? 'bg-orange-50' : ''
+                                className={`flex items-center px-4 py-2 cursor-pointer hover:bg-gray-700 ${selected.includes(option) ? 'bg-gray-700' : ''
                                     }`}
                                 onClick={() => toggleOption(option)}
                             >

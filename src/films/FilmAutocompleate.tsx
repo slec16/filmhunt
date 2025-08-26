@@ -121,13 +121,13 @@ const FilmAutocompleate = forwardRef((props: FilmAutocompleateProps, ref) => {
                             placeholder="Поиск фильмов..."
                             className="w-full bg-gray-800 text-white px-4 py-2 pr-10 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-orange-500"
                         />
-                        <button
+                        {searchQuery && <button
                             type='button'
                             onClick={() => setSearchQuery('')}
-                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 focus:text-red-500 focus:outline-0"
                         >
                             <ClearIcon />
-                        </button>
+                        </button>}
                     </div>
                     <button
                         type="submit"

@@ -52,5 +52,5 @@ input[type="checkbox"]:checked {
 }
 
 .animate-color-cycle {
-  animation: colorCycle 6s ease-in-out infinite;
+  animation: colorCycle 5s ease-in-out infinite;
 }

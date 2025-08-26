@@ -10,13 +10,11 @@ const RandomFilmYearRange = () => {
     const totalYears = maxYear - minYear
 
     const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('setMinVal', e.target.value)
         const value = Math.min(Number(e.target.value), maxValue )
         setMinValue(value)
     }
 
     const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('setMaxVal', e.target.value)
         const value = Math.max(Number(e.target.value), minValue )
         setMaxValue(value)
     }
