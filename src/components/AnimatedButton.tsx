@@ -1,6 +1,3 @@
-
-import React from 'react';
-
 type AnimatedButtonProps = {
     icon: React.ReactNode
     text: string
