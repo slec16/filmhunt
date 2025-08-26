@@ -9,10 +9,11 @@ import mapToPath from "../helpers/mapToPath"
 import FilmsList from "./FilmsList"
 import LoadingDots from "../components/LoadingDots"
 import ScrollToTopButton from "../components/ScrollToTopButton"
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { type IPaginationData } from "../interfaces"
 import LoopIcon from '@mui/icons-material/Loop';
-
+import CasinoIcon from '@mui/icons-material/Casino';
+import AnimatedButton from "../components/AnimatedButton"
 import { useQueryParamsTest } from '../hooks/useQueryParamstest'
 
 type FilmAutocompleateRef = {
@@ -25,6 +26,8 @@ const Film = () => {
     const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParamsTest()
 
     const location = useLocation()
+    const navigate = useNavigate()
+
     const [films, setFilms] = useState([])
     const [paginationData, setPaginationData] = useState<IPaginationData | null>(null)
     const [isLoading, setIsLoading] = useState(false)
@@ -123,10 +126,17 @@ const Film = () => {
         <div className="h-full flex flex-col px-4 xl:px-7">
             <Header />
             <div className="flex flex-row w-full ">
-                <FilmFilter
-                    currentParams={currentFilters}
-                    setFiltersParams={setFilterParams}
-                />
+                <div className="flex flex-col mr-5 space-y-5">
+                    <FilmFilter
+                        currentParams={currentFilters}
+                        setFiltersParams={setFilterParams}
+                    />
+                    <AnimatedButton
+                        icon={<CasinoIcon className="w-6 h-6 rotate-30" />}
+                        text="Случайный фильм"
+                        onClick={() => navigate('/random')}
+                    />
+                </div>
                 <ScrollToTopButton />
                 <div className="flex flex-col w-full mb-5">
                     <div className="flex flex-col xl:flex-row h-fit w-full mb-5 gap-y-2">

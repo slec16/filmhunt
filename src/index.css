@@ -42,3 +42,15 @@ input[type="checkbox"]:checked {
   background-color: #f97316;
   border-color: #f97316;
 }
+
+@keyframes colorCycle {
+  0% { color: #fb923c; } 
+  25% { color: #ea580c; } 
+  50% { color: #c2410c; }
+  75% { color: #ea580c; }
+  100% { color: #fb923c; } 
+}
+
+.animate-color-cycle {
+  animation: colorCycle 6s ease-in-out infinite;
+}

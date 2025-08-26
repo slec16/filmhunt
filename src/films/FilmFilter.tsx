@@ -54,7 +54,7 @@ const FilmFilter = (props: FilmFilterProps) => {
 
 
     const FilterContent = () => (
-        <div className={`${isMobile ? 'w-full p-4' : 'w-1/3 min-w-[300px] mr-5 py-3'} h-fit overflow-y-auto px-2 rounded-lg bg-gray-800 border-r border-gray-700`}>
+        <div className={`${isMobile ? 'w-full p-4' : 'w-1/3 min-w-[300px] py-3'} h-fit overflow-y-auto px-2 rounded-lg bg-gray-800 border-r border-gray-700`}>
             <div className="flex justify-between items-center sticky top-0 bg-gray-800 z-10">
                 <h2 className="text-xl font-bold text-orange-400">Фильтры</h2>
                 {isMobile && (
@@ -104,10 +104,10 @@ const FilmFilter = (props: FilmFilterProps) => {
                     Применить
                 </button>
             </div>
-            <Link to={'/random'} className="w-full mt-3 px-4 py-2 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center justify-center space-x-2">
+            {/* <Link to={'/random'} className="w-full mt-3 px-4 py-2 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center justify-center space-x-2">
                 <p>Случайный фильм</p>
                 <CasinoIcon className='rotate-30'/>
-            </Link>
+            </Link> */}
         </div>
     )
 
