@@ -1,6 +1,7 @@
+import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import ClearIcon from '@mui/icons-material/Clear';
 
 type FilmAutocompleateProps = {
     changeName: (name: string) => void,
@@ -76,6 +77,17 @@ const FilmAutocompleate = forwardRef((props: FilmAutocompleateProps, ref) => {
         setShowSuggestions(false)
     }
 
+    const highlightMatch = (text: string, query: string) => {
+        if (!query) return text
+
+        const regex = new RegExp(`(${query})`, 'gi')
+        return text.split(regex).map((part, i) =>
+            part.toLowerCase() === query.toLowerCase()
+                ? <span key={i} className="text-orange-400 font-semibold">{part}</span>
+                : part
+        )
+    }
+
     //Фильтрация
     const filteredSuggestions = searchQuery
         ? searchHistory
@@ -91,32 +103,32 @@ const FilmAutocompleate = forwardRef((props: FilmAutocompleateProps, ref) => {
             highlighted: item
         }))
 
-    function highlightMatch(text: string, query: string) {
-        if (!query) return text
 
-        const regex = new RegExp(`(${query})`, 'gi')
-        return text.split(regex).map((part, i) =>
-            part.toLowerCase() === query.toLowerCase()
-                ? <span key={i} className="text-orange-400 font-semibold">{part}</span>
-                : part
-        )
-    }
 
     return (
         <div className="w-full relative " ref={searchRef}>
             <form onSubmit={handleSearch} className="relative">
                 <div className="flex items-center">
-                    <input
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => {
-                            setSearchQuery(e.target.value)
-                            setShowSuggestions(true)
-                        }}
-                        onFocus={() => setShowSuggestions(true)}
-                        placeholder="Поиск фильмов..."
-                        className="w-full bg-gray-800 text-white px-4 py-2 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-orange-500"
-                    />
+                    <div className="relative w-full">
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value)
+                                setShowSuggestions(true)
+                            }}
+                            onFocus={() => setShowSuggestions(true)}
+                            placeholder="Поиск фильмов..."
+                            className="w-full bg-gray-800 text-white px-4 py-2 pr-10 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-orange-500"
+                        />
+                        <button
+                            type='button'
+                            onClick={() => setSearchQuery('')}
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500"
+                        >
+                            <ClearIcon />
+                        </button>
+                    </div>
                     <button
                         type="submit"
                         className="bg-orange-500 text-white px-4 py-2 rounded-r-lg hover:bg-orange-600 transition"
@@ -129,7 +141,7 @@ const FilmAutocompleate = forwardRef((props: FilmAutocompleateProps, ref) => {
 
             {/* popup */}
             {showSuggestions && searchHistory.length > 0 && (
-                <div className="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg border-1 border-gray-700 max-h-60 overflow-y-auto">
+                <div className="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg border-1 border-gray-700 max-h-60 overflow-y-auto shadow-2xl">
                     {filteredSuggestions.length > 0 ? (
                         <ul>
                             {filteredSuggestions.map(({ original, highlighted }, index) => (
@@ -138,7 +150,7 @@ const FilmAutocompleate = forwardRef((props: FilmAutocompleateProps, ref) => {
                                     className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white flex justify-between items-center"
                                     onClick={() => handleSuggestionClick(original)}
                                 >
-                                    <span>{highlighted}</span>
+                                    <span className='truncate'>{highlighted}</span>
                                     <button
                                         onClick={(e) => deleteSearch(e, original)}
                                         className="text-gray-400 hover:text-red-500 p-1 ml-2"
