@@ -32,7 +32,7 @@ class ApiService extends HttpService {
     }
 
     getRandomFilm(year: string, genres: string, countries: string, signal?: AbortSignal) {
-        return this.get(`movie/random?year=${year}${genres}${countries}`, signal)
+        return this.get(`movie/random?notNullFields=name&notNullFields=shortDescription&year=${year}${genres}${countries}`, signal)
     }
     
 }

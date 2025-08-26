@@ -64,7 +64,7 @@ const RandomFilmYearRange = (props: RandomFilmYearRangeProps) => {
                         style={{ left: `${calculatePosition(year)}%` }}
                     >
                         <div className="w-px h-3 bg-gray-400 mx-auto"></div>
-                        <span className="text-xs text-gray-500 mt-1 block whitespace-nowrap">
+                        <span className="text-xs text-gray-500 mt-1 block whitespace-nowrap select-none">
                             {year}
                         </span>
                     </div>
