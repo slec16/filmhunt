@@ -1,8 +1,13 @@
-import { useState } from 'react'
+type RandomFilmYearRangeProps = {
+    startYear: number
+    setStartYear: React.Dispatch<React.SetStateAction<number>>
+    endYear: number
+    setEndYear: React.Dispatch<React.SetStateAction<number>>
+}
 
-const RandomFilmYearRange = () => {
-    const [minValue, setMinValue] = useState(1920)
-    const [maxValue, setMaxValue] = useState(2025)
+const RandomFilmYearRange = (props: RandomFilmYearRangeProps) => {
+    const { startYear,  setStartYear, endYear, setEndYear} = props
+
     const step = 10
     const minYear = 1920
     const maxYear = 2025
@@ -10,13 +15,13 @@ const RandomFilmYearRange = () => {
     const totalYears = maxYear - minYear
 
     const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = Math.min(Number(e.target.value), maxValue)
-        setMinValue(value)
+        const value = Math.min(Number(e.target.value), endYear)
+        setStartYear(value)
     }
 
     const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = Math.max(Number(e.target.value), minValue)
-        setMaxValue(value)
+        const value = Math.max(Number(e.target.value), startYear)
+        setEndYear(value)
     }
 
     const calculatePosition = (year: number) => {
@@ -43,7 +48,7 @@ const RandomFilmYearRange = () => {
         <div className="w-full flex justify-between">
             <div className="text-center px-2 w-20">
                 <span className="block text-sm text-gray-600">От</span>
-                <span className="block text-lg font-semibold text-orange-500">{minValue}</span>
+                <span className="block text-lg font-semibold text-orange-500">{startYear}</span>
             </div>
 
             {/* Шкала с отметками */}
@@ -70,8 +75,8 @@ const RandomFilmYearRange = () => {
                 <div
                     className="absolute top-0 h-1 bg-orange-500 rounded-full"
                     style={{
-                        left: `${calculatePosition(minValue)}%`,
-                        width: `${calculatePosition(maxValue) - calculatePosition(minValue)}%`
+                        left: `${calculatePosition(startYear)}%`,
+                        width: `${calculatePosition(endYear) - calculatePosition(startYear)}%`
                     }}
                 ></div>
 
@@ -80,7 +85,7 @@ const RandomFilmYearRange = () => {
                     type="range"
                     min={minYear}
                     max={maxYear}
-                    value={minValue}
+                    value={startYear}
                     onChange={handleMinChange}
                     step={1}
                     className="absolute top-0 w-full h-1 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-1 [&::-webkit-slider-thumb]:bg-orange-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-10 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:bg-orange-500 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:relative [&::-moz-range-thumb]:z-10"
@@ -90,7 +95,7 @@ const RandomFilmYearRange = () => {
                     type="range"
                     min={minYear}
                     max={maxYear}
-                    value={maxValue}
+                    value={endYear}
                     onChange={handleMaxChange}
                     step={1}
                     className="absolute top-0 w-full h-1 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-1 [&::-webkit-slider-thumb]:bg-orange-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-10 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:bg-orange-500 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:relative [&::-moz-range-thumb]:z-10"
@@ -99,7 +104,7 @@ const RandomFilmYearRange = () => {
 
             <div className="text-center px-2 w-20">
                 <span className="block text-sm text-gray-600">До</span>
-                <span className="block text-lg font-semibold text-orange-500">{maxValue}</span>
+                <span className="block text-lg font-semibold text-orange-500">{endYear}</span>
             </div>
 
     
