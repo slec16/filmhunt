@@ -4,7 +4,6 @@ import RandomFilmFilter from './RandomFilmFilter'
 import RandomFilmYearRange from './RandomFilmYearRange'
 import ApiService from "../services/api-service"
 import { arrayToPath } from '../helpers/mapToPath'
-
 import FilmCard from "../films/FilmCard"
 import { type IFilmCard } from "../interfaces"
 
@@ -15,10 +14,9 @@ const RandomFilmPage = () => {
     const [startYear, setStartYear] = useState<number>(1920)
     const [endYear, setEndYear] = useState<number>(2025)
 
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [hiddenFilm, setHiddenFilm] = useState(false)
-
     const [randomFilm, setRandomFilm] = useState<IFilmCard | null>(null)
+
+    const [animationClass, setAnimationClass] = useState('translate-x-20 opacity-0')
 
 
 
@@ -30,15 +28,20 @@ const RandomFilmPage = () => {
         const yearRange = `${startYear}-${endYear}`
         const countriesPath = arrayToPath(selectedCountries, 'countries.name')
         const genresPath = arrayToPath(selectedGenres, 'genres.name')
-
         const response = await ApiService.getRandomFilm(yearRange, genresPath, countriesPath)
         setRandomFilm(response)
+        setAnimationClass('translate-x-0 opacity-100')
         console.log(response)
     }
 
-    const findRandomFilm = () => {
-        setRandomFilm(null)
-        fetchFunc()
+    const findRandomFilm = async() => {
+        setAnimationClass('-translate-x-20 opacity-0')
+        setTimeout(async() => {
+            setAnimationClass('translate-x-20 opacity-0')
+            setRandomFilm(null)
+            await fetchFunc()
+        }, 700)
+
     }
 
     return (
@@ -66,7 +69,7 @@ const RandomFilmPage = () => {
                     </button>
 
                     <div className="w-full overflow-visible relative">
-                        <div className={`transform transition-all duration-700 ease-out ${randomFilm ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'} w-full`}>
+                        <div className={`transform transition-all duration-700 ease-out ${animationClass}`}>
                             {randomFilm && (
                                 <FilmCard film={randomFilm} />
                             )}
