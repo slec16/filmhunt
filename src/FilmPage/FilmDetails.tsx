@@ -1,7 +1,7 @@
 import { useState, useEffect, memo } from "react"
 import SimilarMovies from "./SimilarMovies"
 import type { ISimilarMovies, IFilmDetail } from "../interfaces"
-import groupByProfession from "../helpers/personToMap"
+import groupByProfession from "../utils/personToMap"
 import StarIcon from '@mui/icons-material/Star'
 import FilmName from "./FilmName"
 

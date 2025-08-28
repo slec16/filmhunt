@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import { useState, useEffect, useRef, useImperativeHandle, forwardRef, useMemo } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ClearIcon from '@mui/icons-material/Clear';
@@ -52,6 +52,10 @@ const FilmAutocompleate = forwardRef((props: FilmAutocompleateProps, ref) => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
+
+    useEffect(() => {
+        changeName(searchQuery)
+    }, [searchQuery])
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()

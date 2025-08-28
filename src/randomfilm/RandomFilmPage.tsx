@@ -3,7 +3,7 @@ import Header from "../components/Header"
 import RandomFilmFilter from './RandomFilmFilter'
 import RandomFilmYearRange from './RandomFilmYearRange'
 import ApiService from "../services/api-service"
-import { arrayToPath } from '../helpers/mapToPath'
+import { arrayToPath } from '../utils/mapToPath'
 import FilmCard from "../films/FilmCard"
 import { type IFilmCard } from "../interfaces"
 
