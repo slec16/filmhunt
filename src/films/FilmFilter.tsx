@@ -1,42 +1,47 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 import FilmFilterSection from './FilmFilterSection'
 import FilmFilterRange from './FilmFilterRange'
 import TuneIcon from '@mui/icons-material/Tune';
 import CloseIcon from '@mui/icons-material/Close';
-import CasinoIcon from '@mui/icons-material/Casino';
+// import CasinoIcon from '@mui/icons-material/Casino';
 
 type FilmFilterProps = {
     setFiltersParams: (params: Map<string, string[]>) => void
-    currentParams: Map<string, string[]>
+    currentParamsObj: Record<string, string[]>
 }
 
 const FilmFilter = (props: FilmFilterProps) => {
 
-    const { setFiltersParams, currentParams } = props
+    const { setFiltersParams, currentParamsObj } = props
 
     const [clearAllFilters, setClearAllFilters] = useState(false)
 
-    const selectedFitersMap: Map<string, string[]> = new Map(currentParams)
+    const [selectedFiltersObj, setSelectedFiltersObj] = useState<Record<string, string[]>>(currentParamsObj)
 
     const toggleFiltersItem = (key: string, value: string[]) => {
-        selectedFitersMap.set(key, value)
+        setSelectedFiltersObj(prev => ({ ...prev, [key]: value }))
     }
 
     const clearFilters = () => {
         setClearAllFilters(true)
-        selectedFitersMap.clear()
-        setFiltersParams(selectedFitersMap)
+        setSelectedFiltersObj({})
+        setFiltersParams({})
     }
 
-    const filtersMap = new Map([
-        ['Год выпуска', ['2020-2024', '2010-2019', '2000-2009', '1990-1999', '1980-1989', 'До 1980']],
-        ['Страна', ['США', 'Россия', 'Корея', 'Великобритания', 'Франция', 'Япония']],
-        ['Продолжительность', ['<1ч', '1-2ч', '>2ч']],
-        ['Жанры', ['Фантастика', 'Драма', 'Комедия', 'Боевик', 'Триллер', 'Мелодрама', 'Фэнтези', 'Ужасы']],
-        ['Возрастной рейтинг', ['0+', '6+', '12+', '16+', '18+']],
-        ['Тип контента', ['Фильмы', 'Сериалы', 'Мультфильмы', 'Аниме']]
-    ])
+
+
+    const filtersObject: Record<string, string[]> = {
+        'Год выпуска': ['2020-2024', '2010-2019', '2000-2009', '1990-1999', '1980-1989', 'До 1980'], 
+        'Страна': ['США', 'Россия', 'Корея', 'Великобритания', 'Франция', 'Япония'],
+        'Продолжительность': ['<1ч', '1-2ч', '>2ч'],
+        'Жанры': ['Фантастика', 'Драма', 'Комедия', 'Боевик', 'Триллер', 'Мелодрама', 'Фэнтези', 'Ужасы'],
+        'Возрастной рейтинг': ['0+', '6+', '12+', '16+', '18+'],
+        'Тип контента': ['Фильмы', 'Сериалы', 'Мультфильмы', 'Аниме'],
+        // 'Рейтинг': ['0']
+    }
+
+
 
 
     const [isMobile, setIsMobile] = useState(false)
@@ -68,21 +73,21 @@ const FilmFilter = (props: FilmFilterProps) => {
             </div>
 
             <div className="space-y-4 mt-4">
-                {[...filtersMap].map(([key, value]) => (
+                {[...Object.entries(filtersObject)].map(([key, value]) => (
                     <FilmFilterSection
                         key={key}
                         sectionName={key}
                         dataArray={value}
                         toggleFiltersItem={toggleFiltersItem}
                         clearAllFilters={clearAllFilters}
-                        currentParams={currentParams}
+                        currentParams={currentParamsObj}
                         exclusive={key === 'Год выпуска' || key === 'Продолжительность' || key === 'Возрастной рейтинг'}
                     />
                 ))}
                 <FilmFilterRange
                     toggleFiltersItem={toggleFiltersItem}
                     clearAllFilters={clearAllFilters}
-                    currentParams={currentParams}
+                    currentParams={currentParamsObj}
                 />
             </div>
 
@@ -98,7 +103,7 @@ const FilmFilter = (props: FilmFilterProps) => {
                     className="px-4 py-1 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center"
                     onClick={() => {
                         // if (isMobile) setShowDrawer(false)
-                        setFiltersParams(selectedFitersMap)
+                        setFiltersParams(selectedFiltersObj)
                     }}
                 >
                     Применить

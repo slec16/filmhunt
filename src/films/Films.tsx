@@ -107,7 +107,7 @@ const Film = () => {
         fetchFunc(1, limit, currentFilters, searchName)
     }
 
-    const setFilterParams = async (params: Map<string, string[]>) => {
+    const setFilterParams = async (params: Record<string, string[]>) => {
         filmAutocompleateRef.current?.clearSearchName()
         setQueryParams({
             page: '1',
