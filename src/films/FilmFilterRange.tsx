@@ -16,13 +16,15 @@ const FilmFilterRange = (props: FilmFilterRange) => {
     // const range = currentParams.get('Рейтинг')?.[0] ?? '0'
 
     let range = '0'
-    console.log(currentParams)
+    // console.log(currentParams)
     // Object.keys(currentParams).forEach((el) => {
     //     if(el == 'Рейтинг') range = currentParams[el]
     // })
 
 
     const [rangeValue, setRangeValue] = useState(0)
+
+    
 
 
     useEffect(() => {

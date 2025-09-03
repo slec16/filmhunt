@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 // import { Link } from 'react-router';
 import FilmFilterSection from './FilmFilterSection'
 import FilmFilterRange from './FilmFilterRange'
@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 // import CasinoIcon from '@mui/icons-material/Casino';
 
 type FilmFilterProps = {
-    setFiltersParams: (params: Map<string, string[]>) => void
+    setFiltersParams: (params: Record<string, string[]>) => void
     currentParamsObj: Record<string, string[]>
 }
 
@@ -17,29 +17,45 @@ const FilmFilter = (props: FilmFilterProps) => {
 
     const [clearAllFilters, setClearAllFilters] = useState(false)
 
-    const [selectedFiltersObj, setSelectedFiltersObj] = useState<Record<string, string[]>>(currentParamsObj)
+    // const [selectedFiltersObj, setSelectedFiltersObj] = useState<Record<string, string[]>>(currentParamsObj)
 
-    const toggleFiltersItem = (key: string, value: string[]) => {
-        setSelectedFiltersObj(prev => ({ ...prev, [key]: value }))
-    }
+    const selectedFiltersObj = useMemo(() => ({ ...currentParamsObj }), [currentParamsObj])
+
+    // const toggleFiltersItem = (key: string, value: string[]) => {
+    //     setSelectedFiltersObj(prev => ({ ...prev, [key]: value }))
+    // }
+    const toggleFiltersItem = useCallback((key: string, value: string[]) => {
+        selectedFiltersObj[key] = value
+    }, [selectedFiltersObj])
 
     const clearFilters = () => {
         setClearAllFilters(true)
-        setSelectedFiltersObj({})
-        setFiltersParams({})
+        Object.keys(selectedFiltersObj).forEach(key => {
+            delete selectedFiltersObj[key]
+        })
+        setFiltersParams(selectedFiltersObj)
     }
 
 
 
-    const filtersObject: Record<string, string[]> = {
-        'Год выпуска': ['2020-2024', '2010-2019', '2000-2009', '1990-1999', '1980-1989', 'До 1980'], 
+    // const filtersObject: Record<string, string[]> = {
+    //     'Год выпуска': ['2020-2024', '2010-2019', '2000-2009', '1990-1999', '1980-1989', 'До 1980'],
+    //     'Страна': ['США', 'Россия', 'Корея', 'Великобритания', 'Франция', 'Япония'],
+    //     'Продолжительность': ['<1ч', '1-2ч', '>2ч'],
+    //     'Жанры': ['Фантастика', 'Драма', 'Комедия', 'Боевик', 'Триллер', 'Мелодрама', 'Фэнтези', 'Ужасы'],
+    //     'Возрастной рейтинг': ['0+', '6+', '12+', '16+', '18+'],
+    //     'Тип контента': ['Фильмы', 'Сериалы', 'Мультфильмы', 'Аниме'],
+    //     // 'Рейтинг': ['0']
+    // }
+
+    const filtersObject = useMemo(() => ({
+        'Год выпуска': ['2020-2024', '2010-2019', '2000-2009', '1990-1999', '1980-1989', 'До 1980'],
         'Страна': ['США', 'Россия', 'Корея', 'Великобритания', 'Франция', 'Япония'],
         'Продолжительность': ['<1ч', '1-2ч', '>2ч'],
         'Жанры': ['Фантастика', 'Драма', 'Комедия', 'Боевик', 'Триллер', 'Мелодрама', 'Фэнтези', 'Ужасы'],
         'Возрастной рейтинг': ['0+', '6+', '12+', '16+', '18+'],
-        'Тип контента': ['Фильмы', 'Сериалы', 'Мультфильмы', 'Аниме'],
-        // 'Рейтинг': ['0']
-    }
+        'Тип контента': ['Фильмы', 'Сериалы', 'Мультфильмы', 'Аниме']
+    }), [])
 
 
 
@@ -80,14 +96,14 @@ const FilmFilter = (props: FilmFilterProps) => {
                         dataArray={value}
                         toggleFiltersItem={toggleFiltersItem}
                         clearAllFilters={clearAllFilters}
-                        currentParams={currentParamsObj}
+                        currentParams={selectedFiltersObj}
                         exclusive={key === 'Год выпуска' || key === 'Продолжительность' || key === 'Возрастной рейтинг'}
                     />
                 ))}
                 <FilmFilterRange
                     toggleFiltersItem={toggleFiltersItem}
                     clearAllFilters={clearAllFilters}
-                    currentParams={currentParamsObj}
+                    currentParams={selectedFiltersObj}
                 />
             </div>
 

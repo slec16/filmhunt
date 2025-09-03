@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import StarIcon from '@mui/icons-material/Star'
 import { type IFilmCard } from '../interfaces'
 import HideImageIcon from '@mui/icons-material/HideImage';
@@ -16,7 +16,7 @@ const ConditionalLink = ({ condition, to, children }: {condition: boolean, to: s
     );
 };
 
-const FilmCard = ({film}: {film: IFilmCard}) => {
+const FilmCardComponent = ({film}: {film: IFilmCard}) => {
 
     const { id, name, poster, shortDescription, ageRating, rating, year, countries, movieLength } = film
 
@@ -82,5 +82,7 @@ const FilmCard = ({film}: {film: IFilmCard}) => {
         </ConditionalLink>
     )
 }
+
+const FilmCard = memo(FilmCardComponent)
 
 export default FilmCard

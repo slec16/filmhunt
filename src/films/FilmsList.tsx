@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import FilmCard from './FilmCard'
 import { type IFilmCard } from '../interfaces'
 
@@ -5,7 +6,7 @@ type FilmsListProps = {
     films: IFilmCard[]
 }
 
-const FilmsList = (props: FilmsListProps) => {
+const FilmsListComponent = (props: FilmsListProps) => {
 
     const {films} = props
 
@@ -27,5 +28,7 @@ const FilmsList = (props: FilmsListProps) => {
         </div>
     )
 }
+
+const FilmsList = memo(FilmsListComponent)
 
 export default FilmsList

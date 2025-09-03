@@ -1,11 +1,11 @@
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useEffect, useState, useRef, useMemo } from "react"
 import Header from "../components/Header"
 import FilmFilter from "./FilmFilter"
 import FilmAutocompleate from "./FilmAutocompleate"
 import Pagination from "../components/Pagination"
 import ApiService from "../services/api-service"
 // import { useQueryParams } from "../hooks/useQueryParams"
-import { mapToPath } from "../utils/mapToPath"
+import { objToPath } from "../utils/mapToPath"
 import FilmsList from "./FilmsList"
 import LoadingDots from "../components/LoadingDots"
 import ScrollToTopButton from "../components/ScrollToTopButton"
@@ -60,15 +60,16 @@ const Film = () => {
     const page = getParam('page') || '1'
     const limit = getParam('limit') || '10'
     const currentFilters = getNamespaceParams("filters")
+    const stableFilters = useMemo(() => currentFilters, [JSON.stringify(currentFilters)])
     const searchName = getParam('name') || ''
 
     useEffect(() => {
         fetchFunc(Number(page), Number(limit), currentFilters, searchName)
     }, [])
 
-    const fetchFunc = async (page: number, limit: number, params: Map<string, string[]>, searchName: string = '') => {
+const fetchFunc = async (page: number, limit: number, params: Record<string, string[]>, searchName: string = '') => {
         setIsLoading(true)
-        const paramsPath = mapToPath(params)
+        const paramsPath = objToPath(params)
         const response = searchName.length > 0 ? await ApiService.getFilmsBySearch(searchName, Number(page), Number(limit)) : await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
         console.log(response)
         setFilms(response.docs)
@@ -93,7 +94,7 @@ const Film = () => {
     // }, 500)}, [])
 
     const handleChangeName = debounce((name: string) => {
-        console.log(name)
+        // console.log(name)
         // fetchFunc(1, Number(limit), currentFilters, name)
     }, 500)
 
@@ -108,7 +109,7 @@ const Film = () => {
     }
 
     const setFilterParams = async (params: Record<string, string[]>) => {
-        filmAutocompleateRef.current?.clearSearchName()
+        // filmAutocompleateRef.current?.clearSearchName()
         setQueryParams({
             page: '1',
             filters: params,
@@ -123,7 +124,7 @@ const Film = () => {
         setQueryParams({ page: String(Number(page) + 1) })
         const response = searchName.length > 0 ?
             await ApiService.getFilmsBySearch(searchName, Number(page) + 1, Number(limit)) :
-            await ApiService.getFilmsByFilter(Number(page) + 1, Number(limit), mapToPath(getNamespaceParams('filters')))
+            await ApiService.getFilmsByFilter(Number(page) + 1, Number(limit), objToPath(getNamespaceParams('filters')))
         console.log(response)
         //@ts-ignore
         setFilms((prevFilms) => [...prevFilms, ...response.docs]) //TODO types
@@ -136,7 +137,8 @@ const Film = () => {
             <div className="flex flex-row w-full ">
                 <div className="flex flex-col mr-5 space-y-5">
                     <FilmFilter
-                        currentParams={currentFilters}
+                        // currentParamsObj={currentFilters}
+                        currentParamsObj={stableFilters}
                         setFiltersParams={setFilterParams}
                     />
                     <AnimatedButton

@@ -16,7 +16,6 @@ type FilmFilterSectionProps = {
 const FilmFilterSection = (props: FilmFilterSectionProps) => {
 
     const { dataArray, sectionName, toggleFiltersItem, clearAllFilters, exclusive, currentParams } = props
-    console.log(props)
 
     const [expandedSectionsState, setExpandedSectionsState] = useState(false)
     const [filtersArrays, setFiltersArrays] = useState<string[]>([])
