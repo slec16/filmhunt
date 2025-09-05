@@ -11,8 +11,8 @@ import LoadingDots from "../components/LoadingDots"
 import ScrollToTopButton from "../components/ScrollToTopButton"
 import { useLocation, useNavigate } from 'react-router'
 import { type IPaginationData } from "../interfaces"
-import LoopIcon from '@mui/icons-material/Loop';
-import CasinoIcon from '@mui/icons-material/Casino';
+import AutorenewIcon from '@mui/icons-material/Autorenew'
+import CasinoIcon from '@mui/icons-material/Casino'
 import AnimatedButton from "../components/AnimatedButton"
 import { useQueryParamsTest } from '../hooks/useQueryParamstest'
 import { debounce } from "../utils/debounce"
@@ -67,7 +67,7 @@ const Film = () => {
         fetchFunc(Number(page), Number(limit), currentFilters, searchName)
     }, [])
 
-const fetchFunc = async (page: number, limit: number, params: Record<string, string[]>, searchName: string = '') => {
+    const fetchFunc = async (page: number, limit: number, params: Record<string, string[]>, searchName: string = '') => {
         setIsLoading(true)
         const paramsPath = objToPath(params)
         const response = searchName.length > 0 ? await ApiService.getFilmsBySearch(searchName, Number(page), Number(limit)) : await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
@@ -174,7 +174,7 @@ const fetchFunc = async (page: number, limit: number, params: Record<string, str
                                 <button onClick={handleLoadMore} className={`${(paginationData && Number(page) >= paginationData?.pages) && 'hidden'} w-fit px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1`}>
                                     Загрузить еще
                                     {isLoadingMoreFilms &&
-                                        <LoopIcon className="animate-spin" />
+                                        <AutorenewIcon className="animate-spin" />
                                     }
                                 </button>
                             </div>
