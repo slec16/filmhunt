@@ -6,6 +6,7 @@ type FilmFilterRange = {
     toggleFiltersItem: (key: string, value: string[]) => void
     clearAllFilters: boolean,
     currentParams: Record<string, string[]>
+    // currentRang?: number | undefined
 }
 
 const FilmFilterRange = (props: FilmFilterRange) => {
@@ -15,17 +16,9 @@ const FilmFilterRange = (props: FilmFilterRange) => {
 
     // const range = currentParams.get('Рейтинг')?.[0] ?? '0'
 
-    let range = '0'
-    // console.log(currentParams)
-    // Object.keys(currentParams).forEach((el) => {
-    //     if(el == 'Рейтинг') range = currentParams[el]
-    // })
-
+    const range = currentParams['Рейтинг']?.[0] ?? '0'
 
     const [rangeValue, setRangeValue] = useState(0)
-
-    
-
 
     useEffect(() => {
         setRangeValue(0)

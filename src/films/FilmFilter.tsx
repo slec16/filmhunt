@@ -15,6 +15,8 @@ const FilmFilter = (props: FilmFilterProps) => {
 
     const { setFiltersParams, currentParamsObj } = props
 
+    console.log('render film filter')
+
     const [clearAllFilters, setClearAllFilters] = useState(false)
 
     // const [selectedFiltersObj, setSelectedFiltersObj] = useState<Record<string, string[]>>(currentParamsObj)
@@ -119,6 +121,7 @@ const FilmFilter = (props: FilmFilterProps) => {
                     className="px-4 py-1 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center"
                     onClick={() => {
                         // if (isMobile) setShowDrawer(false)
+                        setClearAllFilters(false)
                         setFiltersParams(selectedFiltersObj)
                     }}
                 >

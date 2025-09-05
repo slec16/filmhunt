@@ -46,7 +46,6 @@ const Film = () => {
         localStorage.setItem('previousParams', location.search)
     }, [location.search])
 
-    // я не знаю почему это работает только когда нужно а не всегда скролит
     const scrollToSavedPosition = () => {
         const savedPosition = sessionStorage.getItem('scrollPosition')
         if (savedPosition) {
@@ -94,7 +93,7 @@ const Film = () => {
     // }, 500)}, [])
 
     const handleChangeName = debounce((name: string) => {
-        // console.log(name)
+        console.log(name)
         // fetchFunc(1, Number(limit), currentFilters, name)
     }, 500)
 
