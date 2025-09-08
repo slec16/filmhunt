@@ -27,6 +27,7 @@ const FilmFilter = (props: FilmFilterProps) => {
     //     setSelectedFiltersObj(prev => ({ ...prev, [key]: value }))
     // }
     const toggleFiltersItem = useCallback((key: string, value: string[]) => {
+        // TODO - убрать мутацию
         selectedFiltersObj[key] = value
     }, [selectedFiltersObj])
 
