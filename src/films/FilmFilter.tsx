@@ -15,8 +15,6 @@ const FilmFilter = (props: FilmFilterProps) => {
 
     const { setFiltersParams, currentParamsObj } = props
 
-    console.log('render film filter')
-
     const [clearAllFilters, setClearAllFilters] = useState(false)
 
     // const [selectedFiltersObj, setSelectedFiltersObj] = useState<Record<string, string[]>>(currentParamsObj)

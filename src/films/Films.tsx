@@ -23,7 +23,6 @@ type FilmAutocompleateRef = {
 
 const Film = () => {
 
-    // const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParams()
     const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParamsTest()
 
     const location = useLocation()
@@ -36,40 +35,25 @@ const Film = () => {
 
     const filmAutocompleateRef = useRef<FilmAutocompleateRef | null>(null);
 
-    useEffect(() => {
-        if (!queryParams.toString()) {
-            setQueryParams({ page, limit })
-        }
-    }, [])
+    console.log('film main comp render')
 
     useEffect(() => {
-        localStorage.setItem('previousParams', location.search)
+        const page = getParam('page') || '1'
+        const limit = getParam('limit') || '10'
+        const currentFilters = getNamespaceParams("filters")
+        console.log(currentFilters)
+        const searchName = getParam('name') || ''
+        console.log(searchName)
+        fetchFunc(page, limit, currentFilters, searchName)
     }, [location.search])
 
-    const scrollToSavedPosition = () => {
-        const savedPosition = sessionStorage.getItem('scrollPosition')
-        if (savedPosition) {
-            window.scrollTo({
-                top: Number(savedPosition),
-                behavior: 'smooth'
-            })
-        }
-    }
 
-    const page = getParam('page') || '1'
-    const limit = getParam('limit') || '10'
-    const currentFilters = getNamespaceParams("filters")
-    const stableFilters = useMemo(() => currentFilters, [JSON.stringify(currentFilters)])
-    const searchName = getParam('name') || ''
-
-    useEffect(() => {
-        fetchFunc(Number(page), Number(limit), currentFilters, searchName)
-    }, [])
-
-    const fetchFunc = async (page: number, limit: number, params: Record<string, string[]>, searchName: string = '') => {
+    const fetchFunc = async (page: string, limit: string, filters: Record<string, string[]>, searchName: string) => {
         setIsLoading(true)
-        const paramsPath = objToPath(params)
-        const response = searchName.length > 0 ? await ApiService.getFilmsBySearch(searchName, Number(page), Number(limit)) : await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
+        const paramsPath = objToPath(filters)
+        const response = searchName.length > 0 ?
+            await ApiService.getFilmsBySearch(Number(page), Number(limit), searchName) :
+            await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
         console.log(response)
         setFilms(response.docs)
         setPaginationData({
@@ -79,42 +63,39 @@ const Film = () => {
             total: response.total
         })
         setIsLoading(false)
-        scrollToSavedPosition()
     }
 
-    // const handleChangeName = useCallback(() => { debounce((name: string) => {
-    //     console.log(name)
-    //     // setQueryParams({ 
-    //     //     name: name, 
-    //     //     page: '1',
-    //     //     filters: new Map()
-    //     // })
-    // fetchFunc(1, Number(limit), currentFilters, name )   
-    // }, 500)}, [])
+    const page = getParam('page') || '1'
+    const limit = getParam('limit') || '10'
+    const currentFilters = getNamespaceParams("filters")
+    const stableFilters = useMemo(() => currentFilters, [JSON.stringify(currentFilters)])
+    const searchName = getParam('name') || ''
+
 
     const handleChangeName = debounce((name: string) => {
-        console.log(name)
-        // fetchFunc(1, Number(limit), currentFilters, name)
+        setQueryParams({
+            page: '1',
+            filters: {},
+            name: name
+        })
     }, 500)
+
 
     const handleChangePage = (newPage: number) => {
         setQueryParams({ page: String(newPage) })
-        fetchFunc(newPage, Number(limit), currentFilters, searchName)
     }
 
     const handleChangeLimitPage = (limit: number) => {
         setQueryParams({ limit: String(limit), page: String(1) })
-        fetchFunc(1, limit, currentFilters, searchName)
     }
 
     const setFilterParams = async (params: Record<string, string[]>) => {
-        // filmAutocompleateRef.current?.clearSearchName()
+        filmAutocompleateRef.current?.clearSearchName()
         setQueryParams({
             page: '1',
             filters: params,
             name: ''
         })
-        fetchFunc(Number(1), Number(limit), params)
     }
 
     const handleLoadMore = async () => {
@@ -122,7 +103,7 @@ const Film = () => {
         setIsLoadingMoreFilms(true)
         setQueryParams({ page: String(Number(page) + 1) })
         const response = searchName.length > 0 ?
-            await ApiService.getFilmsBySearch(searchName, Number(page) + 1, Number(limit)) :
+            await ApiService.getFilmsBySearch(Number(page) + 1, Number(limit), searchName) :
             await ApiService.getFilmsByFilter(Number(page) + 1, Number(limit), objToPath(getNamespaceParams('filters')))
         console.log(response)
         //@ts-ignore

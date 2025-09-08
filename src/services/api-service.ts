@@ -15,7 +15,7 @@ class ApiService extends HttpService {
         return this.get(path, signal)
     }
 
-    getFilmsBySearch(name: string, page: number, limit: number, signal?: AbortSignal) {
+    getFilmsBySearch( page: number, limit: number, name: string, signal?: AbortSignal) {
         return this.get(`movie/search?page=${page}&limit=${limit}&query=${name}`, signal)
     }
 
