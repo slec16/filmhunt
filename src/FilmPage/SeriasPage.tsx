@@ -1,9 +1,9 @@
-// import { useParams } from 'react-router'
 import { useState, useEffect } from 'react'
-import ApiService from "../services/api-service"
+import FilmService from '../services/film-service'
 import LoadingDots from '../components/LoadingDots'
 import SeriasTab from './SeriasTab'
 import type { ISeasons } from "../interfaces"
+import { useAbortController } from '../hooks/useAbortController'
 
 type SeriasPageProps = {
     id: string,
@@ -16,7 +16,9 @@ type SeriasPageProps = {
 const SeriasPage = (props: SeriasPageProps) => {
 
     const { id, poster } = props
-    // let { id } = useParams()
+
+    const { createAbortController } = useAbortController()
+    const controller = createAbortController()
 
     const [isLoading, setIsLoading] = useState(true)
     const [seriasInfo, setSeriasInfo] = useState<ISeasons[] | null>(null)
@@ -24,12 +26,13 @@ const SeriasPage = (props: SeriasPageProps) => {
 
     useEffect(() => {
         fetchFunc()
+
+        return () => controller.abort()
     }, [])
 
     const fetchFunc = async () => {
-        // setIsLoading(true)
         if (id) {
-            const response = await ApiService.getSeasonsById(id)
+            const response = await FilmService.getSeasonsById(id, {signal: controller.signal})
             setSeriasInfo(response.docs)
             setIsLoading(false)
 
@@ -43,7 +46,7 @@ const SeriasPage = (props: SeriasPageProps) => {
                 <LoadingDots />
                 :
                 <div className='xl:px-10 py-2 h-full flex flex-col flex-1'>
-                    {seriasInfo && <SeriasTab seasons={seriasInfo} poster={poster}/>}
+                    {seriasInfo && <SeriasTab seasons={seriasInfo} poster={poster} />}
                 </div>
             }
         </>

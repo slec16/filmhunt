@@ -3,7 +3,6 @@ import Header from "../components/Header"
 import FilmFilter from "./FilmFilter"
 import FilmAutocompleate from "./FilmAutocompleate"
 import Pagination from "../components/Pagination"
-import ApiService from "../services/api-service"
 import FilmService from "../services/film-service"
 // import { useQueryParams } from "../hooks/useQueryParams"
 import { objToPath } from "../utils/mapToPath"
@@ -16,6 +15,7 @@ import { type IPaginationData } from "../interfaces"
 import CasinoIcon from '@mui/icons-material/Casino'
 import AnimatedButton from "../components/AnimatedButton"
 import { useQueryParamsTest } from '../hooks/useQueryParamstest'
+import { useAbortController } from '../hooks/useAbortController'
 import { debounce } from "../utils/debounce"
 
 type FilmAutocompleateRef = {
@@ -25,7 +25,8 @@ type FilmAutocompleateRef = {
 const Film = () => {
 
     const { queryParams, setQueryParams, getParam, getNamespaceParams } = useQueryParamsTest()
-
+    const { createAbortController } = useAbortController()
+    const controller = createAbortController()
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -44,6 +45,8 @@ const Film = () => {
         const currentFilters = getNamespaceParams("filters")
         const searchName = getParam('name') || ''
         fetchFunc(page, limit, currentFilters, searchName)
+
+        return () => controller.abort()
     }, [location.search])
 
 
@@ -51,9 +54,8 @@ const Film = () => {
         setIsLoading(true)
         const paramsPath = objToPath(filters)
         const response = searchName.length > 0 ?
-            await ApiService.getFilmsBySearch(Number(page), Number(limit), searchName) :
-            // await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
-            await FilmService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
+            await FilmService.getFilmBySearch(Number(page), Number(limit), searchName, {signal: controller.signal}) :
+            await FilmService.getFilmsByFilter(Number(page), Number(limit), {signal: controller.signal}, paramsPath)
         console.log(response)
         setFilms(response.docs)
         setPaginationData({

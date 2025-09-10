@@ -2,12 +2,19 @@ import { useState, useEffect } from "react"
 import Header from "../components/Header"
 import RandomFilmFilter from './RandomFilmFilter'
 import RandomFilmYearRange from './RandomFilmYearRange'
-import ApiService from "../services/api-service"
+import FilmService from "../services/film-service"
 import { arrayToPath } from '../utils/mapToPath'
 import FilmCard from "../films/FilmCard"
 import { type IFilmCard } from "../interfaces"
+import { useAbortController } from '../hooks/useAbortController'
 
 const RandomFilmPage = () => {
+
+    // TODO - при маунте перезаписывает фильм => оптимизировать
+
+    
+    const { createAbortController } = useAbortController()
+    const controller = createAbortController()
 
     const [selectedGenres, setSelectedGenres] = useState<string[]>([])
     const [selectedCountries, setSelectedCountries] = useState<string[]>([])
@@ -22,13 +29,15 @@ const RandomFilmPage = () => {
 
     useEffect(() => {
         fetchFunc()
+
+        return () => controller.abort()
     }, [])
 
     const fetchFunc = async () => {
         const yearRange = `${startYear}-${endYear}`
         const countriesPath = arrayToPath(selectedCountries, 'countries.name')
         const genresPath = arrayToPath(selectedGenres, 'genres.name')
-        const response = await ApiService.getRandomFilm(yearRange, genresPath, countriesPath)
+        const response = await FilmService.getRandomFilm(yearRange, genresPath, countriesPath, {signal: controller.signal})
         setRandomFilm(response)
         setAnimationClass('translate-x-0 opacity-100')
         console.log(response)

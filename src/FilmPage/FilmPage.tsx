@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 import { useState, useEffect } from 'react'
-import ApiService from "../services/api-service"
+import FilmService from '../services/film-service'
 import FilmInfo from './FilmInfo'
 import LoadingDots from '../components/LoadingDots'
 import Tabs from '../components/Tabs'
@@ -8,28 +8,32 @@ import FilmDetails from './FilmDetails'
 import SeriasPage from './SeriasPage'
 import type { IFilmInfo, ISimilarMovies, IFilmDetail } from '../interfaces'
 import Review from './Review'
-
+import { useAbortController } from '../hooks/useAbortController'
 
 const FilmPage = () => {
 
+    const { createAbortController } = useAbortController()
+    const controller = createAbortController()
+    
     const [filmInfo, setFilmInfo] = useState<IFilmInfo | null>(null)
-    const [filmmDetail, setFilmDetail] = useState<IFilmDetail| null>(null)
+    const [filmmDetail, setFilmDetail] = useState<IFilmDetail | null>(null)
     const [similarMovies, setSimilarMovies] = useState<ISimilarMovies[] | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isSeries, setIsSeries] = useState(false)
 
 
     let { id } = useParams()
-   
+
 
     useEffect(() => {
         fetchFunc()
+        return () => controller.abort()
     }, [id])
 
     const fetchFunc = async () => {
         if (id) {
             setIsLoading(true)
-            const response = await ApiService.getFilmById(id)
+            const response = await FilmService.getFilmById(id, {signal: controller.signal})
             console.log(response)
             setIsSeries(response.isSeries)
             response.similarMovies && setSimilarMovies(response.similarMovies)
@@ -48,17 +52,17 @@ const FilmPage = () => {
         {
             id: 'series',
             label: 'Сезоны',
-            content: id && <SeriasPage id={id} poster={filmInfo?.backdrop}/>
+            content: id && <SeriasPage id={id} poster={filmInfo?.backdrop} />
         },
         {
             id: 'details',
             label: 'Детали',
-            content: filmmDetail && <FilmDetails filmDetail={filmmDetail} similarMovies={similarMovies}/>
+            content: filmmDetail && <FilmDetails filmDetail={filmmDetail} similarMovies={similarMovies} />
         },
         {
             id: 'review',
             label: 'Отзывы',
-            content: id && <Review id={id}/>,
+            content: id && <Review id={id} />,
         },
     ]
 

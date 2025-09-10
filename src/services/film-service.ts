@@ -88,17 +88,13 @@ class FilmService {
 
     async getRandomFilm(year: string, genres: string, countries: string, options: FetchOptions) {
         const path = `movie/random?notNullFields=name&notNullFields=shortDescription&year=${year}${genres}${countries}`
-        const key = buildKey(path)
-        const cached = this.cache.get<any>(key)
-
-        if (cached && !this.cache.isStale(key)) return cached
 
         const data = await this.http.get(path, options)
 
-        this.cache.set(key, data)
+        return data
     }
 
-    //TODO - invalidate, refresh
+    //TODO - invalidate,
 
 }
 
