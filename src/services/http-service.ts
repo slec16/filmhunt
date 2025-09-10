@@ -10,10 +10,6 @@ export class HttpClient {
     baseUrl = 'https://api.kinopoisk.dev/v1.4'
     token = import.meta.env.VITE_API_KEY
 
-    // constructor(baseApiPath: string) {
-    //     this.baseUrl = baseApiPath
-    // }
-
     // https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&selectFields=&sortField=id&sortType=-1
 
     get baseHeaders() {
@@ -23,32 +19,6 @@ export class HttpClient {
         }
     }
 
-    protected async get(path: string, signal?: AbortSignal) {
-
-        try {
-            const response = await fetch(`${this.baseUrl}/${path}`, {
-                headers: this.baseHeaders,
-                signal
-            })
-
-            return this._handleResponse(response)
-        } catch (err: any) {
-            if (err.name == 'AbortError') {
-                console.log('Fetch users request was aborted')
-                return
-            }
-        }
-
-    }
-
-    private async _handleResponse(response: any) {
-        const parsedData = await response.json()
-
-        if (response.ok) {
-            return parsedData
-        }
-        throw parsedData
-    }
 
     private async fetchWithTimeout(input: string, init: RequestInit, timeoutMs: number, externalSignal?: AbortSignal) {
 
@@ -93,7 +63,7 @@ export class HttpClient {
         }
     }
 
-    async newGet(path: string, options: FetchOptions) {
+    async get(path: string, options: FetchOptions) {
 
         const { signal, timeoutMs = 10000, retry = 3, retryDelayMs = 300 } = options
         const doFetch = () =>
@@ -128,6 +98,15 @@ export class MemoryCache {
     }
 
     set<T>(key: string, data: T) {
+        console.log(this.store)
+        if (this.store.size > 10) {
+            const firstEntry = this.store.entries().next().value;
+
+            if (firstEntry) {
+                const [firstKey] = firstEntry;
+                this.store.delete(firstKey);
+            }
+        }
         this.store.set(key, { data, ts: Date.now() })
     }
 
@@ -146,4 +125,48 @@ export class MemoryCache {
         }
     }
 
+}
+
+export class HttpService {
+
+    baseUrl = ''
+    token = import.meta.env.VITE_API_KEY
+
+    constructor(baseApiPath: string) {
+        this.baseUrl = baseApiPath
+    }
+
+    get baseHeaders() {
+        return {
+            'Content-Type': 'application/json',
+            'X-Api-Key': `${this.token}`
+        }
+    }
+
+    protected async get(path: string, signal?: AbortSignal) {
+
+        try {
+            const response = await fetch(`${this.baseUrl}/${path}`, {
+                headers: this.baseHeaders,
+                signal
+            })
+
+            return this._handleResponse(response)
+        } catch (err: any) {
+            if (err.name == 'AbortError') {
+                console.log('Fetch users request was aborted')
+                return
+            }
+        }
+
+    }
+
+    private async _handleResponse(response: any) {
+        const parsedData = await response.json()
+
+        if (response.ok) {
+            return parsedData
+        }
+        throw parsedData
+    }
 }
