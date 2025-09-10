@@ -3,7 +3,8 @@ import Header from "../components/Header"
 import FilmFilter from "./FilmFilter"
 import FilmAutocompleate from "./FilmAutocompleate"
 import Pagination from "../components/Pagination"
-import ApiService from "../services/api-service"
+// import ApiService from "../services/api-service"
+import FilmService from "../services/film-service"
 // import { useQueryParams } from "../hooks/useQueryParams"
 import { objToPath } from "../utils/mapToPath"
 import FilmsList from "./FilmsList"
@@ -51,7 +52,8 @@ const Film = () => {
         const paramsPath = objToPath(filters)
         const response = searchName.length > 0 ?
             await ApiService.getFilmsBySearch(Number(page), Number(limit), searchName) :
-            await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
+            // await ApiService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
+            await FilmService.getFilmsByFilter(Number(page), Number(limit), paramsPath)
         console.log(response)
         setFilms(response.docs)
         setPaginationData({
