@@ -98,7 +98,6 @@ export class MemoryCache {
     }
 
     set<T>(key: string, data: T) {
-        console.log(this.store)
         if (this.store.size > 10) {
             const firstEntry = this.store.entries().next().value;
 
