@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from "react"
+import { useEffect, useState, useRef, useMemo, useCallback } from "react"
 import Header from "../components/Header"
 import FilmFilter from "./FilmFilter"
 import FilmAutocompleate from "./FilmAutocompleate"
@@ -11,7 +11,7 @@ import LoadingDots from "../components/LoadingDots"
 import ScrollToTopButton from "../components/ScrollToTopButton"
 import { useLocation, useNavigate } from 'react-router'
 import { type IPaginationData } from "../interfaces"
-import AutorenewIcon from '@mui/icons-material/Autorenew'
+// import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CasinoIcon from '@mui/icons-material/Casino'
 import AnimatedButton from "../components/AnimatedButton"
 import { useQueryParamsTest } from '../hooks/useQueryParamstest'
@@ -31,7 +31,7 @@ const Film = () => {
     const [films, setFilms] = useState([])
     const [paginationData, setPaginationData] = useState<IPaginationData | null>(null)
     const [isLoading, setIsLoading] = useState(false)
-    const [isLoadingMoreFilms, setIsLoadingMoreFilms] = useState(false)
+    // const [isLoadingMoreFilms, setIsLoadingMoreFilms] = useState(false)
 
     const filmAutocompleateRef = useRef<FilmAutocompleateRef | null>(null);
 
@@ -41,9 +41,7 @@ const Film = () => {
         const page = getParam('page') || '1'
         const limit = getParam('limit') || '10'
         const currentFilters = getNamespaceParams("filters")
-        console.log(currentFilters)
         const searchName = getParam('name') || ''
-        console.log(searchName)
         fetchFunc(page, limit, currentFilters, searchName)
     }, [location.search])
 
@@ -80,7 +78,6 @@ const Film = () => {
         })
     }, 500)
 
-
     const handleChangePage = (newPage: number) => {
         setQueryParams({ page: String(newPage) })
     }
@@ -98,18 +95,22 @@ const Film = () => {
         })
     }
 
-    const handleLoadMore = async () => {
-        if (Number(page) == paginationData?.pages) return
-        setIsLoadingMoreFilms(true)
-        setQueryParams({ page: String(Number(page) + 1) })
-        const response = searchName.length > 0 ?
-            await ApiService.getFilmsBySearch(Number(page) + 1, Number(limit), searchName) :
-            await ApiService.getFilmsByFilter(Number(page) + 1, Number(limit), objToPath(getNamespaceParams('filters')))
-        console.log(response)
-        //@ts-ignore
-        setFilms((prevFilms) => [...prevFilms, ...response.docs]) //TODO types
-        setIsLoadingMoreFilms(false)
-    }
+    //TODO - доделать подгрузку, сохранив url-driven, надо redux
+    // const handleLoadMore = async () => {
+    // if (Number(page) == paginationData?.pages) return
+    // setIsLoadingMoreFilms(true)
+    // setQueryParams({ page: String(Number(page) + 1) })
+    // const response = searchName.length > 0 ?
+    //     await ApiService.getFilmsBySearch(Number(page) + 1, Number(limit), searchName) :
+    //     await ApiService.getFilmsByFilter(Number(page) + 1, Number(limit), objToPath(getNamespaceParams('filters')))
+    // console.log(response)
+    // //@ts-ignore
+    // setFilms((prevFilms) => [...prevFilms, ...response.docs]) //TODO types
+    // setIsLoadingMoreFilms(false)
+    /*
+        const saveArr = films
+    */
+    // }
 
     return (
         <div className="h-full flex flex-col px-4 xl:px-7">
@@ -146,19 +147,18 @@ const Film = () => {
                     {isLoading ?
                         <LoadingDots />
                         :
-                        <>
-                            <FilmsList
-                                films={films}
-                            />
-                            <div className="w-full flex flex-row justify-center mt-3">
-                                <button onClick={handleLoadMore} className={`${(paginationData && Number(page) >= paginationData?.pages) && 'hidden'} w-fit px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1`}>
-                                    Загрузить еще
-                                    {isLoadingMoreFilms &&
-                                        <AutorenewIcon className="animate-spin" />
-                                    }
-                                </button>
-                            </div>
-                        </>
+
+                        <FilmsList
+                            films={films}
+                        />
+                        // <div className="w-full flex flex-row justify-center mt-3">
+                        //     <button onClick={handleLoadMore} className={`${(paginationData && Number(page) >= paginationData?.pages) && 'hidden'} w-fit px-5 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition-colors flex flex-row justify-center gap-x-1`}>
+                        //         Загрузить еще
+                        //         {isLoadingMoreFilms &&
+                        //             <AutorenewIcon className="animate-spin" />
+                        //         }
+                        //     </button>
+                        // </div>
                     }
                 </div>
             </div>

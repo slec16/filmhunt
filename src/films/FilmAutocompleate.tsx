@@ -54,7 +54,9 @@ const FilmAutocompleate = forwardRef((props: FilmAutocompleateProps, ref) => {
     }, [])
 
     useEffect(() => {
-        changeName(searchQuery)
+        if (searchQuery !== currentName) {
+            changeName(searchQuery)
+        }
     }, [searchQuery])
 
     const handleSearch = (e: React.FormEvent) => {
