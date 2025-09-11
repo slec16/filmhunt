@@ -17,6 +17,7 @@ import AnimatedButton from "../components/AnimatedButton"
 import { useQueryParamsTest } from '../hooks/useQueryParamstest'
 import { useAbortController } from '../hooks/useAbortController'
 import { debounce } from "../utils/debounce"
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 type FilmAutocompleateRef = {
     clearSearchName: () => void;
@@ -34,6 +35,8 @@ const Film = () => {
     const [paginationData, setPaginationData] = useState<IPaginationData | null>(null)
     const [isLoading, setIsLoading] = useState(false)
     // const [isLoadingMoreFilms, setIsLoadingMoreFilms] = useState(false)
+
+    const isSmallDevise = useMediaQuery("only screen and (max-width : 768px)")
 
     const filmAutocompleateRef = useRef<FilmAutocompleateRef | null>(null);
 
@@ -54,8 +57,8 @@ const Film = () => {
         setIsLoading(true)
         const paramsPath = objToPath(filters)
         const response = searchName.length > 0 ?
-            await FilmService.getFilmBySearch(Number(page), Number(limit), searchName, {signal: controller.signal}) :
-            await FilmService.getFilmsByFilter(Number(page), Number(limit), {signal: controller.signal}, paramsPath)
+            await FilmService.getFilmBySearch(Number(page), Number(limit), searchName, { signal: controller.signal }) :
+            await FilmService.getFilmsByFilter(Number(page), Number(limit), { signal: controller.signal }, paramsPath)
         console.log(response)
         setFilms(response.docs)
         setPaginationData({
@@ -126,11 +129,13 @@ const Film = () => {
                         currentParamsObj={stableFilters}
                         setFiltersParams={setFilterParams}
                     />
-                    <AnimatedButton
-                        icon={<CasinoIcon className="w-6 h-6" />}
-                        text="Случайный фильм"
-                        onClick={() => navigate('/random')}
-                    />
+                    {!isSmallDevise &&
+                        <AnimatedButton
+                            icon={<CasinoIcon className="w-6 h-6" />}
+                            text="Случайный фильм"
+                            onClick={() => navigate('/random')}
+                        />
+                    }
                 </div>
                 <ScrollToTopButton />
                 <div className="flex flex-col w-full mb-5">
