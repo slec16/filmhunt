@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-// import { Link } from 'react-router';
+import { Link } from 'react-router'
 import FilmFilterSection from './FilmFilterSection'
 import FilmFilterRange from './FilmFilterRange'
-import TuneIcon from '@mui/icons-material/Tune';
-import CloseIcon from '@mui/icons-material/Close';
-// import CasinoIcon from '@mui/icons-material/Casino';
+import TuneIcon from '@mui/icons-material/Tune'
+import CloseIcon from '@mui/icons-material/Close'
+import { useMediaQuery } from "@uidotdev/usehooks"
+import CasinoIcon from '@mui/icons-material/Casino'
 
 type FilmFilterProps = {
     setFiltersParams: (params: Record<string, string[]>) => void
@@ -16,6 +17,7 @@ const FilmFilter = (props: FilmFilterProps) => {
     const { setFiltersParams, currentParamsObj } = props
 
     const [clearAllFilters, setClearAllFilters] = useState(false)
+    const isSmallDevise = useMediaQuery("only screen and (max-width : 768px)")
 
     // const [selectedFiltersObj, setSelectedFiltersObj] = useState<Record<string, string[]>>(currentParamsObj)
 
@@ -59,27 +61,13 @@ const FilmFilter = (props: FilmFilterProps) => {
     }), [])
 
 
-
-
-    const [isMobile, setIsMobile] = useState(false)
     const [showDrawer, setShowDrawer] = useState(false)
 
-    useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768)
-        }
-
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
-    }, [])
-
-
     const FilterContent = () => (
-        <div className={`${isMobile ? 'w-full p-4' : 'w-1/3 min-w-[300px] py-3'} h-fit overflow-y-auto px-2 rounded-lg bg-gray-800 border-r border-gray-700`}>
+        <div className={`${isSmallDevise ? 'w-full p-4' : 'w-1/3 min-w-[300px] py-3'} h-fit overflow-y-auto px-2 rounded-lg bg-gray-800 border-r border-gray-700`}>
             <div className="flex justify-between items-center sticky top-0 bg-gray-800 z-10">
                 <h2 className="text-xl font-bold text-orange-400">Фильтры</h2>
-                {isMobile && (
+                {isSmallDevise && (
                     <button
                         onClick={() => setShowDrawer(false)}
                         className="text-gray-400 hover:text-white"
@@ -119,7 +107,7 @@ const FilmFilter = (props: FilmFilterProps) => {
                 <button
                     className="px-4 py-1 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center"
                     onClick={() => {
-                        // if (isMobile) setShowDrawer(false)
+                        if (isSmallDevise) setShowDrawer(false)
                         setClearAllFilters(false)
                         setFiltersParams(selectedFiltersObj)
                     }}
@@ -127,14 +115,16 @@ const FilmFilter = (props: FilmFilterProps) => {
                     Применить
                 </button>
             </div>
-            {/* <Link to={'/random'} className="w-full mt-3 px-4 py-2 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center justify-center space-x-2">
-                <p>Случайный фильм</p>
-                <CasinoIcon className='rotate-30'/>
-            </Link> */}
+            {isSmallDevise &&
+                <Link to={'/random'} className="w-full mt-3 px-4 py-2 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition flex items-center justify-center space-x-2">
+                    <p>Случайный фильм</p>
+                    <CasinoIcon className='rotate-30'/>
+                </Link>
+            }
         </div>
     )
 
-    if (isMobile) {
+    if (isSmallDevise) {
         return (
             <>
                 {/* Кнопка для открытия фильтров на мобильных */}
