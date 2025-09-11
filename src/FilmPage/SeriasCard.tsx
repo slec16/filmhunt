@@ -34,7 +34,7 @@ const SeriasCard = (props: SeriasCardProps) => {
                 <div className={`absolute w-full h-full backface-hidden ${isFlipped ? 'hidden' : ''}`}>
                     <div className="flex flex-col h-full bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700">
                         <div className="relative aspect-video h-1/2">
-                            {((still && still.previewUrl) || (still && still.url) || (poster && poster.url) || (poster && poster.previewUrl)) || posterLoadError ?
+                            {((still && still.previewUrl) || (still && still.url) || (poster && poster.url) || (poster && poster.previewUrl)) || !posterLoadError ?
                                 <img
                                     src={(still && still?.url) ? still.url : poster?.url}
                                     alt={`Кадр из серии ${number}: ${name}`}

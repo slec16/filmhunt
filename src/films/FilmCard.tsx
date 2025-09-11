@@ -38,7 +38,7 @@ const FilmCardComponent = ({ film }: { film: IFilmCard }) => {
         <ConditionalLink condition={isMobile} to={`/film/${id}`}>
             <div className="w-full flex flex-col lg:flex-row bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700">
                 <div className="w-full lg:w-64 h-64 lg:h-96 flex-shrink-0">
-                    {((poster && poster.previewUrl) || (poster && poster.url)) || posterLoadError ? (
+                    {((poster && poster.previewUrl) || (poster && poster.url)) || !posterLoadError ? (
                         <img
                             src={poster.url || poster.previewUrl}
                             alt={`Постер ${name}`}
