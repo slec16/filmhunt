@@ -17,6 +17,7 @@ const SeriasCard = (props: SeriasCardProps) => {
 
 
     const [isFlipped, setIsFlipped] = useState(false)
+    const [posterLoadError, setPosterLoadError] = useState(false)
 
     const handleFlip = () => {
         setIsFlipped(!isFlipped)
@@ -33,11 +34,12 @@ const SeriasCard = (props: SeriasCardProps) => {
                 <div className={`absolute w-full h-full backface-hidden ${isFlipped ? 'hidden' : ''}`}>
                     <div className="flex flex-col h-full bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700">
                         <div className="relative aspect-video h-1/2">
-                            {((still && still.previewUrl) || (still && still.url) || (poster && poster.url) || (poster && poster.previewUrl)) ?
+                            {((still && still.previewUrl) || (still && still.url) || (poster && poster.url) || (poster && poster.previewUrl)) || posterLoadError ?
                                 <img
                                     src={(still && still?.url) ? still.url : poster?.url}
                                     alt={`Кадр из серии ${number}: ${name}`}
                                     className="w-full h-full object-cover"
+                                    onError={() => setPosterLoadError(true)}
                                 />
                                 :
                                 <div className='flex justify-center items-center h-full text-5xl'><ImageIcon fontSize='inherit'/></div>

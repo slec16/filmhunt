@@ -1,5 +1,7 @@
 import { type ISimilarMovies } from "../interfaces"
 import StarIcon from '@mui/icons-material/Star'
+import ImageIcon from '@mui/icons-material/Image'
+import { useState } from "react"
 import { Link } from 'react-router'
 
 
@@ -9,17 +11,24 @@ type SimilarMovieCardProps = {
 
 const SimilarMovieCard = (props: SimilarMovieCardProps) => {
     const { id, name, poster, rating, year, type } = props.similarMovieInfo
+
+    const [posterLoadError, setPosterLoadError] = useState(false)
     
     return(
         <Link to={`/film/${id}`}>
             <div className={`flex flex-col w-40 hover:scale-105 transition-transform duration-200 cursor-pointer`}>
                 <div className="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md mb-2">
                     {/* TODO - заглушка если картинки нет или она не загрузилась */}
-                    <img 
-                        src={poster.url || poster.previewUrl} 
-                        alt={name}
-                        className="w-full h-full object-cover"
-                    />
+                    {posterLoadError ?
+                    
+                        <img 
+                            src={poster.url || poster.previewUrl} 
+                            alt={name}
+                            className="w-full h-full object-cover"
+                            onError={() => setPosterLoadError(true)}
+                        /> : 
+                        <div className='flex justify-center items-center h-full text-5xl'><ImageIcon fontSize='inherit'/></div>
+                    }
                     
                     <div className="absolute bottom-2 left-2 bg-black/80 text-white text-xs px-2 py-1 rounded flex items-center">
                         <StarIcon className="text-yellow-400 mr-1" style={{ fontSize: '1rem' }} />

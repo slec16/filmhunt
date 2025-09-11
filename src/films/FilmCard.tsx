@@ -4,7 +4,7 @@ import StarIcon from '@mui/icons-material/Star'
 import { type IFilmCard } from '../interfaces'
 import HideImageIcon from '@mui/icons-material/HideImage';
 
-const ConditionalLink = ({ condition, to, children }: {condition: boolean, to: string, children: React.ReactNode}) => {
+const ConditionalLink = ({ condition, to, children }: { condition: boolean, to: string, children: React.ReactNode }) => {
     return condition ? (
         <Link to={to} >
             {children}
@@ -16,11 +16,13 @@ const ConditionalLink = ({ condition, to, children }: {condition: boolean, to: s
     );
 };
 
-const FilmCardComponent = ({film}: {film: IFilmCard}) => {
+const FilmCardComponent = ({ film }: { film: IFilmCard }) => {
 
     const { id, name, poster, shortDescription, ageRating, rating, year, countries, movieLength } = film
 
     const [isMobile, setIsMobile] = useState(false)
+    const [posterLoadError, setPosterLoadError] = useState(false)
+
 
     useEffect(() => {
         const checkMobile = () => {
@@ -36,11 +38,12 @@ const FilmCardComponent = ({film}: {film: IFilmCard}) => {
         <ConditionalLink condition={isMobile} to={`/film/${id}`}>
             <div className="w-full flex flex-col lg:flex-row bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700">
                 <div className="w-full lg:w-64 h-64 lg:h-96 flex-shrink-0">
-                    {((poster && poster.previewUrl) || (poster && poster.url)) ? (
+                    {((poster && poster.previewUrl) || (poster && poster.url)) || posterLoadError ? (
                         <img
                             src={poster.url || poster.previewUrl}
                             alt={`Постер ${name}`}
                             className="w-full h-full object-cover"
+                            onError={() => setPosterLoadError(true)}
                         />
                     ) : (
                         <div className='w-full h-full flex justify-center items-center text-6xl'>
